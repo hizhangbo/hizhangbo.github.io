@@ -17,6 +17,7 @@
 			  s.parentNode.insertBefore(hm, s);
 			})();
 		</script>	
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 	</head>
 	<body oncontextmenu="return false;" onselectstart="return false">
 
@@ -108,9 +109,8 @@
             </ul>
             <ul class="stats">
                 <li><a class="icon">字數：829</a></li>
-                <li><a href="#" class="icon fa-eye" aria-hidden="true">128</a></li>
-                <li><a href="#" class="icon fa-heart">28</a></li>
-                <li><a href="#" class="icon fa-comment">128</a></li>
+                <!-- <li><a href="#" class="icon fa-heart">28</a></li>
+                <li><a href="#" class="icon fa-comment">128</a></li> -->
             </ul>
         </footer>
     </article>
@@ -143,9 +143,8 @@
             </ul>
             <ul class="stats">
                 <li><a class="icon">字數：3</a></li>
-                <li><a href="#" class="icon fa-eye" aria-hidden="true">128</a></li>
-                <li><a href="#" class="icon fa-heart">28</a></li>
-                <li><a href="#" class="icon fa-comment">128</a></li>
+                <!-- <li><a href="#" class="icon fa-heart">28</a></li>
+                <li><a href="#" class="icon fa-comment">128</a></li> -->
             </ul>
         </footer>
     </article>
@@ -182,9 +181,8 @@
             </ul>
             <ul class="stats">
                 <li><a class="icon">字數：144</a></li>
-                <li><a href="#" class="icon fa-eye" aria-hidden="true">128</a></li>
-                <li><a href="#" class="icon fa-heart">28</a></li>
-                <li><a href="#" class="icon fa-comment">128</a></li>
+                <!-- <li><a href="#" class="icon fa-heart">28</a></li>
+                <li><a href="#" class="icon fa-comment">128</a></li> -->
             </ul>
         </footer>
     </article>
@@ -297,7 +295,7 @@
                 <li><a href="#" class="fa-rss"><span class="label">RSS</span></a></li>
                 <li><a href="#" class="fa-envelope"><span class="label">Email</span></a></li> -->
             </ul>
-            <p class="copyright">&copy; 2020</p>
+            <p class="copyright">&copy; 2015-2020</p>
             <span class="cat cat_1"></span>
             <span class="cat cat_2"></span>
             <span class="cat cat_3"></span>
@@ -329,6 +327,13 @@
 <!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]-->
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/search.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
+        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc'
+    })
+</script>
 
 	</body>
 </html>

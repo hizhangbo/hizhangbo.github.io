@@ -17,6 +17,7 @@
 			  s.parentNode.insertBefore(hm, s);
 			})();
 		</script>	
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 	</head>
 	<body oncontextmenu="return false;" onselectstart="return false">
 
@@ -68,12 +69,12 @@
 
                 <!-- Main -->
                 <div id="main">
-<!-- Post -->
-<article class="post">
-    <h3 id="shell-語法">Shell 語法</h3>
+    <!-- Post -->
+    <article class="post">
+        <h3 id="shell-語法">Shell 語法</h3>
 
-</article>
-
+    </article>
+    <div id="vcomments"></div>
     <!-- Pagination -->
     <ul class="actions pagination">
         
@@ -83,8 +84,23 @@
         
         <li><a class="disabled button big next">Next</a></li>
         
+        <li id="/linux/2020/02/09/shell.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></li>
     </ul>
 </div>
+
+<script>
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
+        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc',
+        notify:false, 
+        verify:false, 
+        avatar:'mp', 
+        placeholder: '若有疏失，還望指正',
+        visitor: true,
+        recordIP: true
+    });
+</script>
 
 			</div>
 		<div id="leftsead">
@@ -106,6 +122,13 @@
 <!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]-->
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/search.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
+        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc'
+    })
+</script>
 
 	</body>
 </html>

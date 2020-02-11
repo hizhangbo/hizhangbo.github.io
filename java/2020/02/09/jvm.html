@@ -17,6 +17,7 @@
 			  s.parentNode.insertBefore(hm, s);
 			})();
 		</script>	
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 	</head>
 	<body oncontextmenu="return false;" onselectstart="return false">
 
@@ -68,9 +69,9 @@
 
                 <!-- Main -->
                 <div id="main">
-<!-- Post -->
-<article class="post">
-    <h1 id="jvm-結構解析">JVM 結構解析</h1>
+    <!-- Post -->
+    <article class="post">
+        <h1 id="jvm-結構解析">JVM 結構解析</h1>
 <hr />
 <p><img src="/images/content/JVM.png" class="image featured" alt="JVM" align="center" /></p>
 <h3 id="基本結構">基本結構</h3>
@@ -785,8 +786,8 @@
   </li>
 </ul>
 
-</article>
-
+    </article>
+    <div id="vcomments"></div>
     <!-- Pagination -->
     <ul class="actions pagination">
         
@@ -796,8 +797,23 @@
         
         <li><a title="Shell 語法" href="/linux/2020/02/09/shell.html" class="button big next">Next</a></li>
         
+        <li id="/java/2020/02/09/jvm.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></li>
     </ul>
 </div>
+
+<script>
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
+        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc',
+        notify:false, 
+        verify:false, 
+        avatar:'mp', 
+        placeholder: '若有疏失，還望指正',
+        visitor: true,
+        recordIP: true
+    });
+</script>
 
 			</div>
 		<div id="leftsead">
@@ -819,6 +835,13 @@
 <!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]-->
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/search.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
+        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc'
+    })
+</script>
 
 	</body>
 </html>

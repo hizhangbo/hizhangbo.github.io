@@ -17,6 +17,7 @@
 			  s.parentNode.insertBefore(hm, s);
 			})();
 		</script>	
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 	</head>
 	<body oncontextmenu="return false;" onselectstart="return false">
 
@@ -68,9 +69,9 @@
 
                 <!-- Main -->
                 <div id="main">
-<!-- Post -->
-<article class="post">
-    <h1 id="jekyll-遷移">Jekyll 遷移</h1>
+    <!-- Post -->
+    <article class="post">
+        <h1 id="jekyll-遷移">Jekyll 遷移</h1>
 <hr />
 <p><img src="/images/content/ruby-logo.png" alt="Jekyll-Logo" /></p>
 <h3 id="ruby">Ruby</h3>
@@ -120,8 +121,8 @@ https://mrpowerscripts.com/github-pages-circleci-jekyll-paginate-v2/
 </code></pre></div></div>
 <p>  其他詳情使用請移步<a href="https://www.jekyll.com.cn/docs/">Jekyll官網</a></p>
 
-</article>
-
+    </article>
+    <div id="vcomments"></div>
     <!-- Pagination -->
     <ul class="actions pagination">
         
@@ -131,8 +132,23 @@ https://mrpowerscripts.com/github-pages-circleci-jekyll-paginate-v2/
         
         <li><a title="JVM 結構解析" href="/java/2020/02/09/jvm.html" class="button big next">Next</a></li>
         
+        <li id="/jekyll/ruby/2020/02/08/jekyll.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></li>
     </ul>
 </div>
+
+<script>
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
+        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc',
+        notify:false, 
+        verify:false, 
+        avatar:'mp', 
+        placeholder: '若有疏失，還望指正',
+        visitor: true,
+        recordIP: true
+    });
+</script>
 
 			</div>
 		<div id="leftsead">
@@ -154,6 +170,13 @@ https://mrpowerscripts.com/github-pages-circleci-jekyll-paginate-v2/
 <!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]-->
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/search.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
+        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc'
+    })
+</script>
 
 	</body>
 </html>

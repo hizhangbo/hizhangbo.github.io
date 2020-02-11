@@ -179,7 +179,9 @@
 		$('header h2').css('color', '#3c3b3b');
 		$('.post > header .meta .published, ol li, .post > header .title').css('color', '#3c3b3b');
 		$('#menu').css('background', '#ffffff');
-		$(".checke").attr("checked",false);
+		if($(".checke").is(':checked')) {
+			$(".checke").attr("checked",false);
+		}
 
 		$.cookie('mode', 'light', { path: '/' });
 	}
@@ -211,7 +213,9 @@
 		$('header h2').css('color', 'unset');
 		$('.post > header .meta .published, ol li, .post > header .title').css('color', '#2b0e0ed4');
 		$('#menu').css('background', '#3a2929a8');
-		$(".checke").attr("checked",true);
+		if(!$(".checke").is(':checked')) {
+			$(".checke").attr("checked",true);
+		}
 
 		$.cookie('mode', 'dark', { path: '/' });
 	}
