@@ -1,0 +1,1097 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-02-11T20:31:19+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)
+</subtitle><entry><title type="html">Shell 語法</title><link href="/linux/2020/02/09/shell.html" rel="alternate" type="text/html" title="Shell 語法" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/linux/2020/02/09/shell</id><content type="html" xml:base="/linux/2020/02/09/shell.html">&lt;h3 id=&quot;shell-語法&quot;&gt;Shell 語法&lt;/h3&gt;</content><author><name>Bob</name></author><summary type="html">Shell 語法</summary></entry><entry><title type="html">JVM 結構解析</title><link href="/java/2020/02/09/jvm.html" rel="alternate" type="text/html" title="JVM 結構解析" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/java/2020/02/09/jvm</id><content type="html" xml:base="/java/2020/02/09/jvm.html">&lt;h1 id=&quot;jvm-結構解析&quot;&gt;JVM 結構解析&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;img src=&quot;/images/content/JVM.png&quot; class=&quot;image featured&quot; alt=&quot;JVM&quot; align=&quot;center&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;基本結構&quot;&gt;基本結構&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;类加载器&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;抽象类
+        &lt;ul&gt;
+          &lt;li&gt;loadClass&lt;/li&gt;
+          &lt;li&gt;defineClass&lt;/li&gt;
+          &lt;li&gt;findClass&lt;/li&gt;
+          &lt;li&gt;findLoadedClass&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;分类
+        &lt;ul&gt;
+          &lt;li&gt;BootStrap ClassLoader  -&amp;gt; rt.jar /-Xbootclasspath
+            &lt;ul&gt;
+              &lt;li&gt;-Xbootclasspath/a:/var/lib&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Extension ClassLoader -&amp;gt; %JAVA_HOME%/lib/ext/*.jar&lt;/li&gt;
+          &lt;li&gt;App ClassLoader -&amp;gt; classpath&lt;/li&gt;
+          &lt;li&gt;Custom ClassLoader&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;过程
+        &lt;ul&gt;
+          &lt;li&gt;加载(双亲模式)
+            &lt;ul&gt;
+              &lt;li&gt;自底向上检查类是否已经加载&lt;/li&gt;
+              &lt;li&gt;自顶向下尝试加载类&lt;/li&gt;
+              &lt;li&gt;类的二进制流，转为方法区数据结构，生成对应的java.lang.Class对象&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;链接
+            &lt;ul&gt;
+              &lt;li&gt;验证
+                &lt;ul&gt;
+                  &lt;li&gt;文件格式&lt;/li&gt;
+                  &lt;li&gt;元数据&lt;/li&gt;
+                  &lt;li&gt;字节码&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;准备
+                &lt;ul&gt;
+                  &lt;li&gt;分配内存，并为类设置初始化方法区&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;解析
+                &lt;ul&gt;
+                  &lt;li&gt;符号引用替换直接引用&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;初始化
+            &lt;ul&gt;
+              &lt;li&gt;执行类构造器 &lt;strong&gt;&amp;lt;clinit&amp;gt;&lt;/strong&gt;
+                &lt;ul&gt;
+                  &lt;li&gt;static变量 赋值语句&lt;/li&gt;
+                  &lt;li&gt;static{}静态代码块&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;子类的&lt;strong&gt;&amp;lt;clinit&amp;gt;&lt;/strong&gt;调用前一定保证父类的&lt;strong&gt;&amp;lt;clinit&amp;gt;&lt;/strong&gt;已被调用&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;内存空间&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;方法区
+        &lt;ul&gt;
+          &lt;li&gt;保存装载的类信息
+            &lt;ul&gt;
+              &lt;li&gt;类型的常量池&lt;/li&gt;
+              &lt;li&gt;字段，方法信息&lt;/li&gt;
+              &lt;li&gt;方法字节码&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;通常和永久区Perm关联在一起（java8以后PermGen被Metaspace替代）
+            &lt;ul&gt;
+              &lt;li&gt;元空间与永久代之间最大的区别在于：元空间并不在虚拟机中，而是使用本地内存&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;堆
+        &lt;ul&gt;
+          &lt;li&gt;对象存储&lt;/li&gt;
+          &lt;li&gt;所有线程共享&lt;/li&gt;
+          &lt;li&gt;对分代GC来说，堆也是分代的
+            &lt;ul&gt;
+              &lt;li&gt;eden&lt;/li&gt;
+              &lt;li&gt;s0&lt;/li&gt;
+              &lt;li&gt;s1&lt;/li&gt;
+              &lt;li&gt;tenured&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;GC的主要工作区间&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;栈
+        &lt;ul&gt;
+          &lt;li&gt;线程私有&lt;/li&gt;
+          &lt;li&gt;栈由一系列帧组成&lt;/li&gt;
+          &lt;li&gt;帧保存一个方法的局部变量表、操作数栈、常量池指针&lt;/li&gt;
+          &lt;li&gt;每一次方法调用创建一个帧，并压栈&lt;/li&gt;
+          &lt;li&gt;栈上分配
+            &lt;ul&gt;
+              &lt;li&gt;小对象（几十bytes），在没有逃逸的情况下&lt;/li&gt;
+              &lt;li&gt;大对象或者逃逸对象无法栈上分配
+                &lt;ul&gt;
+                  &lt;li&gt;逃逸指非线程私有&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;启动参数增加-XX:+DoEscapeAnalysis，减少GC(-XX:PrintGC)&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;本地方法栈(native)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;ul&gt;
+  &lt;li&gt;PC寄存器
+    &lt;ul&gt;
+      &lt;li&gt;每一个线程拥有一个PC寄存器&lt;/li&gt;
+      &lt;li&gt;在线程创建时创建&lt;/li&gt;
+      &lt;li&gt;指向下一条指令的地址（當前指令的調用者）&lt;/li&gt;
+      &lt;li&gt;执行本地方法时，PC的值为undefined&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;执行引擎&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;解析执行器（对字节码指令逐行解释执行）&lt;/li&gt;
+      &lt;li&gt;JIT编译器（编译热点代码为机器指令，缓存在本地方法区）&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;垃圾收集器&lt;/strong&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;本地方法接口&lt;/li&gt;
+  &lt;li&gt;本地方法库&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;垃圾回收&quot;&gt;垃圾回收&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;算法
+    &lt;ul&gt;
+      &lt;li&gt;引用计数法
+        &lt;ul&gt;
+          &lt;li&gt;循环引用导致内存泄露&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;标记清除
+        &lt;ul&gt;
+          &lt;li&gt;从根节点标记可达引用对象，其余不可达的对象全部清除&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;标记压缩
+        &lt;ul&gt;
+          &lt;li&gt;在标记清除基础上，压缩可达对象空间&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;复制算法
+        &lt;ul&gt;
+          &lt;li&gt;两块大小相同的内存，第一块内存空间中所有存活对象被复制到另外一块中，然后对第一块进行清理&lt;/li&gt;
+          &lt;li&gt;每次复制清除后，第一块和第二块内存空间角色对调&lt;/li&gt;
+          &lt;li&gt;空间较为浪费，只存放小对象&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;分代思想
+        &lt;ul&gt;
+          &lt;li&gt;新生代
+            &lt;ul&gt;
+              &lt;li&gt;少量较小对象存活，适合复制算法&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;老年代
+            &lt;ul&gt;
+              &lt;li&gt;大量对象存活，或较大对象，适合标记清除/标记压缩算法&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;可触及性
+    &lt;ul&gt;
+      &lt;li&gt;可触及&lt;/li&gt;
+      &lt;li&gt;不可触及&lt;/li&gt;
+      &lt;li&gt;可复活
+        &lt;ul&gt;
+          &lt;li&gt;重写对象的finalize方法，只会被调用一次，避免使用&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;根节点
+        &lt;ul&gt;
+          &lt;li&gt;栈中引用的对象&lt;/li&gt;
+          &lt;li&gt;方法去中静态成员/常量引用对象&lt;/li&gt;
+          &lt;li&gt;JNI方法栈中引用对象&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Stop-The-World
+    &lt;ul&gt;
+      &lt;li&gt;JVM中全局暂停
+        &lt;ul&gt;
+          &lt;li&gt;Dump线程&lt;/li&gt;
+          &lt;li&gt;死锁检查&lt;/li&gt;
+          &lt;li&gt;堆Dump&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;GC 参数
+    &lt;ul&gt;
+      &lt;li&gt;-XX:MaxGCPauseMills
+        &lt;ul&gt;
+          &lt;li&gt;GC最大停顿时间&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;-XX:GCTimeRatio
+        &lt;ul&gt;
+          &lt;li&gt;单位时间内应用的GC使用CPU占比&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;串行回收器
+        &lt;ul&gt;
+          &lt;li&gt;-XX:+UseSerialGC&lt;/li&gt;
+          &lt;li&gt;单线程回收&lt;/li&gt;
+          &lt;li&gt;新生代复制算法&lt;/li&gt;
+          &lt;li&gt;老年代标记压缩算法&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;并行回收器
+        &lt;ul&gt;
+          &lt;li&gt;ParNew
+            &lt;ul&gt;
+              &lt;li&gt;-XX:+UseParNewGC
+                &lt;ul&gt;
+                  &lt;li&gt;新生代并行&lt;/li&gt;
+                  &lt;li&gt;老年代串行&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;-XX:ParallelGCThreads 限制线程数量&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Parallel
+            &lt;ul&gt;
+              &lt;li&gt;-XX:+UseParallelGC&lt;/li&gt;
+              &lt;li&gt;-XX:+UseParallelOldGC&lt;/li&gt;
+              &lt;li&gt;增加吞吐量&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;CMS回收器（老年代）
+        &lt;ul&gt;
+          &lt;li&gt;-XX:+UseConcMarkSweepGC
+            &lt;ul&gt;
+              &lt;li&gt;并发标记清除&lt;/li&gt;
+              &lt;li&gt;和应用程序一起进行&lt;/li&gt;
+              &lt;li&gt;减少停顿时间&lt;/li&gt;
+              &lt;li&gt;减少吞吐量&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;-XX:+UseCMSCompactAtFullCollection&lt;/li&gt;
+          &lt;li&gt;-XX:+CMSFullGCsBeforeCompaction&lt;/li&gt;
+          &lt;li&gt;-XX:ParallelCMSThreads&lt;/li&gt;
+          &lt;li&gt;过程
+            &lt;ul&gt;
+              &lt;li&gt;初始标记
+                &lt;ul&gt;
+                  &lt;li&gt;根可达对象，速度快，单独进行&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;并发标记
+                &lt;ul&gt;
+                  &lt;li&gt;主要标记过程，和应用程序进程一起进行&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;重新标记
+                &lt;ul&gt;
+                  &lt;li&gt;在并发标记时，应用产生的垃圾进行标记，单独进行&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;并发清理
+                &lt;ul&gt;
+                  &lt;li&gt;清理垃圾对象，和应用程序进程一起进行&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;碎片
+            &lt;ul&gt;
+              &lt;li&gt;标记清除产生内存碎片&lt;/li&gt;
+              &lt;li&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;GC Roots 判断引用可达
+    &lt;ul&gt;
+      &lt;li&gt;栈中引用的对象（局部变量表）&lt;/li&gt;
+      &lt;li&gt;方法区中的类静态属性引用的对象&lt;/li&gt;
+      &lt;li&gt;方法区中常量引用的对象&lt;/li&gt;
+      &lt;li&gt;本地方法栈中JNI（Native方法）引用的对象&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;引用分类及GC
+    &lt;ul&gt;
+      &lt;li&gt;强引用 Reference
+        &lt;ul&gt;
+          &lt;li&gt;默认&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;软引用 SoftReference
+        &lt;ul&gt;
+          &lt;li&gt;内存够用就保留，内存不够用就回收&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;弱引用 WeakReference
+        &lt;ul&gt;
+          &lt;li&gt;只要GC进行就会被回收&lt;/li&gt;
+          &lt;li&gt;WeakHashMap
+            &lt;ul&gt;
+              &lt;li&gt;缓存&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;虚引用 PhantomReference
+        &lt;ul&gt;
+          &lt;li&gt;在任何时候都可能被垃圾回收器回收&lt;/li&gt;
+          &lt;li&gt;ReferenceQueue 在GC时放到引用队列&lt;/li&gt;
+          &lt;li&gt;finalize()方法&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;内存拷貝&quot;&gt;内存拷貝&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;每一个线程有一个工作内存和独立主存&lt;/li&gt;
+  &lt;li&gt;工作内存存放主存中变量的值的拷贝&lt;/li&gt;
+  &lt;li&gt;volatile 关键字可以使JMM将工作内存中的改变及时同步到主存中
+    &lt;ul&gt;
+      &lt;li&gt;可见性
+        &lt;ul&gt;
+          &lt;li&gt;其他可见性关键字
+            &lt;ul&gt;
+              &lt;li&gt;synchronized&lt;/li&gt;
+              &lt;li&gt;final&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;有序性
+        &lt;ul&gt;
+          &lt;li&gt;一个线程内的操作都是有序的&lt;/li&gt;
+          &lt;li&gt;在该线程外观察操作是无序的（指令重排/主内存同步延时）&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;指令重排
+        &lt;ul&gt;
+          &lt;li&gt;没有语义冲突有可能被重排&lt;/li&gt;
+          &lt;li&gt;编译器不考虑多线程间的语义，如果要保证顺序使用synchronized&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;參數調優&quot;&gt;參數調優&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Trace跟踪参数
+    &lt;ul&gt;
+      &lt;li&gt;-Xloggc:log/gc.log&lt;/li&gt;
+      &lt;li&gt;-XX:+PrintHeapAtGC&lt;/li&gt;
+      &lt;li&gt;-XX:+TraceClassLoading&lt;/li&gt;
+      &lt;li&gt;-XX:+PrintClassHistogram (ctrl+break 触发打印类的使用情况)&lt;/li&gt;
+      &lt;li&gt;-verbose:gc&lt;/li&gt;
+      &lt;li&gt;-XX:+printGC&lt;/li&gt;
+      &lt;li&gt;-XX:+printGCDetails&lt;/li&gt;
+      &lt;li&gt;-XX:+printGCTimeStamps # 打印GC发生的时间戳
+        &lt;ul&gt;
+          &lt;li&gt;new generation
+            &lt;ul&gt;
+              &lt;li&gt;eden space&lt;/li&gt;
+              &lt;li&gt;from space&lt;/li&gt;
+              &lt;li&gt;to space&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;tenured generation&lt;/li&gt;
+          &lt;li&gt;compacting perm gen&lt;/li&gt;
+          &lt;li&gt;ro space&lt;/li&gt;
+          &lt;li&gt;rw space&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;堆的分配参数
+    &lt;ul&gt;
+      &lt;li&gt;参数类型
+        &lt;ul&gt;
+          &lt;li&gt;标配参数
+            &lt;ul&gt;
+              &lt;li&gt;java -version&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;X 参数
+            &lt;ul&gt;
+              &lt;li&gt;-Xint 解释执行&lt;/li&gt;
+              &lt;li&gt;-Xcomp 第一次使用就编译成本地代码&lt;/li&gt;
+              &lt;li&gt;-Xmixed 混合模式，编译执行&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;XX 参数&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;总体配置
+        &lt;ul&gt;
+          &lt;li&gt;Xms&lt;/li&gt;
+          &lt;li&gt;Xmx
+            &lt;ul&gt;
+              &lt;li&gt;设置相同，防止抖动&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;新生代
+        &lt;ul&gt;
+          &lt;li&gt;-Xmn (新生代)&lt;/li&gt;
+          &lt;li&gt;-XX:NewRatio （新生代和老年代的比值）&lt;/li&gt;
+          &lt;li&gt;幸存代
+            &lt;ul&gt;
+              &lt;li&gt;XX:SurvivorRatio （Survivor和eden的比值）&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;OOM时触发
+        &lt;ul&gt;
+          &lt;li&gt;-XX:+HeapDumpOnOutOfMemoryError&lt;/li&gt;
+          &lt;li&gt;-XX:+HeapDumpPath&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;del&gt;PermGen参数&lt;/del&gt;（java8 中已废弃）
+    &lt;ul&gt;
+      &lt;li&gt;-XX:PermSize&lt;/li&gt;
+      &lt;li&gt;-XX:MaxPermSize&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;栈的分配参数
+    &lt;ul&gt;
+      &lt;li&gt;Xss
+        &lt;ul&gt;
+          &lt;li&gt;通常几百K&lt;/li&gt;
+          &lt;li&gt;决定函数调用深度&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;JIT及其相关参数
+    &lt;ul&gt;
+      &lt;li&gt;-XX:CompileThreshold=1000&lt;/li&gt;
+      &lt;li&gt;-XX:+PrintCompilation&lt;/li&gt;
+      &lt;li&gt;Xint # 解释执行&lt;/li&gt;
+      &lt;li&gt;Xcomp # 编译执行&lt;/li&gt;
+      &lt;li&gt;Xmixed # 混合，默认&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;常量池
+    &lt;ul&gt;
+      &lt;li&gt;class文件常量池
+        &lt;ul&gt;
+          &lt;li&gt;class文件常量池位于class文件中&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;运行时常量池
+        &lt;ul&gt;
+          &lt;li&gt;当类或接口创建时，它的class中的常量池会被用来构造运行时常量池，常量池中的符号引用会被解析成具体的内存地址。运行时常量池是jvm方法区的一部分，它可以在运行时将符号引用解析为直接引用。&lt;/li&gt;
+          &lt;li&gt;运行时常量池位于jvm的元空间中(java8)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;字符串常量池
+        &lt;ul&gt;
+          &lt;li&gt;字符串常量池底层实现是一个哈希表，可以通过-XX:StringTableSize参数调整大小。字符串常量池中存储的是字符串对象的引用，而字符串本身是在堆上分配的(java中的对象基本都在堆上分配)。运行时常量池初始化的时候，字面量的符号引用的初始化会用到字符串常量池。String中的intern方法可以在运行时将字符串实例加入字符串常量池。&lt;/li&gt;
+          &lt;li&gt;在java1.7以前，字符串常量池是在堆的永久代里面，大小固定，而从java1.7以后，字符串常量池则移动到java堆中了。&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;鎖&quot;&gt;鎖&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;对象头Mark，32位
+    &lt;ul&gt;
+      &lt;li&gt;描述对象的hash，索信息，垃圾回收标记，年龄&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;偏向锁/可重入锁
+    &lt;ul&gt;
+      &lt;li&gt;-XX:+UseBiasedLocking&lt;/li&gt;
+      &lt;li&gt;已获得锁的线程，只要没有竞争，在将来进入同步块时不需要做同步&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;轻量级锁
+    &lt;ul&gt;
+      &lt;li&gt;存放在线程栈中&lt;/li&gt;
+      &lt;li&gt;如果有竞争，就会升级为重量级锁&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;自旋锁
+    &lt;ul&gt;
+      &lt;li&gt;存在竞争时，线程做几个空操作，不使用系统挂起&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Jvm获取锁的优先级
+    &lt;ul&gt;
+      &lt;li&gt;先获取偏向锁 -&amp;gt; 轻量级锁 -&amp;gt; 自旋锁&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;锁的优化
+    &lt;ul&gt;
+      &lt;li&gt;减少锁的持有时间&lt;/li&gt;
+      &lt;li&gt;减小锁粒度
+        &lt;ul&gt;
+          &lt;li&gt;ConcurrentHashMap
+            &lt;ul&gt;
+              &lt;li&gt;由若干个Segment组成&lt;/li&gt;
+              &lt;li&gt;每个Segment中维护HashEntry&lt;/li&gt;
+              &lt;li&gt;在并发操作时，锁定一个Segment&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;锁粗化
+        &lt;ul&gt;
+          &lt;li&gt;锁的请求非常频繁时，可以将操作合并在同一个锁中&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;锁消除
+        &lt;ul&gt;
+          &lt;li&gt;-server -XX:+DoEscapeAnalysis -XX:+EliminateLocks&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;锁分离
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;table&gt;
+              &lt;thead&gt;
+                &lt;tr&gt;
+                  &lt;th&gt;类型&lt;/th&gt;
+                  &lt;th&gt;读锁&lt;/th&gt;
+                  &lt;th&gt;写锁&lt;/th&gt;
+                &lt;/tr&gt;
+              &lt;/thead&gt;
+              &lt;tbody&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;读锁&lt;/td&gt;
+                  &lt;td&gt;可访问&lt;/td&gt;
+                  &lt;td&gt;不可访问&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;写锁&lt;/td&gt;
+                  &lt;td&gt;不可访问&lt;/td&gt;
+                  &lt;td&gt;不可访问&lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;CAS
+        &lt;ul&gt;
+          &lt;li&gt;乐观锁&lt;/li&gt;
+          &lt;li&gt;Compare And Swap&lt;/li&gt;
+          &lt;li&gt;CAS(V,E,N) V要更新的变量，E期望当前值，N新值&lt;/li&gt;
+          &lt;li&gt;AtomicInteger 中getAndSet使用CAS&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;性能監控&quot;&gt;性能監控&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;系统性能监控
+    &lt;ul&gt;
+      &lt;li&gt;uptime&lt;/li&gt;
+      &lt;li&gt;vmstat&lt;/li&gt;
+      &lt;li&gt;pidstat&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;jdk自带工具
+    &lt;ul&gt;
+      &lt;li&gt;命令行
+        &lt;ul&gt;
+          &lt;li&gt;jps -lv&lt;/li&gt;
+          &lt;li&gt;jinfo -flag # 查看jvm启动参数
+            &lt;ul&gt;
+              &lt;li&gt;jinfo -flags pid&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;jmap -histo pid # 类对象使用情况&lt;/li&gt;
+          &lt;li&gt;jstack pid&lt;/li&gt;
+          &lt;li&gt;jstatus&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;图形化
+        &lt;ul&gt;
+          &lt;li&gt;JConsole&lt;/li&gt;
+          &lt;li&gt;Visual VM&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;OOM
+    &lt;ul&gt;
+      &lt;li&gt;MAT
+        &lt;ul&gt;
+          &lt;li&gt;浅堆
+            &lt;ul&gt;
+              &lt;li&gt;一个对象结构所占用的内存大小，元数据大小&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;深堆
+            &lt;ul&gt;
+              &lt;li&gt;一个对象被GC后，可是真是释放的内存大小，对象大小&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;字節碼文件&quot;&gt;字節碼文件&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Class文件结构
+    &lt;ul&gt;
+      &lt;li&gt;magic&lt;/li&gt;
+      &lt;li&gt;小版本号&lt;/li&gt;
+      &lt;li&gt;大版本号&lt;/li&gt;
+      &lt;li&gt;常量池&lt;/li&gt;
+      &lt;li&gt;访问标识符&lt;/li&gt;
+      &lt;li&gt;接口&lt;/li&gt;
+      &lt;li&gt;字段&lt;/li&gt;
+      &lt;li&gt;方法&lt;/li&gt;
+      &lt;li&gt;attribute&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;字节码对照
+    &lt;ul&gt;
+      &lt;li&gt;ASM 实现AOP
+        &lt;ul&gt;
+          &lt;li&gt;ClassVisitor&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;常見錯誤&quot;&gt;常見錯誤&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Throwable
+    &lt;ul&gt;
+      &lt;li&gt;Exception
+        &lt;ul&gt;
+          &lt;li&gt;RuntimeException&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Error
+        &lt;ul&gt;
+          &lt;li&gt;StackOverflowError # 递归深度调用&lt;/li&gt;
+          &lt;li&gt;OutOfMemoryError
+            &lt;ul&gt;
+              &lt;li&gt;Java heap space # 对象过多&lt;/li&gt;
+              &lt;li&gt;GC overhead limit exceeded # GC占用80%资源回收，但效果不明显，则抛出&lt;/li&gt;
+              &lt;li&gt;Direct buffer memory # NIO&lt;/li&gt;
+              &lt;li&gt;unable to create new native thread # 线程创建太多&lt;/li&gt;
+              &lt;li&gt;Metaspace #&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">JVM 結構解析 基本結構 类加载器 抽象类 loadClass defineClass findClass findLoadedClass 分类 BootStrap ClassLoader -&amp;gt; rt.jar /-Xbootclasspath -Xbootclasspath/a:/var/lib Extension ClassLoader -&amp;gt; %JAVA_HOME%/lib/ext/*.jar App ClassLoader -&amp;gt; classpath Custom ClassLoader 过程 加载(双亲模式) 自底向上检查类是否已经加载 自顶向下尝试加载类 类的二进制流，转为方法区数据结构，生成对应的java.lang.Class对象 链接 验证 文件格式 元数据 字节码 准备 分配内存，并为类设置初始化方法区 解析 符号引用替换直接引用 初始化 执行类构造器 &amp;lt;clinit&amp;gt; static变量 赋值语句 static{}静态代码块 子类的&amp;lt;clinit&amp;gt;调用前一定保证父类的&amp;lt;clinit&amp;gt;已被调用</summary></entry><entry><title type="html">Jekyll 遷移</title><link href="/jekyll/ruby/2020/02/08/jekyll.html" rel="alternate" type="text/html" title="Jekyll 遷移" /><published>2020-02-08T13:57:36+08:00</published><updated>2020-02-08T13:57:36+08:00</updated><id>/jekyll/ruby/2020/02/08/jekyll</id><content type="html" xml:base="/jekyll/ruby/2020/02/08/jekyll.html">&lt;h1 id=&quot;jekyll-遷移&quot;&gt;Jekyll 遷移&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;img src=&quot;/images/content/ruby-logo.png&quot; alt=&quot;Jekyll-Logo&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;ruby&quot;&gt;Ruby&lt;/h3&gt;
+&lt;p&gt;  應該説比較早就知道Ruby這個語言。上學的時候看過松本行弘寫的 &lt;strong&gt;&lt;em&gt;《代碼的未來》&lt;/em&gt;&lt;/strong&gt;，書的前身是他在某個計算機雜志上連載的文章，最後合集出了一版書，當時的我對代碼充滿好奇，但沒有深入瞭解這門他開發的語言。爲了將博客遷移到Jekyll，正式安裝Ruby。&lt;/p&gt;
+
+&lt;p&gt;  官網推薦安裝&lt;code class=&quot;highlighter-rouge&quot;&gt;2.6&lt;/code&gt;的版本，但是最新穩定版是&lt;code class=&quot;highlighter-rouge&quot;&gt;2.7&lt;/code&gt;，手癢安裝了&lt;code class=&quot;highlighter-rouge&quot;&gt;2.7&lt;/code&gt;導致一些依賴無法引用。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Gem::RuntimeRequirementNotMetError: nokogiri requires Ruby version &amp;gt;= 1.9.2, &amp;lt; 2.3. The current ruby version is 2.7.0.0.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;  &lt;a href=&quot;https://stackoverflow.com/questions/59950834/this-error-while-install-nokogiri-in-ruby-whenever-i-install-something-give-thi&quot;&gt;解決方案&lt;/a&gt; 具體issues可見 &lt;a href=&quot;https://github.com/sparklemotion/nokogiri/issues/1961&quot;&gt;Add support for Ruby-2.7 on Windows #1961&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install nokogiri --platform=ruby 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;or&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ridk exec pacman -S mingw-w64-x86_64-libxslt
+gem install nokogiri --platform=ruby -- --use-system-libraries
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;  配置GEM加速庫https://gems.ruby-china.com/&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem sources
+gem sources --remove https://ruby.taobao.org/
+gem source -a https://gems.ruby-china.com/
+gem source -u
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;img src=&quot;/images/content/jekyll-logo.png&quot; alt=&quot;Jekyll-Logo&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;jekyll&quot;&gt;Jekyll&lt;/h3&gt;
+&lt;p&gt;  安裝&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install jekyll
+gem install bundler
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;  創建網站模板&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll new myblog
+cd myblog
+bundle exec jekyll serve
+
+jekyll build
+jekyll serve
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;  模板樣式下載&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://jekyllthemes.org/
+https://jekyll-themes.com/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;GitHub Page第三方插件無法運行&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://help.github.com/cn/github/working-with-github-pages/about-github-pages-and-jekyll
+https://jekyllrb.com/docs/continuous-integration/circleci/
+https://mrpowerscripts.com/github-pages-circleci-jekyll-paginate-v2/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;  其他詳情使用請移步&lt;a href=&quot;https://www.jekyll.com.cn/docs/&quot;&gt;Jekyll官網&lt;/a&gt;&lt;/p&gt;</content><author><name>Bob</name></author><summary type="html">Jekyll 遷移 Ruby   應該説比較早就知道Ruby這個語言。上學的時候看過松本行弘寫的 《代碼的未來》，書的前身是他在某個計算機雜志上連載的文章，最後合集出了一版書，當時的我對代碼充滿好奇，但沒有深入瞭解這門他開發的語言。爲了將博客遷移到Jekyll，正式安裝Ruby。</summary></entry><entry><title type="html">Docker 常用指令</title><link href="/docker/2020/02/07/docker.html" rel="alternate" type="text/html" title="Docker 常用指令" /><published>2020-02-07T13:57:36+08:00</published><updated>2020-02-07T13:57:36+08:00</updated><id>/docker/2020/02/07/docker</id><content type="html" xml:base="/docker/2020/02/07/docker.html">&lt;h1 id=&quot;指令&quot;&gt;指令&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+  &lt;li&gt;卸载docker
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum remove docker &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+               docker-client &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+               docker-client-latest &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+               docker-common &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+               docker-latest &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+               docker-latest-logrotate &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+               docker-logrotate &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+               docker-selinux &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+               docker-engine-selinux &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+               docker-engine
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;安装相关依赖
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; yum-utils device-mapper-persistent-data lvm2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;添加下载镜像
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum-config-manager &lt;span class=&quot;nt&quot;&gt;--add-repo&lt;/span&gt; http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;安装docker
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;docker-ce
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;开启docker
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;docker &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; systemctl start docker
+systemctl disable firewalld &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; systemctl stop firewalld
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;搜索镜像
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker search mysql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;拉取镜像
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker pull mysql:5.6.43
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;创建容器
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; mysql:5.6.43 /bin/bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;查看所有容器
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker ps &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#查看所有容器，不带 -a 则只显示启动的容器&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;端口映射与磁盘映射
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8808:3306 &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; mysql &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$PWD&lt;/span&gt;/conf:/etc/mysql/conf.d &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$PWD&lt;/span&gt;/logs:/logs &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$PWD&lt;/span&gt;/data:/var/lib/mysql &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;MYSQL_ROOT_PASSWORD&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;123456 &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; mysql:5.6.43
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;查看容器启动日志
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker logs 7e166dfd27eb
+docker logs &lt;span class=&quot;nt&quot;&gt;--tail&lt;/span&gt; 100 &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; 0491e185ae4e
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;容器开始停止和删除
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker start 7e166dfd27eb
+docker stop 7e166dfd27eb
+docker &lt;span class=&quot;nb&quot;&gt;rm &lt;/span&gt;7e166dfd27eb
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;进入docker控制台
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; 7e166dfd27eb /bin/bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;镜像的删除
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#要将对应的所有容器删除，才能删除镜像&lt;/span&gt;
+docker rmi &amp;lt;image &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;打包一个java应用到docker
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker pull java:8
+vi Dockerfile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FROM java:8
+MAINTAINER larry
+RUN [&quot;mkdir&quot;, &quot;app&quot;]
+ADD mysql-travel-1.0-SNAPSHOT.jar /app
+EXPOSE 8080
+ENTRYPOINT [&quot;java&quot;, &quot;-jar&quot;, &quot;/app/mysql-travel-1.0-SNAPSHOT.jar&quot;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;```shell
+docker build -t java:springboot .
+#手动打标签
+docker tag &lt;image&gt; name:tag&lt;/image&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;docker run -p 8080:8080 –name springboot -d java:springboot&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;16. Dockfile 参数
+
+| 指令         |  描述                   |  常用    |  
+| --- |:---:| :---: |  
+| FROM        |  构建镜像的基础镜像       | &amp;lt;font color=#0099ff&amp;gt;*&amp;lt;/font&amp;gt; |  
+| MAINTAINER  |  镜像维护者姓名或邮箱地址  | &amp;lt;font color=#0099ff&amp;gt;*&amp;lt;/font&amp;gt; |  
+| RUN         |  构建镜像时运行的Shell命令 | &amp;lt;font color=#0099ff&amp;gt;*&amp;lt;/font&amp;gt; |  
+| CMD         |  运行容器时执行的Shell命令 | &amp;lt;font color=#0099ff&amp;gt;*&amp;lt;/font&amp;gt; |  
+| EXPOSE      |  声明容器运行的服务端口    | &amp;lt;font color=#0099ff&amp;gt;*&amp;lt;/font&amp;gt; |  
+| ENV         |  设置容器内环境变量        | - |  
+| ADD         |  拷贝文件或目录到镜像，可以自动解压缩或者下载 | &amp;lt;font color=#0099ff&amp;gt;*&amp;lt;/font&amp;gt; |  
+| COPY        |  拷贝文件或目录到镜像，不能自动解压缩 | &amp;lt;font color=#0099ff&amp;gt;*&amp;lt;/font&amp;gt; |  
+| ENTRYPOINT  |  容器启动后执行的shell命令 | &amp;lt;font color=#0099ff&amp;gt;*&amp;lt;/font&amp;gt; |  
+| VOLUME      |  指定容器挂载点到宿主机自动生成的目录或其他容器 | - |  
+| USER        |  为RUN，CMD和ENTRYPOINT执行命令指定运行用户 | - |  
+| WORKDIR     |  为RUN，CMD，ENTRYPOINT，COPY和ADD设置工作目录 | &amp;lt;font color=#0099ff&amp;gt;*&amp;lt;/font&amp;gt; |  
+| HEALTHCHECK |  健康检查                 | - |  
+| ARG         |  在构建镜像时指定一些参数  | - |  
+
+17. 打包镜像  
+```shell
+docker save springbootdemo:latest &amp;gt; springbootdemo.tar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;构建本地镜像库&lt;br /&gt;
+```shell
+docker pull registry
+docker run -d -p 5000:5000 –restart=always –name registry registry
+docker push localhost:5000/app:spring-boot
+curl http://192.168.127.100:5000/v2/app/tags/list
+http://192.168.1.100:5000/v2/_catalog&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;docker-push-errorhttp-server-gave-http-response-to-https-client&quot;&gt;docker push error:http: server gave HTTP response to HTTPS client&lt;/h1&gt;
+&lt;p&gt;1.vim  /etc/docker/daemon.json    增加一个daemon.json文件
+{ “insecure-registries”:[“192.168.1.100:5000”] }
+保存退出&lt;/p&gt;
+
+&lt;p&gt;2.重启docker服务
+systemctl daemon-reload
+systemctl restart docker&lt;/p&gt;
+
+&lt;p&gt;3.重启容器
+4.上传镜像&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;19. 安装docker-compose  
+```shell
+curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-compose-`uname -s`-`uname -m` &amp;gt; /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+# 自动补充命令
+curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose &amp;gt; /etc/bash_completion.d/docker-compose
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;配置服务数量
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker-compose up &lt;span class=&quot;nt&quot;&gt;--scale&lt;/span&gt; spring-cloud-server&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;相关链接&lt;br /&gt;
+&lt;a href=&quot;http://book.itmuch.com/3%20%E4%BD%BF%E7%94%A8Docker%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/3.8.2%20Docker%20Compose%E5%85%A5%E9%97%A8%E7%A4%BA%E4%BE%8B.html&quot; title=&quot;Docker Compose&quot;&gt;Docker Compose 入门&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.cnblogs.com/sweetchildomine/p/7440262.html&quot;&gt;Docker Compose 部署 Spring Cloud&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://medium.com/@madhupathy/simplified-microservices-building-with-spring-cloud-netflix-oss-eureka-zuul-hystrix-ribbon-2faa9046d054&quot;&gt;同上&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://docs.docker.com/network/&quot;&gt;docker网络通信&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;镜像加速&lt;br /&gt;
+```shell
+    &lt;h1 id=&quot;httpswwwdocker-cncomregistry-mirror&quot;&gt;https://www.docker-cn.com/registry-mirror&lt;/h1&gt;
+    &lt;p&gt;docker pull registry.docker-cn.com/library/&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json «-‘EOF’
+{
+  “registry-mirrors”: [“https://pc8jr851.mirror.aliyuncs.com”]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+23. 常用容器  
+```shell
+docker run -p 6379:6379 --name redis -d redis
+docker run -p 3306:3306 --name mymysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.6
+-- centos7 下上面的mysql安装会提示访问/var/lib/mysql目录没有权限，需要使用--privileged=true
+docker run -p 3306:3306 --name mysql --privileged=true -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql/ -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.6
+docker run -p 8529:8529 -e ARANGO_ROOT_PASSWORD=openSesame --name arango arangodb/arangodb:3.4.5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;常用镜像
+```shell
+docker pull docker.elastic.co/elasticsearch/elasticsearch:7.0.0
+docker run -p 9200:9200 -p 9300:9300 -e “discovery.type=single-node” –name es docker.elastic.co/elasticsearch/elasticsearch:7.0.0&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;docker pull docker.elastic.co/kibana/kibana:7.0.0
+– docker run -d -p 5601:5601 -e “elasticsearch.hosts=http://127.0.0.1:9200” –name kibana docker.elastic.co/kibana/kibana:7.0.0
+docker run -d -p 5601:5601 -e ELASTICSEARCH_HOSTS=http://192.168.127.9:9200 –name kibana docker.elastic.co/kibana/kibana:7.0.0
+– 用其它容器开放的端口可用该参数 network 指定容器共享elasticsearch容器的网络栈 (使用了–network 就不能使用-p 来暴露端口)
+kibana.yml&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;25. Dockerfile
+```dockerfile
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.1.0
+ADD ./config/elasticsearch.yml /usr/share/elasticsearch/config/
+USER root
+RUN chown elasticsearch:elasticsearch config/elasticsearch.yml
+USER elasticsearch
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;http.host&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;0.0.0.0&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;http.cors.enabled&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;http.cors.allow-origin&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;http.cors.allow-methods&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;OPTIONS, HEAD, GET, POST, PUT, DELETE&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;http.cors.allow-headers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;X-Requested-With,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Content-Type,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Content-Length,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;X-User&quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;xpack.security.enabled&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Uncomment the following lines for a production cluster deployment&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# #transport.host: 0.0.0.0&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# #discovery.zen.minimum_master_nodes: 1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 9200:9200 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 9300:9300 &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;discovery.type=single-node&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; es &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; es:7.1.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;elasticsearch kibana dockerfile
+```
+FROM openjdk:jre-alpine&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;LABEL maintainer “nshou &lt;a href=&quot;mailto:nshou@coronocoya.net&quot;&gt;nshou@coronocoya.net&lt;/a&gt;”&lt;/p&gt;
+
+&lt;p&gt;ARG ek_version=6.5.4&lt;/p&gt;
+
+&lt;p&gt;RUN apk add –quiet –no-progress –no-cache nodejs wget &lt;br /&gt;
+ &amp;amp;&amp;amp; adduser -D elasticsearch&lt;/p&gt;
+
+&lt;p&gt;USER elasticsearch&lt;/p&gt;
+
+&lt;p&gt;WORKDIR /home/elasticsearch&lt;/p&gt;
+
+&lt;p&gt;ENV ES_TMPDIR=/home/elasticsearch/elasticsearch.tmp&lt;/p&gt;
+
+&lt;p&gt;RUN wget -q -O - https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-${ek_version}.tar.gz &lt;br /&gt;
+ |  tar -zx &lt;br /&gt;
+ &amp;amp;&amp;amp; mv elasticsearch-${ek_version} elasticsearch &lt;br /&gt;
+ &amp;amp;&amp;amp; mkdir -p ${ES_TMPDIR} &lt;br /&gt;
+ &amp;amp;&amp;amp; wget -q -O - https://artifacts.elastic.co/downloads/kibana/kibana-oss-${ek_version}-linux-x86_64.tar.gz &lt;br /&gt;
+ |  tar -zx &lt;br /&gt;
+ &amp;amp;&amp;amp; mv kibana-${ek_version}-linux-x86_64 kibana &lt;br /&gt;
+ &amp;amp;&amp;amp; rm -f kibana/node/bin/node kibana/node/bin/npm &lt;br /&gt;
+ &amp;amp;&amp;amp; ln -s $(which node) kibana/node/bin/node &lt;br /&gt;
+ &amp;amp;&amp;amp; ln -s $(which npm) kibana/node/bin/npm&lt;/p&gt;
+
+&lt;p&gt;CMD sh elasticsearch/bin/elasticsearch -E http.host=0.0.0.0 –quiet &amp;amp; kibana/bin/kibana –host 0.0.0.0 -Q&lt;/p&gt;
+
+&lt;p&gt;EXPOSE 9200 5601&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+27. volume
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;docker volume ls
+docker volume rm &lt;VOLUME_NAME&gt;
+```&lt;/VOLUME_NAME&gt;&lt;/p&gt;</content><author><name>Bob</name></author><summary type="html">指令 卸载docker yum remove docker \ docker-client \ docker-client-latest \ docker-common \ docker-latest \ docker-latest-logrotate \ docker-logrotate \ docker-selinux \ docker-engine-selinux \ docker-engine 安装相关依赖 yum install -y yum-utils device-mapper-persistent-data lvm2 添加下载镜像 yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo 安装docker yum -y install docker-ce 开启docker systemctl enable docker &amp;amp;&amp;amp; systemctl start docker systemctl disable firewalld &amp;amp;&amp;amp; systemctl stop firewalld 搜索镜像 docker search mysql 拉取镜像 docker pull mysql:5.6.43 创建容器 docker run -t -i mysql:5.6.43 /bin/bash 查看所有容器 docker ps -a #查看所有容器，不带 -a 则只显示启动的容器 端口映射与磁盘映射 docker run -p 8808:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.6.43 查看容器启动日志 docker logs 7e166dfd27eb docker logs --tail 100 -f 0491e185ae4e 容器开始停止和删除 docker start 7e166dfd27eb docker stop 7e166dfd27eb docker rm 7e166dfd27eb 进入docker控制台 docker exec -it 7e166dfd27eb /bin/bash 镜像的删除 #要将对应的所有容器删除，才能删除镜像 docker rmi &amp;lt;image id&amp;gt; 打包一个java应用到docker docker pull java:8 vi Dockerfile FROM java:8 MAINTAINER larry RUN [&quot;mkdir&quot;, &quot;app&quot;] ADD mysql-travel-1.0-SNAPSHOT.jar /app EXPOSE 8080 ENTRYPOINT [&quot;java&quot;, &quot;-jar&quot;, &quot;/app/mysql-travel-1.0-SNAPSHOT.jar&quot;] ```shell docker build -t java:springboot . #手动打标签 docker tag name:tag</summary></entry><entry><title type="html">Linux 常用指令</title><link href="/linux/2020/02/06/linux.html" rel="alternate" type="text/html" title="Linux 常用指令" /><published>2020-02-06T13:57:36+08:00</published><updated>2020-02-06T13:57:36+08:00</updated><id>/linux/2020/02/06/linux</id><content type="html" xml:base="/linux/2020/02/06/linux.html">&lt;h1 id=&quot;linux-常用命令&quot;&gt;Linux 常用命令&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;硬盤擴容&quot;&gt;硬盤擴容&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 创建新分区，挂载
+fdisk /dev/sda
+
+Command (m for help): m
+Command action
+   a   toggle a bootable flag
+   b   edit bsd disklabel
+   c   toggle the dos compatibility flag
+   d   delete a partition
+   g   create a new empty GPT partition table
+   G   create an IRIX (SGI) partition table
+   l   list known partition types
+   m   print this menu
+   n   add a new partition
+   o   create a new empty DOS partition table
+   p   print the partition table
+   q   quit without saving changes
+   s   create a new empty Sun disklabel
+   t   change a partition's system id
+   u   change display/entry units
+   v   verify the partition table
+   w   write table to disk and exit
+   x   extra functionality (experts only)
+
+Command (m for help): n
+Partition type:
+   p   primary (2 primary, 0 extended, 2 free)
+   e   extended
+Select (default p): p
+Partition number (3,4, default 3): 3
+First sector (41943040-62914559, default 41943040): 
+Using default value 41943040
+Last sector, +sectors or +size{K,M,G} (41943040-62914559, default 62914559): 
+Using default value 62914559
+Partition 3 of type Linux and of size 10 GiB is set
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+Syncing disks.
+
+# 重启系统
+reboot
+
+# 创建物理卷
+pvcreate /dev/sda3
+
+# 查看物理卷信息
+pvdisplay
+
+# 新增加的分区/dev/sda3加入到根目录分区
+vgextend centos /dev/sda3
+
+# 查看卷组信息
+vgdisplay
+
+# 增加centos大小
+lvresize -L +10G /dev/mapper/centos-root
+
+# 报错提示：一个PE的大小为4M，所以总大小为 2559 × 4M
+[root@docker ~]# lvresize -L +10G /dev/mapper/centos-root
+  Insufficient free space: 2560 extents needed, but only 2559 available
+[root@docker ~]# lvresize -L +10236M /dev/mapper/centos-root
+  Size of logical volume centos/root changed from &amp;lt;17.00 GiB (4351 extents) to 26.99 GiB (6910 extents).
+  Logical volume centos/root successfully resized.
+
+# 重新识别centos大小
+xfs_growfs /dev/mapper/centos-root
+
+# 查看扩容后的大小
+df -h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;ssh&quot;&gt;SSH&lt;/h3&gt;</content><author><name>Bob</name></author><summary type="html">Linux 常用命令</summary></entry></feed>

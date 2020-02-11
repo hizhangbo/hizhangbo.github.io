@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+        <title>Bob’s Blog</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="https://cdn.bootcss.com/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?71aff56ab4fd9aa39e7ee6f663772229";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script>	
+	</head>
+	<body oncontextmenu="return false;" onselectstart="return false">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+                <header id="header">
+    <h1><a href="/index.html">記憶 備份</a></h1>
+    <nav class="links">
+        <ul>
+            <li><a href="#">關於我</a></li>
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            <!-- <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <input type="text" name="query" placeholder="Search" />
+                <div></div>
+            </li> -->
+            <li class="light">
+                <input type="checkbox" class="checke">
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+
+
+    </nav>
+</header>
+
+                <!-- Menu -->
+                <section id="menu">
+
+    <!-- Search -->
+        <section>
+            <form class="search" method="get" action="#">
+                <input type="text" name="query" placeholder="Search" id="search-input" />
+            </form>
+        </section>
+
+        <section>
+            <div id="results-container"></div>
+        </section>
+</section>
+
+
+                <!-- Main -->
+                <div id="main">
+<!-- Post -->
+<article class="post">
+    <h1 id="linux-常用命令">Linux 常用命令</h1>
+<hr />
+
+<h3 id="硬盤擴容">硬盤擴容</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 创建新分区，挂载
+fdisk /dev/sda
+
+Command (m for help): m
+Command action
+   a   toggle a bootable flag
+   b   edit bsd disklabel
+   c   toggle the dos compatibility flag
+   d   delete a partition
+   g   create a new empty GPT partition table
+   G   create an IRIX (SGI) partition table
+   l   list known partition types
+   m   print this menu
+   n   add a new partition
+   o   create a new empty DOS partition table
+   p   print the partition table
+   q   quit without saving changes
+   s   create a new empty Sun disklabel
+   t   change a partition's system id
+   u   change display/entry units
+   v   verify the partition table
+   w   write table to disk and exit
+   x   extra functionality (experts only)
+
+Command (m for help): n
+Partition type:
+   p   primary (2 primary, 0 extended, 2 free)
+   e   extended
+Select (default p): p
+Partition number (3,4, default 3): 3
+First sector (41943040-62914559, default 41943040): 
+Using default value 41943040
+Last sector, +sectors or +size{K,M,G} (41943040-62914559, default 62914559): 
+Using default value 62914559
+Partition 3 of type Linux and of size 10 GiB is set
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+Syncing disks.
+
+# 重启系统
+reboot
+
+# 创建物理卷
+pvcreate /dev/sda3
+
+# 查看物理卷信息
+pvdisplay
+
+# 新增加的分区/dev/sda3加入到根目录分区
+vgextend centos /dev/sda3
+
+# 查看卷组信息
+vgdisplay
+
+# 增加centos大小
+lvresize -L +10G /dev/mapper/centos-root
+
+# 报错提示：一个PE的大小为4M，所以总大小为 2559 × 4M
+[root@docker ~]# lvresize -L +10G /dev/mapper/centos-root
+  Insufficient free space: 2560 extents needed, but only 2559 available
+[root@docker ~]# lvresize -L +10236M /dev/mapper/centos-root
+  Size of logical volume centos/root changed from &lt;17.00 GiB (4351 extents) to 26.99 GiB (6910 extents).
+  Logical volume centos/root successfully resized.
+
+# 重新识别centos大小
+xfs_growfs /dev/mapper/centos-root
+
+# 查看扩容后的大小
+df -h
+</code></pre></div></div>
+
+<hr />
+<h3 id="ssh">SSH</h3>
+
+</article>
+
+    <!-- Pagination -->
+    <ul class="actions pagination">
+        
+        <li><a class="disabled button big previous">Previous</a></li>
+        
+
+        
+        <li><a title="Docker 常用指令" href="/docker/2020/02/07/docker.html" class="button big next">Next</a></li>
+        
+    </ul>
+</div>
+
+			</div>
+		<div id="leftsead">
+    <ul>
+        <li class="top">
+            ↑
+        </li>
+        <li class="bottom">
+            ↑
+        </li>
+    </ul>
+</div>
+
+		<!-- Scripts -->
+        <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdn.bootcss.com/skel/3.0.0/skel.min.js"></script>
+<script src="/assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]-->
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/search.js"></script>
+
+	</body>
+</html>

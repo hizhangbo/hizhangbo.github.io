@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+        <title>Bob’s Blog</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="https://cdn.bootcss.com/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?71aff56ab4fd9aa39e7ee6f663772229";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script>	
+	</head>
+	<body oncontextmenu="return false;" onselectstart="return false">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+                <header id="header">
+    <h1><a href="/index.html">記憶 備份</a></h1>
+    <nav class="links">
+        <ul>
+            <li><a href="#">關於我</a></li>
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            <!-- <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <input type="text" name="query" placeholder="Search" />
+                <div></div>
+            </li> -->
+            <li class="light">
+                <input type="checkbox" class="checke">
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+
+
+    </nav>
+</header>
+
+                <!-- Menu -->
+                <section id="menu">
+
+    <!-- Search -->
+        <section>
+            <form class="search" method="get" action="#">
+                <input type="text" name="query" placeholder="Search" id="search-input" />
+            </form>
+        </section>
+
+        <section>
+            <div id="results-container"></div>
+        </section>
+</section>
+
+
+                <!-- Main -->
+                <div id="main">
+<!-- Post -->
+<article class="post">
+    <h1 id="jekyll-遷移">Jekyll 遷移</h1>
+<hr />
+<p><img src="/images/content/ruby-logo.png" alt="Jekyll-Logo" /></p>
+<h3 id="ruby">Ruby</h3>
+<p>  應該説比較早就知道Ruby這個語言。上學的時候看過松本行弘寫的 <strong><em>《代碼的未來》</em></strong>，書的前身是他在某個計算機雜志上連載的文章，最後合集出了一版書，當時的我對代碼充滿好奇，但沒有深入瞭解這門他開發的語言。爲了將博客遷移到Jekyll，正式安裝Ruby。</p>
+
+<p>  官網推薦安裝<code class="highlighter-rouge">2.6</code>的版本，但是最新穩定版是<code class="highlighter-rouge">2.7</code>，手癢安裝了<code class="highlighter-rouge">2.7</code>導致一些依賴無法引用。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Gem::RuntimeRequirementNotMetError: nokogiri requires Ruby version &gt;= 1.9.2, &lt; 2.3. The current ruby version is 2.7.0.0.
+</code></pre></div></div>
+<p>  <a href="https://stackoverflow.com/questions/59950834/this-error-while-install-nokogiri-in-ruby-whenever-i-install-something-give-thi">解決方案</a> 具體issues可見 <a href="https://github.com/sparklemotion/nokogiri/issues/1961">Add support for Ruby-2.7 on Windows #1961</a></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem install nokogiri --platform=ruby 
+</code></pre></div></div>
+<p>or</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ridk exec pacman -S mingw-w64-x86_64-libxslt
+gem install nokogiri --platform=ruby -- --use-system-libraries
+</code></pre></div></div>
+
+<p>  配置GEM加速庫https://gems.ruby-china.com/</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem sources
+gem sources --remove https://ruby.taobao.org/
+gem source -a https://gems.ruby-china.com/
+gem source -u
+</code></pre></div></div>
+<hr />
+<p><img src="/images/content/jekyll-logo.png" alt="Jekyll-Logo" /></p>
+<h3 id="jekyll">Jekyll</h3>
+<p>  安裝</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem install jekyll
+gem install bundler
+</code></pre></div></div>
+<p>  創建網站模板</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll new myblog
+cd myblog
+bundle exec jekyll serve
+
+jekyll build
+jekyll serve
+</code></pre></div></div>
+<p>  模板樣式下載</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://jekyllthemes.org/
+https://jekyll-themes.com/
+</code></pre></div></div>
+
+<p>GitHub Page第三方插件無法運行</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://help.github.com/cn/github/working-with-github-pages/about-github-pages-and-jekyll
+https://jekyllrb.com/docs/continuous-integration/circleci/
+https://mrpowerscripts.com/github-pages-circleci-jekyll-paginate-v2/
+</code></pre></div></div>
+<p>  其他詳情使用請移步<a href="https://www.jekyll.com.cn/docs/">Jekyll官網</a></p>
+
+</article>
+
+    <!-- Pagination -->
+    <ul class="actions pagination">
+        
+        <li><a title="Docker 常用指令" href="/docker/2020/02/07/docker.html" class="button big previous">Previous</a></li>
+        
+
+        
+        <li><a title="JVM 結構解析" href="/java/2020/02/09/jvm.html" class="button big next">Next</a></li>
+        
+    </ul>
+</div>
+
+			</div>
+		<div id="leftsead">
+    <ul>
+        <li class="top">
+            ↑
+        </li>
+        <li class="bottom">
+            ↑
+        </li>
+    </ul>
+</div>
+
+		<!-- Scripts -->
+        <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdn.bootcss.com/skel/3.0.0/skel.min.js"></script>
+<script src="/assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]-->
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/search.js"></script>
+
+	</body>
+</html>
