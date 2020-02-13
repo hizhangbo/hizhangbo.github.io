@@ -1,5 +1,1459 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-02-13T13:01:40+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)
-</subtitle><entry><title type="html">Shell 語法</title><link href="/linux/2020/02/09/shell.html" rel="alternate" type="text/html" title="Shell 語法" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/linux/2020/02/09/shell</id><content type="html" xml:base="/linux/2020/02/09/shell.html">&lt;h3 id=&quot;shell-語法&quot;&gt;Shell 語法&lt;/h3&gt;</content><author><name>Bob</name></author><summary type="html">Shell 語法</summary></entry><entry><title type="html">JVM 結構解析</title><link href="/java/2020/02/09/jvm.html" rel="alternate" type="text/html" title="JVM 結構解析" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/java/2020/02/09/jvm</id><content type="html" xml:base="/java/2020/02/09/jvm.html">&lt;h1 id=&quot;jvm-結構解析&quot;&gt;JVM 結構解析&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-02-13T21:19:52+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)
+</subtitle><entry><title type="html">Kubernetes</title><link href="/docker/2020/02/12/kubernetes.html" rel="alternate" type="text/html" title="Kubernetes" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/docker/2020/02/12/kubernetes</id><content type="html" xml:base="/docker/2020/02/12/kubernetes.html">&lt;h1 id=&quot;kubernetes&quot;&gt;Kubernetes&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;安裝部署&quot;&gt;安裝部署&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;kubeadm 环境准备
+```shell
+sysctemctl stop firewalld &amp;amp;&amp;amp; sysctemctl disable firewalld
+yum install -y docker
+systemctl enable docker &amp;amp;&amp;amp; systemctl start docker&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;重启后失效&quot;&gt;重启后失效&lt;/h1&gt;
+&lt;p&gt;swapoff -a&lt;/p&gt;
+&lt;h1 id=&quot;要永久禁掉swap分区打开如下文件注释掉swap那一行&quot;&gt;要永久禁掉swap分区，打开如下文件注释掉swap那一行&lt;/h1&gt;
+&lt;p&gt;vim /etc/fstab&lt;/p&gt;
+
+&lt;h1 id=&quot;rhel--centos-7上的一些用戶報告了由於iptables被繞過而導致流量路由不正確的問題您應該確保-netbridgebridge-nf-call-iptables在sysctl配置中設置為1&quot;&gt;RHEL / CentOS 7上的一些用戶報告了由於iptables被繞過而導致流量路由不正確的問題。您應該確保 net.bridge.bridge-nf-call-iptables在sysctl配置中設置為1&lt;/h1&gt;
+&lt;p&gt;cat «EOF &amp;gt;  /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl –system&lt;/p&gt;
+
+&lt;h1 id=&quot;正式开始安装&quot;&gt;正式开始安装&lt;/h1&gt;
+&lt;p&gt;cat «EOF &amp;gt; /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1&lt;/p&gt;
+&lt;h1 id=&quot;切换阿里环境&quot;&gt;切换阿里环境&lt;/h1&gt;
+&lt;h1 id=&quot;gpgkeyhttpsmirrorsaliyuncomkubernetesyumdocyum-keygpg&quot;&gt;gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg&lt;/h1&gt;
+&lt;p&gt;gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF&lt;/p&gt;
+
+&lt;h1 id=&quot;set-selinux-in-permissive-mode-effectively-disabling-it&quot;&gt;Set SELinux in permissive mode (effectively disabling it)&lt;/h1&gt;
+&lt;h1 id=&quot;安全增强型-linuxsecurity-enhanced-linux简称-selinux-主要作用就是最大限度地减小系统中服务进程可访问的资源最小权限原则&quot;&gt;安全增强型 Linux(Security-Enhanced Linux)简称 SELinux 主要作用就是最大限度地减小系统中服务进程可访问的资源(最小权限原则)&lt;/h1&gt;
+&lt;p&gt;/usr/sbin/sestatus -v # 查看SELinux状态&lt;/p&gt;
+&lt;h1 id=&quot;关闭-selinux-权限限制&quot;&gt;关闭 SELinux 权限限制&lt;/h1&gt;
+&lt;h1 id=&quot;第一种方式临时关闭不需要重启机器&quot;&gt;第一种方式临时关闭，不需要重启机器&lt;/h1&gt;
+&lt;p&gt;setenforce 0&lt;/p&gt;
+&lt;h1 id=&quot;第二种方式修改配置文件&quot;&gt;第二种方式修改配置文件&lt;/h1&gt;
+&lt;p&gt;sed -i ‘s/^SELINUX=enforcing$/SELINUX=permissive/’ /etc/selinux/config&lt;/p&gt;
+
+&lt;p&gt;yum install -y kubelet kubeadm kubectl –disableexcludes=kubernetes
+systemctl enable –now kubelet&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  2. 配置ssh免密码访问
+```shell
+-- 修改hostname
+hostnamectl --static set-hostname  kuber-master
+
+ssh -o &quot;StrictHostKeyChecking no&quot; root@123456
+ssh-keygen
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@kube1
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@kube2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;初始化master节点
+```shell
+    &lt;h1 id=&quot;下载镜像&quot;&gt;下载镜像&lt;/h1&gt;
+    &lt;p&gt;kubeadm config images list
+kubeadm config images pull&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;k8sgcriokube-apiserverv1153&quot;&gt;k8s.gcr.io/kube-apiserver:v1.15.3&lt;/h1&gt;
+&lt;h1 id=&quot;k8sgcriokube-controller-managerv1153&quot;&gt;k8s.gcr.io/kube-controller-manager:v1.15.3&lt;/h1&gt;
+&lt;h1 id=&quot;k8sgcriokube-schedulerv1153&quot;&gt;k8s.gcr.io/kube-scheduler:v1.15.3&lt;/h1&gt;
+&lt;h1 id=&quot;k8sgcriokube-proxyv1153&quot;&gt;k8s.gcr.io/kube-proxy:v1.15.3&lt;/h1&gt;
+&lt;h1 id=&quot;k8sgcriopause31&quot;&gt;k8s.gcr.io/pause:3.1&lt;/h1&gt;
+&lt;h1 id=&quot;k8sgcrioetcd3310&quot;&gt;k8s.gcr.io/etcd:3.3.10&lt;/h1&gt;
+&lt;h1 id=&quot;k8sgcriocoredns131&quot;&gt;k8s.gcr.io/coredns:1.3.1&lt;/h1&gt;
+
+&lt;p&gt;kubeadm init –kubernetes-version=v1.15.3 –pod-network-cidr=10.244.0.0/16&lt;/p&gt;
+
+&lt;p&gt;kubeadm join 192.168.127.70:6443 –token t0xrfm.n1cpx8k1g84e7u8u &lt;br /&gt;
+    –discovery-token-ca-cert-hash sha256:49772aa397f90e5d06d0c02e080156cdd740930d0fa3f371f2dcd87790dce568&lt;/p&gt;
+
+&lt;h1 id=&quot;配置普通用户可以运行-kubectl-命令&quot;&gt;配置普通用户可以运行 kubectl 命令&lt;/h1&gt;
+&lt;h1 id=&quot;root-账号执行&quot;&gt;root 账号执行&lt;/h1&gt;
+&lt;p&gt;export KUBECONFIG=/etc/kubernetes/admin.conf&lt;/p&gt;
+&lt;h1 id=&quot;普通账号执行&quot;&gt;普通账号执行&lt;/h1&gt;
+&lt;p&gt;mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  4. 安装pod網絡加載項
+```shell
+# For flannel to work correctly, you must pass --pod-network-cidr=10.244.0.0/16 to kubeadm init
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/62e44c867a2846fefb68bd5f178daf4da3095ccb/Documentation/kube-flannel.yml
+
+# For Calico to work correctly, you need to pass --pod-network-cidr=192.168.0.0/16 to kubeadm init
+kubectl apply -f https://docs.projectcalico.org/v3.8/manifests/calico.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;安装dashboard
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl apply &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta3/aio/deploy/recommended.yaml
+kubectl proxy &lt;span class=&quot;nt&quot;&gt;--address&lt;/span&gt; 0.0.0.0 &lt;span class=&quot;nt&quot;&gt;--accept-hosts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'.*'&lt;/span&gt;
+kubectl proxy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;常用命令&quot;&gt;常用命令&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;kubeadm
+    &lt;ol&gt;
+      &lt;li&gt;kubeadm token create # 令牌在24小時後過期,&lt;/li&gt;
+      &lt;li&gt;kubeadm token list&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;kubectl
+    &lt;ol&gt;
+      &lt;li&gt;kubectl version # 查看Kubernetes集群和客户端版本&lt;/li&gt;
+      &lt;li&gt;kubectl api-versions # 查看api版本 group/version&lt;/li&gt;
+      &lt;li&gt;kubectl get pods –all-namespaces # 获取所有 pod&lt;/li&gt;
+      &lt;li&gt;kubectl get nodes # 获取所有集群节点&lt;/li&gt;
+      &lt;li&gt;kubectl cluster-info # 获取集群信息&lt;/li&gt;
+      &lt;li&gt;从集群中移除节点
+        &lt;ol&gt;
+          &lt;li&gt;kubectl drain &lt;node name=&quot;&quot;&gt; --delete-local-data --force --ignore-daemonsets # 主节点上运行&lt;/node&gt;&lt;/li&gt;
+          &lt;li&gt;kubectl delete node &lt;node name=&quot;&quot;&gt; # 主节点上运行&lt;/node&gt;&lt;/li&gt;
+          &lt;li&gt;kubeadm reset # 在要刪除的節點上，重置所有kubeadm安裝狀態&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+      &lt;li&gt;kubectl describe nodes kube0 # 获取单个节点描述&lt;/li&gt;
+      &lt;li&gt;kubectl describe pods etcd-kube0 -n kube-system # 获取单个pod描述&lt;/li&gt;
+      &lt;li&gt;kubectl get deployment coredns -n kube-system # 查看部署的pod集群状态&lt;/li&gt;
+      &lt;li&gt;kubectl get deployment coredns -n kube-system -o yaml # 查看部署时的yaml描述&lt;/li&gt;
+      &lt;li&gt;kubectl edit service kubernetes-dashboard -n kubernetes-dashboard # 编辑部署时的yaml描述&lt;/li&gt;
+      &lt;li&gt;kubectl get service kubernetes-dashboard -n kubernetes-dashboard&lt;/li&gt;
+      &lt;li&gt;kubectl get pod kubernetes-dashboard-7d8b9cc8d-fz5qz -n kubernetes-dashboard -o wide&lt;/li&gt;
+      &lt;li&gt;kubectl get pod kubernetes-dashboard-7d8b9cc8d-fz5qz -n kubernetes-dashboard -o yaml&lt;/li&gt;
+      &lt;li&gt;kubectl get svc –all-namespaces # service&lt;/li&gt;
+      &lt;li&gt;kubectl get rc –all-namespaces # ReplicaController&lt;/li&gt;
+      &lt;li&gt;kubectl get rs –all-namespaces # ReplicaSet&lt;/li&gt;
+      &lt;li&gt;kubectl expose pods kubernetes-dashboard-7d8b9cc8d-fz5qz –type=NodePort -n kubernetes-dashboard # 暴露服务端口到外部&lt;/li&gt;
+      &lt;li&gt;kubectl delete service kubernetes-dashboard-7d8b9cc8d-fz5qz -n kubernetes-dashboard # 删除创建的服务&lt;/li&gt;
+      &lt;li&gt;kubectl get node –show-labels # 显示标签&lt;/li&gt;
+      &lt;li&gt;kubectl label node kube1 label:value # 设置标签&lt;/li&gt;
+      &lt;li&gt;kubectl get namespaces&lt;/li&gt;
+      &lt;li&gt;kubectl logs dashboard-metrics-scraper-fb986f88d-2266s -n kubernetes-dashboard # 打印日志&lt;/li&gt;
+      &lt;li&gt;kubectl exec&lt;/li&gt;
+      &lt;li&gt;kubectl patch svc kubernetes-dashboard -p ‘{“spec”:{“type”:”NodePort”}}’ -n kubernetes-dashboard # 以打补丁方式修改dasboard的访问方式&lt;/li&gt;
+      &lt;li&gt;kubectl get secret -n kubernetes-dashboard # 获取身份认证服务&lt;/li&gt;
+      &lt;li&gt;kubectl describe secret kubernetes-dashboard-token-wl8wl -n kubernetes-dashboard # 获取登录token&lt;/li&gt;
+      &lt;li&gt;kubectl get sa –all-namespaces # 获取serviceAccount&lt;/li&gt;
+      &lt;li&gt;kubectl get role –all-namespaces # 获取集群角色&lt;/li&gt;
+      &lt;li&gt;kubectl get clusterrolebinding # 获取集群角色绑定&lt;/li&gt;
+      &lt;li&gt;kubectl describe clusterrolebinding cluster-admin # 角色绑定详情描述&lt;/li&gt;
+      &lt;li&gt;kubectl describe role kubernetes-dashboard -n kubernetes-dashboard # 获取角色详情&lt;/li&gt;
+      &lt;li&gt;kubectl describe clusterrole cluster-admin -n kube-system # 获取集群角色详情&lt;/li&gt;
+      &lt;li&gt;kubectl create clusterrolebinding kubernetes-dashboard-admin –clusterrole=cluster-admin –serviceaccount=kubernetes-dashboard:kubernetes-dashboard # 绑定serviceaccount和clusterrole, namespace:name&lt;/li&gt;
+      &lt;li&gt;kubectl describe secret kubernetes-dashboard-token-wl8wl -n kubernetes-dashboard # 获取集群权限token&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;問題解決&quot;&gt;問題解決&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;coredns 启动失败
+```shell
+kubectl get deployment coredns -n kube-system -o yaml | &lt;br /&gt;
+  sed ‘s/allowPrivilegeEscalation: false/allowPrivilegeEscalation: true/g’ | &lt;br /&gt;
+  kubectl apply -f -&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;似乎有3種不同的解決方法：&lt;/p&gt;
+
+&lt;p&gt;升級到更新版本的docker，例如17.03，k8s目前推薦的版本
+或者從部署的pod規範中刪除allowPrivilegeEscalation = false
+或者禁用SELinux&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+# 其它资料
+[Kubernetes部署](https://yq.aliyun.com/articles/682810 &quot;利用 Kubeadm部署 Kubernetes 1.13.1 集群实践录&quot;)  
+[Dashboard安装](https://andrewpqc.github.io/2018/04/24/setup-k8s-dashboard-on-cluster &quot;Dashboard生成SSL安全证书&quot;)
+
+1. VMware安装一台centos7，并安装docker  
+2. 拷贝多份虚拟机，并为每一台修改 host  
+```shell
+hostnamectl --static set-hostname  kuber-master  
+hostnamectl --static set-hostname  kuber-slave1  
+hostnamectl --static set-hostname  kuber-slave2  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;修改ifcfg-env hosts 文件，并重启网络 service restart network&lt;/li&gt;
+  &lt;li&gt;硬件限制&lt;br /&gt;
+每台机器2 GB或更多的RAM（任何更少的内存将为您的应用留下很小的空间）
+2个CPU或更多&lt;br /&gt;
+[ERROR NumCPU]: the number of available CPUs 1 is less than the required 2&lt;br /&gt;
+kubeadm init –kubernetes-version=v1.13.1 –pod-network-cidr=10.244.0.0/16 –ignore-preflight-errors=NumCPU&lt;br /&gt;
+error execution phase wait-control-plane: couldn’t initialize a Kubernetes cluster&lt;/li&gt;
+  &lt;li&gt;no set 1 error&lt;br /&gt;
+将命令echo “1” &amp;gt; /proc/sys/net/ipv4/ip_forward 写入脚本/etc/rc.d/rc.local
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /proc/sys/net/ipv4/ip_forward  
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /proc/sys/net/bridge/bridge-nf-call-iptables
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;查看占用端口进程
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;net-tools  
+netstat &lt;span class=&quot;nt&quot;&gt;-tunlp&lt;/span&gt;|grep port  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;安装
+```
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;chmod +x ./kubectl&lt;/p&gt;
+
+&lt;p&gt;sudo mv ./kubectl /usr/local/bin/kubectl&lt;/p&gt;
+
+&lt;p&gt;kubectl version&lt;/p&gt;
+
+&lt;p&gt;https://kubernetes.io/docs/tasks/tools/install-kubectl/&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;8. 查看状态(STATUS:ContainerCreating)  
+```shell
+kubectl get pods --all-namespaces -o wide  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;容器详细描述
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl describe node server0  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;对于swap的限制
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 重启后失效&lt;/span&gt;
+swapoff &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt;   
+&lt;span class=&quot;c&quot;&gt;# 要永久禁掉swap分区，打开如下文件注释掉swap那一行 &lt;/span&gt;
+vim /etc/fstab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;删除pod
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl delete pod NAME &lt;span class=&quot;nt&quot;&gt;--grace-period&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0 &lt;span class=&quot;nt&quot;&gt;--force&lt;/span&gt;  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Dashboard访问密钥
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create secret generic kubernetes-dashboard-certs &lt;span class=&quot;nt&quot;&gt;--from-file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/share/certs &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;生成token
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl describe secret/&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;kubectl get secret &lt;span class=&quot;nt&quot;&gt;-nkube-system&lt;/span&gt; |grep admin|awk &lt;span class=&quot;s1&quot;&gt;'{print $1}'&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-nkube-system&lt;/span&gt;  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;kubectl命令自动补全
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; bash-completion
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /usr/share/bash-completion/bash_completion
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &amp;lt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;kubectl completion bash&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;删除deployment
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl get deployments  
+kubectl delete deployments &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;NameOfDeployment]  
+kubectl get rc
+kubectl delete deployments &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;NameOfrc]  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;登录aliyun 镜像仓库
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker login registry.cn-shenzhen.aliyuncs.com/hizhangbo/test &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=[&lt;/span&gt;account &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;kompose安装
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Linux&lt;/span&gt;
+curl &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://github.com/kubernetes/kompose/releases/download/v1.18.0/kompose-linux-amd64 &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; kompose
+&lt;span class=&quot;nb&quot;&gt;chmod&lt;/span&gt; +x kompose
+&lt;span class=&quot;nb&quot;&gt;sudo mv&lt;/span&gt; ./kompose /usr/local/bin/kompose
+&lt;span class=&quot;c&quot;&gt;# autocomplete&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Bash (add to .bashrc for persistence)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &amp;lt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;kompose completion bash&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;本地调试&lt;br /&gt;
+&lt;em&gt;&lt;a href=&quot;https://kubernetes.io/docs/tasks/debug-application-cluster/local-debugging/&quot; title=&quot;kubernetes官网&quot;&gt;kubernetes官网&lt;/a&gt;&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;&lt;a href=&quot;https://www.telepresence.io/&quot; title=&quot;telepresence官网&quot;&gt;telepresence官网&lt;/a&gt;&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;&lt;a href=&quot;https://kubernetes.io/zh/docs/setup/independent/install-kubeadm/&quot; title=&quot;kubeadm安装文档&quot;&gt;kubeadm安装文档&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Bob</name></author><summary type="html">Kubernetes</summary></entry><entry><title type="html">Netty</title><link href="/netty/2020/02/11/netty.html" rel="alternate" type="text/html" title="Netty" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/netty/2020/02/11/netty</id><content type="html" xml:base="/netty/2020/02/11/netty.html">&lt;h1 id=&quot;netty&quot;&gt;Netty&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;三种I/O模型
+    &lt;ul&gt;
+      &lt;li&gt;BIO（阻塞同步）
+        &lt;ul&gt;
+          &lt;li&gt;连接数少，并发度低，所以Netty已不再支持&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;NIO（非阻塞同步）
+        &lt;ul&gt;
+          &lt;li&gt;不同平台不同实现&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;AIO（非阻塞异步）
+        &lt;ul&gt;
+          &lt;li&gt;Linux中相比NIO性能没有明显提升，所以Netty已不再支持&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Reactor模式
+    &lt;ul&gt;
+      &lt;li&gt;核心思想
+        &lt;ul&gt;
+          &lt;li&gt;事件注册&lt;/li&gt;
+          &lt;li&gt;事件监听&lt;/li&gt;
+          &lt;li&gt;事件处理&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;三种Reactor模式（NioEventLoopGroup）
+        &lt;ul&gt;
+          &lt;li&gt;单线程模式
+            &lt;ul&gt;
+              &lt;li&gt;由一个线程负责处理所有事件&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;多线程模式
+            &lt;ul&gt;
+              &lt;li&gt;由一个线程池来处理decode/compute/encode三种操作&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;主从多线程模式
+            &lt;ul&gt;
+              &lt;li&gt;将acceptor连接事件注册到单独的reactor中，其他事件注册到另外的reactor中&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;对TCP粘包和半包的支持
+    &lt;ul&gt;
+      &lt;li&gt;根本原因
+        &lt;ul&gt;
+          &lt;li&gt;TCP是流式协议，消息无边界&lt;/li&gt;
+          &lt;li&gt;提醒：UDP消息有边界，无半包粘包问题&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;解决方式
+        &lt;ul&gt;
+          &lt;li&gt;TCP连接改为短连接：按请求次数划分消息边界&lt;/li&gt;
+          &lt;li&gt;封装成帧（Framing）
+            &lt;ul&gt;
+              &lt;li&gt;固定长度：空间浪费&lt;/li&gt;
+              &lt;li&gt;分隔符：需要转义&lt;/li&gt;
+              &lt;li&gt;固定长度标记消息长度：需要提前预知最大长度&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;netty中对Framing操作的支持
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;table&gt;
+              &lt;thead&gt;
+                &lt;tr&gt;
+                  &lt;th&gt;方式&lt;/th&gt;
+                  &lt;th&gt;解码&lt;/th&gt;
+                  &lt;th&gt;编码&lt;/th&gt;
+                &lt;/tr&gt;
+              &lt;/thead&gt;
+              &lt;tbody&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;固定长度&lt;/td&gt;
+                  &lt;td&gt;FixedLengthFrameDecoder&lt;/td&gt;
+                  &lt;td&gt; &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;分隔符&lt;/td&gt;
+                  &lt;td&gt;DelimiterBasedFrameDecoder&lt;/td&gt;
+                  &lt;td&gt; &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;固定长度标记消息长度&lt;/td&gt;
+                  &lt;td&gt;LengthFieldBasedFrameDecoder&lt;/td&gt;
+                  &lt;td&gt;LengthFieldPrepender&lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;常用元素
+    &lt;ul&gt;
+      &lt;li&gt;EventLoopGroup # 事件循环组
+        &lt;ul&gt;
+          &lt;li&gt;TerminationListener&lt;/li&gt;
+          &lt;li&gt;EventExecutor
+            &lt;ul&gt;
+              &lt;li&gt;EventExecutorChooser # Channel选择绑定EventLoop的方式
+                &lt;ul&gt;
+                  &lt;li&gt;PowerOfTwoEventExecutorChooser # 如果executors的个数为2的幂次方则使用，效率更高&lt;/li&gt;
+                  &lt;li&gt;GenericEventExecutorChooser # 如果不是2的幂次方，则使用求余取绝对值的普通方式&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;EventLoop
+                &lt;ul&gt;
+                  &lt;li&gt;SingleThreadEventLoop
+                    &lt;ul&gt;
+                      &lt;li&gt;NioEventLoop
+                        &lt;ul&gt;
+                          &lt;li&gt;select&lt;/li&gt;
+                          &lt;li&gt;processSelectedKeys&lt;/li&gt;
+                          &lt;li&gt;runAllTasks&lt;/li&gt;
+                        &lt;/ul&gt;
+                      &lt;/li&gt;
+                      &lt;li&gt;ThreadPerTaskExecutor&lt;/li&gt;
+                    &lt;/ul&gt;
+                  &lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;ServerBootstrap # 服务器引导启动与初始化
+        &lt;ul&gt;
+          &lt;li&gt;ChannelFactory
+            &lt;ul&gt;
+              &lt;li&gt;NioServerSocketChannel&lt;/li&gt;
+              &lt;li&gt;SocketChannel&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;ChannelPipeline
+        &lt;ul&gt;
+          &lt;li&gt;ChannelHandler
+            &lt;ul&gt;
+              &lt;li&gt;ChannelInboundHandlerAdapter&lt;/li&gt;
+              &lt;li&gt;ChannelOutboundHandlerAdapter&lt;/li&gt;
+              &lt;li&gt;HeadContext
+                &lt;ul&gt;
+                  &lt;li&gt;实现ChannelOutboundHandler, ChannelInboundHandler&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;TailContext
+                &lt;ul&gt;
+                  &lt;li&gt;实现ChannelInboundHandler&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;编码
+        &lt;ul&gt;
+          &lt;li&gt;Protobuf
+            &lt;ul&gt;
+              &lt;li&gt;优势
+                &lt;ul&gt;
+                  &lt;li&gt;比序列化方式效率高&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;内存泄漏检测
+        &lt;ul&gt;
+          &lt;li&gt;ResourceLeakDetector.level # 检测等级&lt;/li&gt;
+          &lt;li&gt;-Dio.netty.leakDetection.level=PARANOID&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;线程模型优化
+        &lt;ul&gt;
+          &lt;li&gt;UnorderedThreadPoolEventExecutor # 使业务线程独立
+            &lt;ul&gt;
+              &lt;li&gt;NioEventExecutorGroup 会判断是否绑定同一个channel，如果是则只利用一个线程工作，所以这里使用UnorderedThreadPoolEventExecutor&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;吞吐量优化
+        &lt;ul&gt;
+          &lt;li&gt;FlushConsolidationHandler # 延迟批量发送
+            &lt;ul&gt;
+              &lt;li&gt;pipeline.addLast(“flushEnhance”, new FlushConsolidationHandler(5, true));&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;流量整型
+        &lt;ul&gt;
+          &lt;li&gt;ChannelTrafficShapingHandler&lt;/li&gt;
+          &lt;li&gt;GlobalTrafficShapingHandler: share&lt;/li&gt;
+          &lt;li&gt;GlobalChannelTrafficShapingHandler: share&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Netty</summary></entry><entry><title type="html">Spring</title><link href="/spring/2020/02/11/spring.html" rel="alternate" type="text/html" title="Spring" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/spring/2020/02/11/spring</id><content type="html" xml:base="/spring/2020/02/11/spring.html">&lt;h1 id=&quot;spring&quot;&gt;Spring&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;webflux&quot;&gt;WebFlux&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;相关前提
+    &lt;ul&gt;
+      &lt;li&gt;Reactor 同步非阻塞模式&lt;/li&gt;
+      &lt;li&gt;Proactor 异步非阻塞模式&lt;/li&gt;
+      &lt;li&gt;Observer 观察者模式&lt;/li&gt;
+      &lt;li&gt;Iterator 迭代器模式&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Reactive
+    &lt;ul&gt;
+      &lt;li&gt;定义
+        &lt;ul&gt;
+          &lt;li&gt;声明式的编程范式，关注于数据流（data streams）和传播变化（propagation of change）&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;实现
+        &lt;ul&gt;
+          &lt;li&gt;RxJava: Reactive Extensions&lt;/li&gt;
+          &lt;li&gt;Reactor: Spring WebFlux Reactive&lt;/li&gt;
+          &lt;li&gt;Flow API: JAVA 9 Flow API&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;特点
+        &lt;ul&gt;
+          &lt;li&gt;响应式（Responsive）&lt;/li&gt;
+          &lt;li&gt;适应性强（Resilient）&lt;/li&gt;
+          &lt;li&gt;弹性可伸缩（Elastic）&lt;/li&gt;
+          &lt;li&gt;消息驱动（Message Driven）&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;涉及技术
+        &lt;ul&gt;
+          &lt;li&gt;数据流：Java 8 &lt;code class=&quot;highlighter-rouge&quot;&gt;Stream&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;传播变化： Java &lt;code class=&quot;highlighter-rouge&quot;&gt;Observable/Observer&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;事件： Java &lt;code class=&quot;highlighter-rouge&quot;&gt;EventObject/EventListener&lt;/code&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;数据结构
+        &lt;ul&gt;
+          &lt;li&gt;流式 &lt;code class=&quot;highlighter-rouge&quot;&gt;stream&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;序列 &lt;code class=&quot;highlighter-rouge&quot;&gt;Sequences&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;事件 &lt;code class=&quot;highlighter-rouge&quot;&gt;Events&lt;/code&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;设计模式
+        &lt;ul&gt;
+          &lt;li&gt;扩展模式：观察者 &lt;code class=&quot;highlighter-rouge&quot;&gt;Observer&lt;/code&gt; -&amp;gt; 推模式：被动获取事件&lt;/li&gt;
+          &lt;li&gt;对立模式：迭代器 &lt;code class=&quot;highlighter-rouge&quot;&gt;Iterator&lt;/code&gt; -&amp;gt; 拉模式：主动获取事件&lt;/li&gt;
+          &lt;li&gt;混合模式：反应堆 &lt;code class=&quot;highlighter-rouge&quot;&gt;Reactor&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;Proactor&lt;/code&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Spring</summary></entry><entry><title type="html">Elasticsearch</title><link href="/elasticsearch/2020/02/10/elasticsearch.html" rel="alternate" type="text/html" title="Elasticsearch" /><published>2020-02-10T13:57:36+08:00</published><updated>2020-02-10T13:57:36+08:00</updated><id>/elasticsearch/2020/02/10/elasticsearch</id><content type="html" xml:base="/elasticsearch/2020/02/10/elasticsearch.html">&lt;h1 id=&quot;elasticsearch&quot;&gt;Elasticsearch&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+  &lt;li&gt;倒排索引
+    &lt;ul&gt;
+      &lt;li&gt;单词词典 Term Dictionary
+        &lt;ul&gt;
+          &lt;li&gt;B+树或哈希拉链法实现，以满足查询需要&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;倒排列表 Posting List
+        &lt;ul&gt;
+          &lt;li&gt;文档ID&lt;/li&gt;
+          &lt;li&gt;词频TF(Term frequencies)：用于相关性算分&lt;/li&gt;
+          &lt;li&gt;位置Position：用于语句搜索&lt;/li&gt;
+          &lt;li&gt;偏移量Offset：用于高亮显示&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;集群
+    &lt;ul&gt;
+      &lt;li&gt;节点node
+        &lt;ul&gt;
+          &lt;li&gt;Master-eligible Nodes
+            &lt;ul&gt;
+              &lt;li&gt;预备选举节点&lt;/li&gt;
+              &lt;li&gt;默认启动后都是预备节点，第一个启动起来的就是主节点&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Master Node
+            &lt;ul&gt;
+              &lt;li&gt;只有Master节点才能修改集群的状态信息&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Data Node
+            &lt;ul&gt;
+              &lt;li&gt;保存分片数据&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Coordinating Node
+            &lt;ul&gt;
+              &lt;li&gt;接收RESTful用户请求，并将请求转发到合适的节点，最终把结果汇总&lt;/li&gt;
+              &lt;li&gt;默认每个节点默认都起到Coordinating Node的职责&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Hot &amp;amp; Warm Node
+            &lt;ul&gt;
+              &lt;li&gt;冷热节点，降低集群部署的成本&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Machine Learning Node
+            &lt;ul&gt;
+              &lt;li&gt;负责跑机器学习Job&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;分片shard
+        &lt;ul&gt;
+          &lt;li&gt;primary shard
+            &lt;ul&gt;
+              &lt;li&gt;数据水平扩展&lt;/li&gt;
+              &lt;li&gt;一个分片是一个运行Lucene的实例&lt;/li&gt;
+              &lt;li&gt;主分片数在索引创建时指定，后续不允许修改，除非Reindex&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;replica shard
+            &lt;ul&gt;
+              &lt;li&gt;数据高可用&lt;/li&gt;
+              &lt;li&gt;可以动态调整，提升服务的可用性（读取的吞吐量）&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;分片数的设定
+            &lt;ul&gt;
+              &lt;li&gt;分片数过小
+                &lt;ul&gt;
+                  &lt;li&gt;水平扩展能力减少&lt;/li&gt;
+                  &lt;li&gt;单分片数据量过大&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+              &lt;li&gt;分片数过大
+                &lt;ul&gt;
+                  &lt;li&gt;over-sharding问题&lt;/li&gt;
+                  &lt;li&gt;影响搜索结果的相关性打分，影响统计结果的准确性&lt;/li&gt;
+                  &lt;li&gt;单个节点上过多分片，会导致资源浪费，影响性能&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;集群健康
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET _cluster/health
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Green
+            &lt;ul&gt;
+              &lt;li&gt;主分片和副本都正常分配&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Yellow
+            &lt;ul&gt;
+              &lt;li&gt;主分片正常分片，副本分片未能正常分配&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Red
+            &lt;ul&gt;
+              &lt;li&gt;主分片未能正常分配&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;分片生命周期
+    &lt;ul&gt;
+      &lt;li&gt;单个shard分片即Lucene Index&lt;/li&gt;
+      &lt;li&gt;单个倒排索引文件成为Segment，不可变更&lt;/li&gt;
+      &lt;li&gt;多个Segments汇总成为Lucene Index，即ES Shard&lt;/li&gt;
+      &lt;li&gt;Lucene中记录所有Segments的信息的文件Commit Point&lt;/li&gt;
+      &lt;li&gt;删除文档信息保存在.del文件中，检索时过滤，而非真正删除&lt;/li&gt;
+      &lt;li&gt;文档写入流程
+        &lt;ul&gt;
+          &lt;li&gt;Refresh
+            &lt;ul&gt;
+              &lt;li&gt;Index Document 从Index Buffer中写入Segment过程称为Refresh&lt;/li&gt;
+              &lt;li&gt;默认频率1秒一次&lt;/li&gt;
+              &lt;li&gt;如果Index Buffer已满，也会触发Refresh，默认是JVM的10%&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Transaction Log
+            &lt;ul&gt;
+              &lt;li&gt;为了保证数据不丢失，文档在进入Index Buffer的同时，写入Transaction Log落盘&lt;/li&gt;
+              &lt;li&gt;每个分片有一个Transaction Log&lt;/li&gt;
+              &lt;li&gt;Refresh操作会清空Index Buffer，Transaction Log不会清空&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Flush
+            &lt;ul&gt;
+              &lt;li&gt;调用Refresh，清空Index Buffer&lt;/li&gt;
+              &lt;li&gt;调用fsync，将缓存中的Segment落盘&lt;/li&gt;
+              &lt;li&gt;清空Transaction Log&lt;/li&gt;
+              &lt;li&gt;默认30分钟调用一次&lt;/li&gt;
+              &lt;li&gt;Transaction Log已满也会触发Flush，默认512MB&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Merge
+            &lt;ul&gt;
+              &lt;li&gt;合并Flush操作产生的多个Segments&lt;/li&gt;
+              &lt;li&gt;删除.del中的文档&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;元素
+    &lt;ul&gt;
+      &lt;li&gt;Document
+        &lt;ul&gt;
+          &lt;li&gt;_index:文档所在的索引名&lt;/li&gt;
+          &lt;li&gt;_type:文档所在的类型名（7.0以后一个索引对应一个type）&lt;/li&gt;
+          &lt;li&gt;_id:文档唯一id&lt;/li&gt;
+          &lt;li&gt;_uid:组合id，6.x以后废弃&lt;/li&gt;
+          &lt;li&gt;_source:文档原始Json数据&lt;/li&gt;
+          &lt;li&gt;_all:整合所有字段内容，默认禁用&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Index
+        &lt;ul&gt;
+          &lt;li&gt;mapping
+            &lt;ul&gt;
+              &lt;li&gt;type 7.0后一一对应&lt;/li&gt;
+              &lt;li&gt;定义索引中的字段名称和数据类型&lt;/li&gt;
+              &lt;li&gt;定义倒排索引配置&lt;/li&gt;
+              &lt;li&gt;dynamic mapping
+                &lt;ul&gt;
+                  &lt;li&gt;如果未定义mapping直接写入文档时，es自动创建mapping的机制&lt;/li&gt;
+                  &lt;li&gt;字段类型推断
+                    &lt;ul&gt;
+                      &lt;li&gt;reindex 修改字段类型&lt;/li&gt;
+                    &lt;/ul&gt;
+                  &lt;/li&gt;
+                  &lt;li&gt;dynamic 参数可限制mapping范围，在修改文档字段时，可控制mapping是否动态调整
+                    &lt;ul&gt;
+                      &lt;li&gt;|dynamic参数|true|false|strict|
+|—|—|—|—|
+|文档可索引|YES|YES|NO|
+|字段可索引|YES|NO|NO|
+|Mapping可更新|YES|NO|NO|
+                        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PUT {index}/_mapping
+{
+  &quot;dynamic&quot;:false
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;                        &lt;/div&gt;
+                      &lt;/li&gt;
+                    &lt;/ul&gt;
+                  &lt;/li&gt;
+                  &lt;li&gt;Exact Values vs. Full Text （精确值和全文本）
+                    &lt;ul&gt;
+                      &lt;li&gt;精确值类型使用 keyword，不进行分词&lt;/li&gt;
+                      &lt;li&gt;全文本类型使用 text，进行分词&lt;/li&gt;
+                    &lt;/ul&gt;
+                  &lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;analysis
+            &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PUT {index}
+{
+  &quot;settings&quot;:{
+      &quot;analysis&quot;:{
+          &quot;analyzer&quot;:{
+              &quot;{analyzer_name}&quot;:{
+                  &quot;type&quot;:&quot;english&quot;,
+                  &quot;stem_exclusion&quot;:[&quot;organization&quot;],
+                  &quot;stopwords&quot;:[&quot;a&quot;,&quot;an&quot;,&quot;and&quot;]    
+              }
+          }
+      }
+  }
+}
+PUT {index}
+{
+  &quot;settings&quot;:{
+      &quot;analysis&quot;:{
+          &quot;analyzer&quot;:{
+              &quot;{analyzer_name}&quot;:{
+                  &quot;type&quot;:&quot;custom&quot;,
+                  &quot;char_filter&quot;:[&quot;{char_filter_name}&quot;],
+                  &quot;tokenizer&quot;:&quot;{tokenizer_name}&quot;,
+                  &quot;filter&quot;:[&quot;lowercase&quot;,&quot;{filter_name}&quot;]
+              }
+          },
+          &quot;tokenizer&quot;:{
+              &quot;{tokenizer_name}&quot;:{
+                  &quot;type&quot;:&quot;pattern&quot;,
+                  &quot;pattern&quot;:&quot;[.,!?]&quot;,
+              }
+          },
+          &quot;char_filter&quot;:{
+              &quot;{char_filter_name}&quot;:{
+                  &quot;type&quot;:&quot;mapping&quot;,
+                  &quot;mappings&quot;:[&quot;_ =&amp;gt; -&quot;]
+              }
+          },
+          &quot;filter&quot;:{
+              &quot;{filter_name}&quot;:{
+                  &quot;type&quot;:&quot;stop&quot;,
+                  &quot;stopwords&quot;:&quot;_a&quot;
+              }
+          }
+      }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+          &lt;/li&gt;
+          &lt;li&gt;setting
+            &lt;ul&gt;
+              &lt;li&gt;shard&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;基本操作
+    &lt;ul&gt;
+      &lt;li&gt;CURD
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;table&gt;
+              &lt;thead&gt;
+                &lt;tr&gt;
+                  &lt;th&gt;API&lt;/th&gt;
+                  &lt;th&gt;Example&lt;/th&gt;
+                  &lt;th&gt;Explain&lt;/th&gt;
+                &lt;/tr&gt;
+              &lt;/thead&gt;
+              &lt;tbody&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;Index&lt;/td&gt;
+                  &lt;td&gt;PUT {index}/_doc/{id}&lt;br /&gt;{“test”:”abc”}&lt;/td&gt;
+                  &lt;td&gt;如果ID不存在，创建新的文档；&lt;br /&gt;如果存在，则删除后新建；&lt;br /&gt;版本增加&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;Create&lt;/td&gt;
+                  &lt;td&gt;PUT {index}/_create/{id}&lt;br /&gt;{“test”:”abc”}&lt;/td&gt;
+                  &lt;td&gt;如果使用PUT不指定id，则自动生成；&lt;br /&gt;如果使用POST指定id已存在，则新增失败&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;Delete&lt;/td&gt;
+                  &lt;td&gt;DELETE {index}/_doc/{id}&lt;/td&gt;
+                  &lt;td&gt; &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;Update&lt;/td&gt;
+                  &lt;td&gt;POST {index}/_update/{id}&lt;br /&gt;{ “doc”:{“test”:”abc”}}&lt;/td&gt;
+                  &lt;td&gt;指定的文档id必须存在；&lt;br /&gt;只对相应字段做增量修改，不能删除已存在字段；&lt;br /&gt;版本增加&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;Read&lt;/td&gt;
+                  &lt;td&gt;GET {index}/_doc/{id}&lt;/td&gt;
+                  &lt;td&gt; &lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;批量
+        &lt;ul&gt;
+          &lt;li&gt;Bulk API一次提交执行Index/Create/Update/Delete，其中执行失败的操作不影响其他操作，返回结果包括每一条操作执行的结果&lt;/li&gt;
+          &lt;li&gt;_mget&lt;/li&gt;
+          &lt;li&gt;_msearch&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;数据类型
+    &lt;ul&gt;
+      &lt;li&gt;字符串：text，keyword&lt;/li&gt;
+      &lt;li&gt;数值型：long，integer，short，byte，double，float，half_float，scaled_float&lt;/li&gt;
+      &lt;li&gt;布尔：boolean&lt;/li&gt;
+      &lt;li&gt;日期：date&lt;/li&gt;
+      &lt;li&gt;二进制：binary&lt;/li&gt;
+      &lt;li&gt;范围累心：integer_range，float_range，long_range，double_range，date_range&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;索引
+    &lt;ul&gt;
+      &lt;li&gt;正排索引
+        &lt;ul&gt;
+          &lt;li&gt;文档id到文档内容单词的关联关系&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;倒排索引
+        &lt;ul&gt;
+          &lt;li&gt;单词到文档id的关联关系&lt;/li&gt;
+          &lt;li&gt;组成
+            &lt;ul&gt;
+              &lt;li&gt;Term Dictionary：倒排索引的分词词典&lt;/li&gt;
+              &lt;li&gt;Posting List：记录分词所在的偏移量
+                &lt;ul&gt;
+                  &lt;li&gt;index_options 参数可规定倒排列表记录的内容
+                    &lt;ul&gt;
+                      &lt;li&gt;docs:doc id&lt;/li&gt;
+                      &lt;li&gt;freqs:doc id,term frequencies&lt;/li&gt;
+                      &lt;li&gt;positions:doc id,,term frequencies,term position&lt;/li&gt;
+                      &lt;li&gt;offsets:doc id,,term frequencies,term position,character offset&lt;/li&gt;
+                    &lt;/ul&gt;
+                  &lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;搜索引擎查询流程
+        &lt;ul&gt;
+          &lt;li&gt;查询倒排索引单词所在的具体文档id&lt;/li&gt;
+          &lt;li&gt;拿到文档id查询正排索引文档的具体内容&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;分词
+    &lt;ul&gt;
+      &lt;li&gt;分词器 analysis
+        &lt;ul&gt;
+          &lt;li&gt;Character Filters：对原始文本进行处理，如去除特殊标记符
+            &lt;ul&gt;
+              &lt;li&gt;HTML Strip&lt;/li&gt;
+              &lt;li&gt;Mapping 字符替换&lt;/li&gt;
+              &lt;li&gt;Pattern Replace 正则替换&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Tokenizer：按一定规则分词
+            &lt;ul&gt;
+              &lt;li&gt;standard&lt;/li&gt;
+              &lt;li&gt;letter&lt;/li&gt;
+              &lt;li&gt;whitespace&lt;/li&gt;
+              &lt;li&gt;UAX URL Email&lt;/li&gt;
+              &lt;li&gt;NGram 和 Edge NGram连词分割&lt;/li&gt;
+              &lt;li&gt;Path Hierarchy 文件路径分割&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Token Filters：对分词结果进行再加工，如转小写，stop words
+            &lt;ul&gt;
+              &lt;li&gt;lowercase&lt;/li&gt;
+              &lt;li&gt;stop&lt;/li&gt;
+              &lt;li&gt;NGram和Edge Ngram连词分割&lt;/li&gt;
+              &lt;li&gt;Synonym添加近义词的term&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;自带分词器
+        &lt;ul&gt;
+          &lt;li&gt;Standard&lt;/li&gt;
+          &lt;li&gt;Simple
+            &lt;ul&gt;
+              &lt;li&gt;非字母切分&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Whitespace
+            &lt;ul&gt;
+              &lt;li&gt;空格切分&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Stop
+            &lt;ul&gt;
+              &lt;li&gt;stop word切分&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Keyword
+            &lt;ul&gt;
+              &lt;li&gt;不进行分词，保留原文作为关键字&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Pattern
+            &lt;ul&gt;
+              &lt;li&gt;正则表达式切分&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Language
+            &lt;ul&gt;
+              &lt;li&gt;常见语言分词器&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;中文分词器
+        &lt;ul&gt;
+          &lt;li&gt;ICU&lt;/li&gt;
+          &lt;li&gt;IK&lt;/li&gt;
+          &lt;li&gt;jieba&lt;/li&gt;
+          &lt;li&gt;Hanlp&lt;/li&gt;
+          &lt;li&gt;THULAC&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Analyze API
+        &lt;ul&gt;
+          &lt;li&gt;指定analyzer进行分析
+            &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST _analyze
+{
+  &quot;analyzer&quot;:&quot;standard&quot;,
+  &quot;text&quot;:&quot;hello world&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+          &lt;/li&gt;
+          &lt;li&gt;指定索引中的字段进行分析
+            &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST test_index/_analyze
+{
+  &quot;field&quot;:&quot;username&quot;,
+  &quot;text&quot;:&quot;hello world&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+          &lt;/li&gt;
+          &lt;li&gt;自定义分词器进行测试
+            &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST _analyze
+{
+  &quot;tokenizer&quot;:&quot;standard&quot;,
+  &quot;filter&quot;:[&quot;lowercase&quot;],
+  &quot;text&quot;:&quot;Hello World&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;自定义分词
+    &lt;ul&gt;
+      &lt;li&gt;索引时分词
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PUT test_index
+{
+  &quot;setting&quot;:{
+      &quot;analysis&quot;:{
+          &quot;analyzer&quot;:{},
+          &quot;tokenizer&quot;:{},
+          &quot;char_filter&quot;:{},
+          &quot;filter&quot;:{}
+      }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;查询时分词
+```&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;```&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Index Templates
+    &lt;ul&gt;
+      &lt;li&gt;查看模板
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /_template/{template_name}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;创建索引模板
+        &lt;ul&gt;
+          &lt;li&gt;模板优先级从低到高
+            &lt;ul&gt;
+              &lt;li&gt;默认settings和mappings&lt;/li&gt;
+              &lt;li&gt;order参数低&lt;/li&gt;
+              &lt;li&gt;order参数高&lt;/li&gt;
+              &lt;li&gt;创建索引时指定
+                &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PUT _template/{template_name}
+{
+&quot;index_patterns&quot;:[&quot;*&quot;],
+&quot;order&quot;:0,
+&quot;version&quot;:1,
+&quot;settings&quot;:{
+  &quot;number_of_shards&quot;:1,
+  &quot;number_of_replicas&quot;:1
+}
+}
+PUT _template/{template_name}
+{
+&quot;index_patterns&quot;:[&quot;test*&quot;],
+&quot;order&quot;:1,
+&quot;version&quot;:1,
+&quot;settings&quot;:{
+  &quot;number_of_shards&quot;:1,
+  &quot;number_of_replicas&quot;:2
+},
+&quot;mappings&quot;:{
+  &quot;date_detection&quot;:false,
+  &quot;numeric_detection&quot;:true
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;                &lt;/div&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Dynamic Template
+    &lt;ul&gt;
+      &lt;li&gt;自定义动态类型推断
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PUT {index_name}
+{
+  &quot;mappings&quot;:{
+      &quot;dynamic_templates&quot;:[
+          &quot;{dynamic_tmpl_name}&quot;:{
+              &quot;path_match&quot;:&quot;name.*&quot;,
+              &quot;path_unmatch&quot;:&quot;*.middle&quot;,
+              &quot;mapping&quot;:{
+                  &quot;type&quot;:&quot;text&quot;,
+                  &quot;copy_to&quot;:&quot;full_name&quot;
+              }
+          }
+      ]
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;查询
+    &lt;ul&gt;
+      &lt;li&gt;URI Search
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET {index}/_search?q={keyword}&amp;amp;df={field}&amp;amp;sort=year:desc&amp;amp;from=0&amp;amp;size=10&amp;amp;timeout=1s
+{
+    &quot;profile&quot;:true
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+        &lt;p&gt;|参数|说明|实例|
+|—|—|—|
+|q|指定查询语句|?q={keyword}|
+|df|默认字段，不指定会对所有字段进行查询|&amp;amp;df={field}|
+|sort|排序|&amp;amp;sort=year:desc|
+|from/size|分页|&amp;amp;from=0&amp;amp;size=10|
+|profile|查询过程分析|”profile”:true|&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;term
+        &lt;ul&gt;
+          &lt;li&gt;代表完全匹配，不进行分词器分析&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;match
+        &lt;ul&gt;
+          &lt;li&gt;查询词会被分词
+            &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST {index}/_search
+{
+  &quot;query&quot;:{
+      &quot;match&quot;:{
+          &quot;{field}&quot;:{
+              &quot;query&quot;:&quot;{keyword}&quot;,
+              &quot;operator&quot;:&quot;and&quot;
+          }
+      }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;match_phrase
+        &lt;ul&gt;
+          &lt;li&gt;查询词顺序固定&lt;/li&gt;
+          &lt;li&gt;slop 单词间最多分隔词数
+            &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST {index}/_search
+{
+  &quot;query&quot;:{
+      &quot;match_phrase&quot;:{
+          &quot;{field}&quot;:{
+              &quot;query&quot;:&quot;{keyword}&quot;
+              &quot;slop&quot;:1
+          }
+      }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+          &lt;/li&gt;
+          &lt;li&gt;query_string
+            &lt;ul&gt;
+              &lt;li&gt;query参数支持运算符 AND OR NOT 括号()
+                &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST {index}/_search
+{
+&quot;query&quot;:{
+    &quot;query_string&quot;:{
+        &quot;default_field&quot;:&quot;{field}&quot;,
+        &quot;query&quot;:&quot;{keyword}&quot;
+    }
+}
+}
+POST {index}/_search
+{
+&quot;query&quot;:{
+    &quot;query_string&quot;:{
+        &quot;fields&quot;:[&quot;{field1}&quot;,&quot;{field2}&quot;],
+        &quot;query&quot;:&quot;{keyword}&quot;
+    }
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;                &lt;/div&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;simple_query_string
+            &lt;ul&gt;
+              &lt;li&gt;query参数不支持运算符，使用default_operator参数代替
+                &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST {index}/_search
+{
+&quot;query&quot;:{
+    &quot;simple_query_string&quot;:{
+        &quot;fields&quot;:[&quot;{field1}&quot;,&quot;{field2}&quot;],
+        &quot;query&quot;:&quot;{keyword}&quot;,
+        &quot;default_operator&quot;:&quot;AND&quot;
+    }
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;                &lt;/div&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Query-then-Fetch
+    &lt;ul&gt;
+      &lt;li&gt;分布式搜索运行机制&lt;/li&gt;
+      &lt;li&gt;Query
+        &lt;ul&gt;
+          &lt;li&gt;获取所有分片（非同一主备分片）上的结果，每个分片的From到From+Size的文档&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Fetch
+        &lt;ul&gt;
+          &lt;li&gt;将Query中的结果进行合并，重新排序，然后再取From到From+Size的文档的ID&lt;/li&gt;
+          &lt;li&gt;以multi get请求的方式到相应的分片获取详细的文档数据&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;引发的问题
+        &lt;ul&gt;
+          &lt;li&gt;每个分片需要查询文档个数=from+size&lt;/li&gt;
+          &lt;li&gt;最终协调节点需要处理文档个数=number_of_shards*(from+size)&lt;/li&gt;
+          &lt;li&gt;造成深度分页的难题，默认10k个文档
+            &lt;ul&gt;
+              &lt;li&gt;search after替换from操作&lt;/li&gt;
+              &lt;li&gt;scroll api 不是及时更新的，可能脏读&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;导致相关性算分在多个不同分片上结果不准确&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Aggregation 聚合
+    &lt;ul&gt;
+      &lt;li&gt;Bucket Aggregation(group by)
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET {index}/_search
+{
+  &quot;size&quot;:0,
+  &quot;aggs&quot;:{
+      &quot;{agg_name}&quot;:{
+          &quot;terms&quot;:{
+              &quot;field&quot;:&quot;{field_name}&quot;
+          }
+      }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Metric Aggregation(count,avg,max,min,sum)
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET {index}/_search
+{
+  &quot;size&quot;:0,
+  &quot;aggs&quot;:{
+      &quot;{agg_name}&quot;:{
+          &quot;terms&quot;:{
+              &quot;field&quot;:&quot;{field_name}&quot;
+          },
+         &quot;aggs&quot;:{
+             &quot;{agg_avg}&quot;:{
+                 &quot;avg&quot;:{
+                     &quot;field&quot;:&quot;{field_name}&quot;
+                 }
+             }
+         },
+         &quot;aggs&quot;:{
+             &quot;{agg_max}&quot;:{
+                 &quot;max&quot;:{
+                     &quot;field&quot;:&quot;{field_name}&quot;
+                 }
+             }
+         },
+         &quot;aggs&quot;:{
+             &quot;{agg_min}&quot;:{
+                 &quot;min&quot;:{
+                     &quot;field&quot;:&quot;{field_name}&quot;
+                 }
+             }
+         }
+      }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Pipeline Aggregation
+        &lt;ul&gt;
+          &lt;li&gt;对聚合结果进行二次聚合&lt;/li&gt;
+          &lt;li&gt;常见参数
+            &lt;ul&gt;
+              &lt;li&gt;min_bucket&lt;/li&gt;
+              &lt;li&gt;max_bucket&lt;/li&gt;
+              &lt;li&gt;avg_bucket&lt;/li&gt;
+              &lt;li&gt;derivative # 环比增长，增量Δx&lt;/li&gt;
+              &lt;li&gt;cumulative_sum # 累计求和&lt;/li&gt;
+              &lt;li&gt;stats_bucket&lt;/li&gt;
+              &lt;li&gt;&lt;strong&gt;buckets_path&lt;/strong&gt; # 配置多重聚合的层级&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Matrix Aggregation&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;更改索引
+    &lt;ul&gt;
+      &lt;li&gt;_update_by_query：在现有索引上重建
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST blogs/_update_by_query
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;reindex：新建并迁移目标索引
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST _reindex
+{
+&quot;source&quot;: {
+  &quot;index&quot;: &quot;blogs&quot;
+},
+&quot;dest&quot;: {
+  &quot;index&quot;: &quot;blogs_new&quot;
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Index Alias
+    &lt;ul&gt;
+      &lt;li&gt;为索引定义别名，数据迭代零停机
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST _aliases
+{
+  &quot;actions&quot;:[
+      &quot;add&quot;:{
+          &quot;index&quot;:&quot;{index_name}&quot;,
+          &quot;alias&quot;:&quot;{alias_name}&quot;
+      }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;关闭Dynamic Indexes
+    &lt;ul&gt;
+      &lt;li&gt;防止用户没有创建mapping的情况下写入数据，导致索引不合理
+```
+PUT _cluster/settings
+{
+  “persistent”:{
+      “action.auto_create_index”:false
+  }
+}&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;PUT _cluster/settings
+{
+    “persistent”:{
+        “action.auto_create_index”:”logstash-&lt;em&gt;,.kibana&lt;/em&gt;”
+    }
+}
+```&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;索引优化
+    &lt;ul&gt;
+      &lt;li&gt;refresh_interval:”30s”  # 控制refresh操作的频率，减少segment文件，减少merge IO，但查询会产生延迟&lt;/li&gt;
+      &lt;li&gt;total_shards_per_node:”3”  # 控制单节点分片数量，避免数据倾斜&lt;/li&gt;
+      &lt;li&gt;sync_interval:”30s”  # 控制translog写入频率，减少fsync IO开销，但可能导致数据丢失&lt;/li&gt;
+      &lt;li&gt;dynamic:false  # 避免不必要的字段索引
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PUT myindex
+{
+  &quot;settings&quot;:{
+      &quot;index&quot;:{
+          &quot;refresh_interval&quot;:&quot;30s&quot;,
+          &quot;number_of_shards&quot;:&quot;2&quot;
+      },
+      &quot;routing&quot;:{
+          &quot;allocation&quot;:{
+              &quot;total_shards_per_node&quot;:&quot;3&quot;
+          }
+      },
+      &quot;translog&quot;:{
+          &quot;sync_interval&quot;:&quot;30s&quot;,
+          &quot;durability&quot;:&quot;async&quot;
+      },
+      &quot;number_of_replicas&quot;:0
+  },
+  &quot;mappings&quot;:{
+      &quot;dynamic&quot;:false,
+      &quot;properties&quot;:{}
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;相关性算分的指标 Information Retrieval
+    &lt;ul&gt;
+      &lt;li&gt;Precision 查准率&lt;/li&gt;
+      &lt;li&gt;Recall 查全率&lt;/li&gt;
+      &lt;li&gt;Ranking 相关度排序&lt;/li&gt;
+      &lt;li&gt;相关性算分计算
+        &lt;ul&gt;
+          &lt;li&gt;词频 TF(Term Frequency)
+            &lt;ul&gt;
+              &lt;li&gt;TF=检索词出现的次数/分档的总字数&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;逆文档频率 IDF(Inverse Document Frequency)
+            &lt;ul&gt;
+              &lt;li&gt;IDF=log(全部文档数/检索词出现过的文档数)&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;TF-IDF 加权求和
+            &lt;ul&gt;
+              &lt;li&gt;TF-IDF=TF(keyword)*IDF(keyword)&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;BM25
+            &lt;ul&gt;
+              &lt;li&gt;对TF-IDF进行了优化，算分不会趋于无穷增长&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;explain 参数可以查看算分的详情&lt;/li&gt;
+          &lt;li&gt;profile 参数可以查看检索类型详情
+            &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /test_user/_search
+{
+&quot;profile&quot;: &quot;true&quot;,
+&quot;explain&quot;: true, 
+&quot;query&quot;:{
+  &quot;match&quot;:{
+    &quot;name&quot;:&quot;ZurkBob&quot;
+  }
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Elasticsearch 倒排索引 单词词典 Term Dictionary B+树或哈希拉链法实现，以满足查询需要 倒排列表 Posting List 文档ID 词频TF(Term frequencies)：用于相关性算分 位置Position：用于语句搜索 偏移量Offset：用于高亮显示 集群 节点node Master-eligible Nodes 预备选举节点 默认启动后都是预备节点，第一个启动起来的就是主节点 Master Node 只有Master节点才能修改集群的状态信息 Data Node 保存分片数据 Coordinating Node 接收RESTful用户请求，并将请求转发到合适的节点，最终把结果汇总 默认每个节点默认都起到Coordinating Node的职责 Hot &amp;amp; Warm Node 冷热节点，降低集群部署的成本 Machine Learning Node 负责跑机器学习Job 分片shard primary shard 数据水平扩展 一个分片是一个运行Lucene的实例 主分片数在索引创建时指定，后续不允许修改，除非Reindex replica shard 数据高可用 可以动态调整，提升服务的可用性（读取的吞吐量） 分片数的设定 分片数过小 水平扩展能力减少 单分片数据量过大 分片数过大 over-sharding问题 影响搜索结果的相关性打分，影响统计结果的准确性 单个节点上过多分片，会导致资源浪费，影响性能 集群健康 GET _cluster/health Green 主分片和副本都正常分配 Yellow 主分片正常分片，副本分片未能正常分配 Red 主分片未能正常分配 分片生命周期 单个shard分片即Lucene Index 单个倒排索引文件成为Segment，不可变更 多个Segments汇总成为Lucene Index，即ES Shard Lucene中记录所有Segments的信息的文件Commit Point 删除文档信息保存在.del文件中，检索时过滤，而非真正删除 文档写入流程 Refresh Index Document 从Index Buffer中写入Segment过程称为Refresh 默认频率1秒一次 如果Index Buffer已满，也会触发Refresh，默认是JVM的10% Transaction Log 为了保证数据不丢失，文档在进入Index Buffer的同时，写入Transaction Log落盘 每个分片有一个Transaction Log Refresh操作会清空Index Buffer，Transaction Log不会清空 Flush 调用Refresh，清空Index Buffer 调用fsync，将缓存中的Segment落盘 清空Transaction Log 默认30分钟调用一次 Transaction Log已满也会触发Flush，默认512MB Merge 合并Flush操作产生的多个Segments 删除.del中的文档 元素 Document _index:文档所在的索引名 _type:文档所在的类型名（7.0以后一个索引对应一个type） _id:文档唯一id _uid:组合id，6.x以后废弃 _source:文档原始Json数据 _all:整合所有字段内容，默认禁用 Index mapping type 7.0后一一对应 定义索引中的字段名称和数据类型 定义倒排索引配置 dynamic mapping 如果未定义mapping直接写入文档时，es自动创建mapping的机制 字段类型推断 reindex 修改字段类型 dynamic 参数可限制mapping范围，在修改文档字段时，可控制mapping是否动态调整 |dynamic参数|true|false|strict| |—|—|—|—| |文档可索引|YES|YES|NO| |字段可索引|YES|NO|NO| |Mapping可更新|YES|NO|NO| PUT {index}/_mapping { &quot;dynamic&quot;:false } Exact Values vs. Full Text （精确值和全文本） 精确值类型使用 keyword，不进行分词 全文本类型使用 text，进行分词 analysis PUT {index} { &quot;settings&quot;:{ &quot;analysis&quot;:{ &quot;analyzer&quot;:{ &quot;{analyzer_name}&quot;:{ &quot;type&quot;:&quot;english&quot;, &quot;stem_exclusion&quot;:[&quot;organization&quot;], &quot;stopwords&quot;:[&quot;a&quot;,&quot;an&quot;,&quot;and&quot;] } } } } } PUT {index} { &quot;settings&quot;:{ &quot;analysis&quot;:{ &quot;analyzer&quot;:{ &quot;{analyzer_name}&quot;:{ &quot;type&quot;:&quot;custom&quot;, &quot;char_filter&quot;:[&quot;{char_filter_name}&quot;], &quot;tokenizer&quot;:&quot;{tokenizer_name}&quot;, &quot;filter&quot;:[&quot;lowercase&quot;,&quot;{filter_name}&quot;] } }, &quot;tokenizer&quot;:{ &quot;{tokenizer_name}&quot;:{ &quot;type&quot;:&quot;pattern&quot;, &quot;pattern&quot;:&quot;[.,!?]&quot;, } }, &quot;char_filter&quot;:{ &quot;{char_filter_name}&quot;:{ &quot;type&quot;:&quot;mapping&quot;, &quot;mappings&quot;:[&quot;_ =&amp;gt; -&quot;] } }, &quot;filter&quot;:{ &quot;{filter_name}&quot;:{ &quot;type&quot;:&quot;stop&quot;, &quot;stopwords&quot;:&quot;_a&quot; } } } } } setting shard 基本操作 CURD API Example Explain Index PUT {index}/_doc/{id}{“test”:”abc”} 如果ID不存在，创建新的文档；如果存在，则删除后新建；版本增加 Create PUT {index}/_create/{id}{“test”:”abc”} 如果使用PUT不指定id，则自动生成；如果使用POST指定id已存在，则新增失败 Delete DELETE {index}/_doc/{id}   Update POST {index}/_update/{id}{ “doc”:{“test”:”abc”}} 指定的文档id必须存在；只对相应字段做增量修改，不能删除已存在字段；版本增加 Read GET {index}/_doc/{id}   批量 Bulk API一次提交执行Index/Create/Update/Delete，其中执行失败的操作不影响其他操作，返回结果包括每一条操作执行的结果 _mget _msearch 数据类型 字符串：text，keyword 数值型：long，integer，short，byte，double，float，half_float，scaled_float 布尔：boolean 日期：date 二进制：binary 范围累心：integer_range，float_range，long_range，double_range，date_range 索引 正排索引 文档id到文档内容单词的关联关系 倒排索引 单词到文档id的关联关系 组成 Term Dictionary：倒排索引的分词词典 Posting List：记录分词所在的偏移量 index_options 参数可规定倒排列表记录的内容 docs:doc id freqs:doc id,term frequencies positions:doc id,,term frequencies,term position offsets:doc id,,term frequencies,term position,character offset 搜索引擎查询流程 查询倒排索引单词所在的具体文档id 拿到文档id查询正排索引文档的具体内容 分词 分词器 analysis Character Filters：对原始文本进行处理，如去除特殊标记符 HTML Strip Mapping 字符替换 Pattern Replace 正则替换 Tokenizer：按一定规则分词 standard letter whitespace UAX URL Email NGram 和 Edge NGram连词分割 Path Hierarchy 文件路径分割 Token Filters：对分词结果进行再加工，如转小写，stop words lowercase stop NGram和Edge Ngram连词分割 Synonym添加近义词的term 自带分词器 Standard Simple 非字母切分 Whitespace 空格切分 Stop stop word切分 Keyword 不进行分词，保留原文作为关键字 Pattern 正则表达式切分 Language 常见语言分词器 中文分词器 ICU IK jieba Hanlp THULAC Analyze API 指定analyzer进行分析 POST _analyze { &quot;analyzer&quot;:&quot;standard&quot;, &quot;text&quot;:&quot;hello world&quot; } 指定索引中的字段进行分析 POST test_index/_analyze { &quot;field&quot;:&quot;username&quot;, &quot;text&quot;:&quot;hello world&quot; } 自定义分词器进行测试 POST _analyze { &quot;tokenizer&quot;:&quot;standard&quot;, &quot;filter&quot;:[&quot;lowercase&quot;], &quot;text&quot;:&quot;Hello World&quot; } 自定义分词 索引时分词 PUT test_index { &quot;setting&quot;:{ &quot;analysis&quot;:{ &quot;analyzer&quot;:{}, &quot;tokenizer&quot;:{}, &quot;char_filter&quot;:{}, &quot;filter&quot;:{} } } } 查询时分词 ``` ``` Index Templates 查看模板 GET /_template/{template_name} 创建索引模板 模板优先级从低到高 默认settings和mappings order参数低 order参数高 创建索引时指定 PUT _template/{template_name} { &quot;index_patterns&quot;:[&quot;*&quot;], &quot;order&quot;:0, &quot;version&quot;:1, &quot;settings&quot;:{ &quot;number_of_shards&quot;:1, &quot;number_of_replicas&quot;:1 } } PUT _template/{template_name} { &quot;index_patterns&quot;:[&quot;test*&quot;], &quot;order&quot;:1, &quot;version&quot;:1, &quot;settings&quot;:{ &quot;number_of_shards&quot;:1, &quot;number_of_replicas&quot;:2 }, &quot;mappings&quot;:{ &quot;date_detection&quot;:false, &quot;numeric_detection&quot;:true } } Dynamic Template 自定义动态类型推断 PUT {index_name} { &quot;mappings&quot;:{ &quot;dynamic_templates&quot;:[ &quot;{dynamic_tmpl_name}&quot;:{ &quot;path_match&quot;:&quot;name.*&quot;, &quot;path_unmatch&quot;:&quot;*.middle&quot;, &quot;mapping&quot;:{ &quot;type&quot;:&quot;text&quot;, &quot;copy_to&quot;:&quot;full_name&quot; } } ] } } 查询 URI Search GET {index}/_search?q={keyword}&amp;amp;df={field}&amp;amp;sort=year:desc&amp;amp;from=0&amp;amp;size=10&amp;amp;timeout=1s { &quot;profile&quot;:true } |参数|说明|实例| |—|—|—| |q|指定查询语句|?q={keyword}| |df|默认字段，不指定会对所有字段进行查询|&amp;amp;df={field}| |sort|排序|&amp;amp;sort=year:desc| |from/size|分页|&amp;amp;from=0&amp;amp;size=10| |profile|查询过程分析|”profile”:true| term 代表完全匹配，不进行分词器分析 match 查询词会被分词 POST {index}/_search { &quot;query&quot;:{ &quot;match&quot;:{ &quot;{field}&quot;:{ &quot;query&quot;:&quot;{keyword}&quot;, &quot;operator&quot;:&quot;and&quot; } } } } match_phrase 查询词顺序固定 slop 单词间最多分隔词数 POST {index}/_search { &quot;query&quot;:{ &quot;match_phrase&quot;:{ &quot;{field}&quot;:{ &quot;query&quot;:&quot;{keyword}&quot; &quot;slop&quot;:1 } } } } query_string query参数支持运算符 AND OR NOT 括号() POST {index}/_search { &quot;query&quot;:{ &quot;query_string&quot;:{ &quot;default_field&quot;:&quot;{field}&quot;, &quot;query&quot;:&quot;{keyword}&quot; } } } POST {index}/_search { &quot;query&quot;:{ &quot;query_string&quot;:{ &quot;fields&quot;:[&quot;{field1}&quot;,&quot;{field2}&quot;], &quot;query&quot;:&quot;{keyword}&quot; } } } simple_query_string query参数不支持运算符，使用default_operator参数代替 POST {index}/_search { &quot;query&quot;:{ &quot;simple_query_string&quot;:{ &quot;fields&quot;:[&quot;{field1}&quot;,&quot;{field2}&quot;], &quot;query&quot;:&quot;{keyword}&quot;, &quot;default_operator&quot;:&quot;AND&quot; } } } Query-then-Fetch 分布式搜索运行机制 Query 获取所有分片（非同一主备分片）上的结果，每个分片的From到From+Size的文档 Fetch 将Query中的结果进行合并，重新排序，然后再取From到From+Size的文档的ID 以multi get请求的方式到相应的分片获取详细的文档数据 引发的问题 每个分片需要查询文档个数=from+size 最终协调节点需要处理文档个数=number_of_shards*(from+size) 造成深度分页的难题，默认10k个文档 search after替换from操作 scroll api 不是及时更新的，可能脏读 导致相关性算分在多个不同分片上结果不准确 Aggregation 聚合 Bucket Aggregation(group by) GET {index}/_search { &quot;size&quot;:0, &quot;aggs&quot;:{ &quot;{agg_name}&quot;:{ &quot;terms&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } } } Metric Aggregation(count,avg,max,min,sum) GET {index}/_search { &quot;size&quot;:0, &quot;aggs&quot;:{ &quot;{agg_name}&quot;:{ &quot;terms&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; }, &quot;aggs&quot;:{ &quot;{agg_avg}&quot;:{ &quot;avg&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } }, &quot;aggs&quot;:{ &quot;{agg_max}&quot;:{ &quot;max&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } }, &quot;aggs&quot;:{ &quot;{agg_min}&quot;:{ &quot;min&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } } } } } Pipeline Aggregation 对聚合结果进行二次聚合 常见参数 min_bucket max_bucket avg_bucket derivative # 环比增长，增量Δx cumulative_sum # 累计求和 stats_bucket buckets_path # 配置多重聚合的层级 Matrix Aggregation 更改索引 _update_by_query：在现有索引上重建 POST blogs/_update_by_query reindex：新建并迁移目标索引 POST _reindex { &quot;source&quot;: { &quot;index&quot;: &quot;blogs&quot; }, &quot;dest&quot;: { &quot;index&quot;: &quot;blogs_new&quot; } } Index Alias 为索引定义别名，数据迭代零停机 POST _aliases { &quot;actions&quot;:[ &quot;add&quot;:{ &quot;index&quot;:&quot;{index_name}&quot;, &quot;alias&quot;:&quot;{alias_name}&quot; } ] } 关闭Dynamic Indexes 防止用户没有创建mapping的情况下写入数据，导致索引不合理 ``` PUT _cluster/settings { “persistent”:{ “action.auto_create_index”:false } } PUT _cluster/settings { “persistent”:{ “action.auto_create_index”:”logstash-,.kibana” } } ``` 索引优化 refresh_interval:”30s” # 控制refresh操作的频率，减少segment文件，减少merge IO，但查询会产生延迟 total_shards_per_node:”3” # 控制单节点分片数量，避免数据倾斜 sync_interval:”30s” # 控制translog写入频率，减少fsync IO开销，但可能导致数据丢失 dynamic:false # 避免不必要的字段索引 PUT myindex { &quot;settings&quot;:{ &quot;index&quot;:{ &quot;refresh_interval&quot;:&quot;30s&quot;, &quot;number_of_shards&quot;:&quot;2&quot; }, &quot;routing&quot;:{ &quot;allocation&quot;:{ &quot;total_shards_per_node&quot;:&quot;3&quot; } }, &quot;translog&quot;:{ &quot;sync_interval&quot;:&quot;30s&quot;, &quot;durability&quot;:&quot;async&quot; }, &quot;number_of_replicas&quot;:0 }, &quot;mappings&quot;:{ &quot;dynamic&quot;:false, &quot;properties&quot;:{} } } 相关性算分的指标 Information Retrieval Precision 查准率 Recall 查全率 Ranking 相关度排序 相关性算分计算 词频 TF(Term Frequency) TF=检索词出现的次数/分档的总字数 逆文档频率 IDF(Inverse Document Frequency) IDF=log(全部文档数/检索词出现过的文档数) TF-IDF 加权求和 TF-IDF=TF(keyword)*IDF(keyword) BM25 对TF-IDF进行了优化，算分不会趋于无穷增长 explain 参数可以查看算分的详情 profile 参数可以查看检索类型详情 GET /test_user/_search { &quot;profile&quot;: &quot;true&quot;, &quot;explain&quot;: true, &quot;query&quot;:{ &quot;match&quot;:{ &quot;name&quot;:&quot;ZurkBob&quot; } } }</summary></entry><entry><title type="html">Shell 語法</title><link href="/linux/2020/02/09/shell.html" rel="alternate" type="text/html" title="Shell 語法" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/linux/2020/02/09/shell</id><content type="html" xml:base="/linux/2020/02/09/shell.html">&lt;h3 id=&quot;shell-語法&quot;&gt;Shell 語法&lt;/h3&gt;</content><author><name>Bob</name></author><summary type="html">Shell 語法</summary></entry><entry><title type="html">JVM 結構解析</title><link href="/java/2020/02/09/jvm.html" rel="alternate" type="text/html" title="JVM 結構解析" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/java/2020/02/09/jvm</id><content type="html" xml:base="/java/2020/02/09/jvm.html">&lt;h1 id=&quot;jvm-結構解析&quot;&gt;JVM 結構解析&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;img src=&quot;/images/content/JVM.png&quot; class=&quot;image featured&quot; alt=&quot;JVM&quot; align=&quot;center&quot; /&gt;&lt;/p&gt;
 &lt;h3 id=&quot;基本結構&quot;&gt;基本結構&lt;/h3&gt;
@@ -1094,4 +2548,25 @@ df -h
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;hr /&gt;
-&lt;h3 id=&quot;ssh&quot;&gt;SSH&lt;/h3&gt;</content><author><name>Bob</name></author><summary type="html">Linux 常用命令</summary></entry></feed>
+&lt;h3 id=&quot;ssh&quot;&gt;SSH&lt;/h3&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; 修改hostname
+hostnamectl &lt;span class=&quot;nt&quot;&gt;--static&lt;/span&gt; set-hostname  kuber-master
+
+ssh &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;StrictHostKeyChecking no&quot;&lt;/span&gt; root@123456
+ssh-keygen
+ssh-copy-id &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; ~/.ssh/id_rsa.pub root@kube1
+ssh-copy-id &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; ~/.ssh/id_rsa.pub root@kube2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;network&quot;&gt;NETWORK&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;性能監控&quot;&gt;性能監控&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;文本操作&quot;&gt;文本操作&lt;/h3&gt;
+
+&lt;hr /&gt;</content><author><name>Bob</name></author><summary type="html">Linux 常用命令</summary></entry></feed>

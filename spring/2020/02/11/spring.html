@@ -71,111 +71,65 @@
                 <div id="main">
     <!-- Post -->
     <article class="post">
-        <h1 id="linux-常用命令">Linux 常用命令</h1>
+        <h1 id="spring">Spring</h1>
 <hr />
 
-<h3 id="硬盤擴容">硬盤擴容</h3>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 创建新分区，挂载
-fdisk /dev/sda
-
-Command (m for help): m
-Command action
-   a   toggle a bootable flag
-   b   edit bsd disklabel
-   c   toggle the dos compatibility flag
-   d   delete a partition
-   g   create a new empty GPT partition table
-   G   create an IRIX (SGI) partition table
-   l   list known partition types
-   m   print this menu
-   n   add a new partition
-   o   create a new empty DOS partition table
-   p   print the partition table
-   q   quit without saving changes
-   s   create a new empty Sun disklabel
-   t   change a partition's system id
-   u   change display/entry units
-   v   verify the partition table
-   w   write table to disk and exit
-   x   extra functionality (experts only)
-
-Command (m for help): n
-Partition type:
-   p   primary (2 primary, 0 extended, 2 free)
-   e   extended
-Select (default p): p
-Partition number (3,4, default 3): 3
-First sector (41943040-62914559, default 41943040): 
-Using default value 41943040
-Last sector, +sectors or +size{K,M,G} (41943040-62914559, default 62914559): 
-Using default value 62914559
-Partition 3 of type Linux and of size 10 GiB is set
-
-Command (m for help): w
-The partition table has been altered!
-
-Calling ioctl() to re-read partition table.
-
-WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
-The kernel still uses the old table. The new table will be used at
-the next reboot or after you run partprobe(8) or kpartx(8)
-Syncing disks.
-
-# 重启系统
-reboot
-
-# 创建物理卷
-pvcreate /dev/sda3
-
-# 查看物理卷信息
-pvdisplay
-
-# 新增加的分区/dev/sda3加入到根目录分区
-vgextend centos /dev/sda3
-
-# 查看卷组信息
-vgdisplay
-
-# 增加centos大小
-lvresize -L +10G /dev/mapper/centos-root
-
-# 报错提示：一个PE的大小为4M，所以总大小为 2559 × 4M
-[root@docker ~]# lvresize -L +10G /dev/mapper/centos-root
-  Insufficient free space: 2560 extents needed, but only 2559 available
-[root@docker ~]# lvresize -L +10236M /dev/mapper/centos-root
-  Size of logical volume centos/root changed from &lt;17.00 GiB (4351 extents) to 26.99 GiB (6910 extents).
-  Logical volume centos/root successfully resized.
-
-# 重新识别centos大小
-xfs_growfs /dev/mapper/centos-root
-
-# 查看扩容后的大小
-df -h
-</code></pre></div></div>
-
-<hr />
-<h3 id="ssh">SSH</h3>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--</span> 修改hostname
-hostnamectl <span class="nt">--static</span> set-hostname  kuber-master
-
-ssh <span class="nt">-o</span> <span class="s2">"StrictHostKeyChecking no"</span> root@123456
-ssh-keygen
-ssh-copy-id <span class="nt">-i</span> ~/.ssh/id_rsa.pub root@kube1
-ssh-copy-id <span class="nt">-i</span> ~/.ssh/id_rsa.pub root@kube2
-</code></pre></div></div>
-<hr />
-
-<h3 id="network">NETWORK</h3>
-
-<hr />
-
-<h3 id="性能監控">性能監控</h3>
-
-<hr />
-
-<h3 id="文本操作">文本操作</h3>
-
-<hr />
+<h3 id="webflux">WebFlux</h3>
+<ul>
+  <li>相关前提
+    <ul>
+      <li>Reactor 同步非阻塞模式</li>
+      <li>Proactor 异步非阻塞模式</li>
+      <li>Observer 观察者模式</li>
+      <li>Iterator 迭代器模式</li>
+    </ul>
+  </li>
+  <li>Reactive
+    <ul>
+      <li>定义
+        <ul>
+          <li>声明式的编程范式，关注于数据流（data streams）和传播变化（propagation of change）</li>
+        </ul>
+      </li>
+      <li>实现
+        <ul>
+          <li>RxJava: Reactive Extensions</li>
+          <li>Reactor: Spring WebFlux Reactive</li>
+          <li>Flow API: JAVA 9 Flow API</li>
+        </ul>
+      </li>
+      <li>特点
+        <ul>
+          <li>响应式（Responsive）</li>
+          <li>适应性强（Resilient）</li>
+          <li>弹性可伸缩（Elastic）</li>
+          <li>消息驱动（Message Driven）</li>
+        </ul>
+      </li>
+      <li>涉及技术
+        <ul>
+          <li>数据流：Java 8 <code class="highlighter-rouge">Stream</code></li>
+          <li>传播变化： Java <code class="highlighter-rouge">Observable/Observer</code></li>
+          <li>事件： Java <code class="highlighter-rouge">EventObject/EventListener</code></li>
+        </ul>
+      </li>
+      <li>数据结构
+        <ul>
+          <li>流式 <code class="highlighter-rouge">stream</code></li>
+          <li>序列 <code class="highlighter-rouge">Sequences</code></li>
+          <li>事件 <code class="highlighter-rouge">Events</code></li>
+        </ul>
+      </li>
+      <li>设计模式
+        <ul>
+          <li>扩展模式：观察者 <code class="highlighter-rouge">Observer</code> -&gt; 推模式：被动获取事件</li>
+          <li>对立模式：迭代器 <code class="highlighter-rouge">Iterator</code> -&gt; 拉模式：主动获取事件</li>
+          <li>混合模式：反应堆 <code class="highlighter-rouge">Reactor</code>,<code class="highlighter-rouge">Proactor</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
 
     </article>
@@ -183,13 +137,13 @@ ssh-copy-id <span class="nt">-i</span> ~/.ssh/id_rsa.pub root@kube2
     <!-- Pagination -->
     <ul class="actions pagination">
         
-        <li><a class="disabled button big previous">Previous</a></li>
+        <li><a title="Netty" href="/netty/2020/02/11/netty.html" class="button big previous">Previous</a></li>
         
 
         
-        <li><a title="Docker 常用指令" href="/docker/2020/02/07/docker.html" class="button big next">Next</a></li>
+        <li><a title="Kubernetes" href="/docker/2020/02/12/kubernetes.html" class="button big next">Next</a></li>
         
-        <li id="/linux/2020/02/06/linux.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></li>
+        <li id="/spring/2020/02/11/spring.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></li>
     </ul>
 </div>
 

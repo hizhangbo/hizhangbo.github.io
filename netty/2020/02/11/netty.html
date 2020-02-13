@@ -1,0 +1,350 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+        <title>Bob’s Blog</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="https://cdn.bootcss.com/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?62888767648ab0a78f7107ed1f6dc242";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+	</head>
+	<body oncontextmenu="return false;" onselectstart="return false">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+                <header id="header">
+    <h1><a href="/index.html">記憶 備份</a></h1>
+    <nav class="links">
+        <ul>
+            <li><a href="/#about">關於我</a></li>
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            <!-- <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <input type="text" name="query" placeholder="Search" />
+                <div></div>
+            </li> -->
+            <li class="light">
+                <input type="checkbox" class="checke">
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+
+
+    </nav>
+</header>
+
+                <!-- Menu -->
+                <section id="menu">
+
+    <!-- Search -->
+        <section>
+            <form class="search" method="get" action="#">
+                <input type="text" name="query" placeholder="Search" id="search-input" />
+            </form>
+        </section>
+
+        <section>
+            <div id="results-container"></div>
+        </section>
+</section>
+
+
+                <!-- Main -->
+                <div id="main">
+    <!-- Post -->
+    <article class="post">
+        <h1 id="netty">Netty</h1>
+<hr />
+
+<ul>
+  <li>三种I/O模型
+    <ul>
+      <li>BIO（阻塞同步）
+        <ul>
+          <li>连接数少，并发度低，所以Netty已不再支持</li>
+        </ul>
+      </li>
+      <li>NIO（非阻塞同步）
+        <ul>
+          <li>不同平台不同实现</li>
+        </ul>
+      </li>
+      <li>AIO（非阻塞异步）
+        <ul>
+          <li>Linux中相比NIO性能没有明显提升，所以Netty已不再支持</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Reactor模式
+    <ul>
+      <li>核心思想
+        <ul>
+          <li>事件注册</li>
+          <li>事件监听</li>
+          <li>事件处理</li>
+        </ul>
+      </li>
+      <li>三种Reactor模式（NioEventLoopGroup）
+        <ul>
+          <li>单线程模式
+            <ul>
+              <li>由一个线程负责处理所有事件</li>
+            </ul>
+          </li>
+          <li>多线程模式
+            <ul>
+              <li>由一个线程池来处理decode/compute/encode三种操作</li>
+            </ul>
+          </li>
+          <li>主从多线程模式
+            <ul>
+              <li>将acceptor连接事件注册到单独的reactor中，其他事件注册到另外的reactor中</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>对TCP粘包和半包的支持
+    <ul>
+      <li>根本原因
+        <ul>
+          <li>TCP是流式协议，消息无边界</li>
+          <li>提醒：UDP消息有边界，无半包粘包问题</li>
+        </ul>
+      </li>
+      <li>解决方式
+        <ul>
+          <li>TCP连接改为短连接：按请求次数划分消息边界</li>
+          <li>封装成帧（Framing）
+            <ul>
+              <li>固定长度：空间浪费</li>
+              <li>分隔符：需要转义</li>
+              <li>固定长度标记消息长度：需要提前预知最大长度</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>netty中对Framing操作的支持
+        <ul>
+          <li>
+            <table>
+              <thead>
+                <tr>
+                  <th>方式</th>
+                  <th>解码</th>
+                  <th>编码</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>固定长度</td>
+                  <td>FixedLengthFrameDecoder</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>分隔符</td>
+                  <td>DelimiterBasedFrameDecoder</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>固定长度标记消息长度</td>
+                  <td>LengthFieldBasedFrameDecoder</td>
+                  <td>LengthFieldPrepender</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>常用元素
+    <ul>
+      <li>EventLoopGroup # 事件循环组
+        <ul>
+          <li>TerminationListener</li>
+          <li>EventExecutor
+            <ul>
+              <li>EventExecutorChooser # Channel选择绑定EventLoop的方式
+                <ul>
+                  <li>PowerOfTwoEventExecutorChooser # 如果executors的个数为2的幂次方则使用，效率更高</li>
+                  <li>GenericEventExecutorChooser # 如果不是2的幂次方，则使用求余取绝对值的普通方式</li>
+                </ul>
+              </li>
+              <li>EventLoop
+                <ul>
+                  <li>SingleThreadEventLoop
+                    <ul>
+                      <li>NioEventLoop
+                        <ul>
+                          <li>select</li>
+                          <li>processSelectedKeys</li>
+                          <li>runAllTasks</li>
+                        </ul>
+                      </li>
+                      <li>ThreadPerTaskExecutor</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>ServerBootstrap # 服务器引导启动与初始化
+        <ul>
+          <li>ChannelFactory
+            <ul>
+              <li>NioServerSocketChannel</li>
+              <li>SocketChannel</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>ChannelPipeline
+        <ul>
+          <li>ChannelHandler
+            <ul>
+              <li>ChannelInboundHandlerAdapter</li>
+              <li>ChannelOutboundHandlerAdapter</li>
+              <li>HeadContext
+                <ul>
+                  <li>实现ChannelOutboundHandler, ChannelInboundHandler</li>
+                </ul>
+              </li>
+              <li>TailContext
+                <ul>
+                  <li>实现ChannelInboundHandler</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>编码
+        <ul>
+          <li>Protobuf
+            <ul>
+              <li>优势
+                <ul>
+                  <li>比序列化方式效率高</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>内存泄漏检测
+        <ul>
+          <li>ResourceLeakDetector.level # 检测等级</li>
+          <li>-Dio.netty.leakDetection.level=PARANOID</li>
+        </ul>
+      </li>
+      <li>线程模型优化
+        <ul>
+          <li>UnorderedThreadPoolEventExecutor # 使业务线程独立
+            <ul>
+              <li>NioEventExecutorGroup 会判断是否绑定同一个channel，如果是则只利用一个线程工作，所以这里使用UnorderedThreadPoolEventExecutor</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>吞吐量优化
+        <ul>
+          <li>FlushConsolidationHandler # 延迟批量发送
+            <ul>
+              <li>pipeline.addLast(“flushEnhance”, new FlushConsolidationHandler(5, true));</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>流量整型
+        <ul>
+          <li>ChannelTrafficShapingHandler</li>
+          <li>GlobalTrafficShapingHandler: share</li>
+          <li>GlobalChannelTrafficShapingHandler: share</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+    </article>
+    <div id="vcomments"></div>
+    <!-- Pagination -->
+    <ul class="actions pagination">
+        
+        <li><a title="Elasticsearch" href="/elasticsearch/2020/02/10/elasticsearch.html" class="button big previous">Previous</a></li>
+        
+
+        
+        <li><a title="Spring" href="/spring/2020/02/11/spring.html" class="button big next">Next</a></li>
+        
+        <li id="/netty/2020/02/11/netty.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></li>
+    </ul>
+</div>
+
+<script>
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
+        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc',
+        notify:false, 
+        verify:false, 
+        avatar:'mp', 
+        placeholder: '若有疏失，還望指正',
+        visitor: true,
+        recordIP: true
+    });
+</script>
+
+			</div>
+		<div id="leftsead">
+    <ul>
+        <li class="top">
+            ↑
+        </li>
+        <li class="bottom">
+            ↑
+        </li>
+    </ul>
+</div>
+
+		<!-- Scripts -->
+        <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdn.bootcss.com/skel/3.0.0/skel.min.js"></script>
+<script src="/assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]-->
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/search.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
+        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc'
+    })
+</script>
+
+	</body>
+</html>
