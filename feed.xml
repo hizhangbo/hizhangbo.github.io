@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-02-15T02:00:23+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-02-15T22:41:30+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)
 </subtitle><entry><title type="html">Kubernetes</title><link href="/docker/2020/02/12/kubernetes.html" rel="alternate" type="text/html" title="Kubernetes" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/docker/2020/02/12/kubernetes</id><content type="html" xml:base="/docker/2020/02/12/kubernetes.html">&lt;h1 id=&quot;kubernetes&quot;&gt;Kubernetes&lt;/h1&gt;
 &lt;hr /&gt;
 
@@ -278,7 +278,150 @@ curl &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://github.com/kuberne
 &lt;em&gt;&lt;a href=&quot;https://kubernetes.io/docs/tasks/debug-application-cluster/local-debugging/&quot; title=&quot;kubernetes官网&quot;&gt;kubernetes官网&lt;/a&gt;&lt;/em&gt;&lt;br /&gt;
 &lt;em&gt;&lt;a href=&quot;https://www.telepresence.io/&quot; title=&quot;telepresence官网&quot;&gt;telepresence官网&lt;/a&gt;&lt;/em&gt;&lt;br /&gt;
 &lt;em&gt;&lt;a href=&quot;https://kubernetes.io/zh/docs/setup/independent/install-kubeadm/&quot; title=&quot;kubeadm安装文档&quot;&gt;kubeadm安装文档&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Bob</name></author><summary type="html">Kubernetes</summary></entry><entry><title type="html">Spring中的设计模式</title><link href="/spring/2020/02/12/design-mode.html" rel="alternate" type="text/html" title="Spring中的设计模式" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/spring/2020/02/12/design-mode</id><content type="html" xml:base="/spring/2020/02/12/design-mode.html"></content><author><name>Bob</name></author><summary type="html"></summary></entry><entry><title type="html">Netty</title><link href="/netty/2020/02/11/netty.html" rel="alternate" type="text/html" title="Netty" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/netty/2020/02/11/netty</id><content type="html" xml:base="/netty/2020/02/11/netty.html">&lt;h1 id=&quot;netty&quot;&gt;Netty&lt;/h1&gt;
+&lt;/ol&gt;</content><author><name>Bob</name></author><summary type="html">Kubernetes</summary></entry><entry><title type="html">Spring中的设计模式</title><link href="/spring/2020/02/12/design-mode.html" rel="alternate" type="text/html" title="Spring中的设计模式" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/spring/2020/02/12/design-mode</id><content type="html" xml:base="/spring/2020/02/12/design-mode.html"></content><author><name>Bob</name></author><summary type="html"></summary></entry><entry><title type="html">Mysql</title><link href="/mysql/2020/02/11/mysql.html" rel="alternate" type="text/html" title="Mysql" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/mysql/2020/02/11/mysql</id><content type="html" xml:base="/mysql/2020/02/11/mysql.html">&lt;h1 id=&quot;mysql&quot;&gt;Mysql&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;性能監控指标&quot;&gt;性能監控指标&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;QPS
+    &lt;ul&gt;
+      &lt;li&gt;queries per second 每秒查询数量&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Question%';&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;QPS = queries/seconds&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;TPS
+    &lt;ul&gt;
+      &lt;li&gt;Transaction per second&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Com_commit';&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Com_rollback';&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;TPS = (Com_commit + Com_rollback)/seconds&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;连接数
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Max_used_connections';&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Threads%';&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show variables like 'max_connections';&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Query Cache
+    &lt;ul&gt;
+      &lt;li&gt;數據改動較少場景&lt;/li&gt;
+      &lt;li&gt;my.cnf參數修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;query_cache_size&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show status like 'Qcache%';&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;Query_cache_hits = (Qcache_hits/(Qcache_hits+Qcache_inserts)) * 100%&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Lock
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like '%lock%';&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;Table_locks_waited/Table_locks_immediate 值越大表示鎖造成的阻塞越嚴重&lt;/li&gt;
+      &lt;li&gt;Innodb 中間隙鎖造成 Innodb_row_lock_waits 太大&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;主從延時
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show slave status;&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;慢查詢
+    &lt;ul&gt;
+      &lt;li&gt;my.cnf參數修改 [mysqld] &lt;code class=&quot;highlighter-rouge&quot;&gt;slow_query_log=1&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;慢查詢日志地址&lt;code class=&quot;highlighter-rouge&quot;&gt;slow_query_log_file=/data/mysql/slow.log&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;慢查詢時長&lt;code class=&quot;highlighter-rouge&quot;&gt;long_query_time=1&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;未使用索引的查詢 &lt;code class=&quot;highlighter-rouge&quot;&gt;log_queries_not_using_indexes=1&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mysqldumpslow -s c -t 10 slow.log&lt;/code&gt; # 返回使用最多的10條&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mysqldumpslow -s r -t 10 slow.log&lt;/code&gt; # 返回結果最多的10條&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;jmeter配置&quot;&gt;Jmeter配置&lt;/h3&gt;</content><author><name>Bob</name></author><summary type="html">Mysql</summary></entry><entry><title type="html">Spring</title><link href="/spring/2020/02/11/spring.html" rel="alternate" type="text/html" title="Spring" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/spring/2020/02/11/spring</id><content type="html" xml:base="/spring/2020/02/11/spring.html">&lt;h1 id=&quot;spring&quot;&gt;Spring&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;源碼編譯&quot;&gt;源碼編譯&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Within your locally cloned spring-framework working directory:
+    &lt;ul&gt;
+      &lt;li&gt;Precompile spring-oxm with ./gradlew :spring-oxm:compileTestJava&lt;/li&gt;
+      &lt;li&gt;Import into IntelliJ (File -&amp;gt; New -&amp;gt; Project from Existing Sources -&amp;gt; Navigate to directory -&amp;gt; Select build.gradle)&lt;/li&gt;
+      &lt;li&gt;When prompted exclude the spring-aspects module (or after the import via File-&amp;gt; Project Structure -&amp;gt; Modules)&lt;/li&gt;
+      &lt;li&gt;Code away&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;gradle
+    &lt;ul&gt;
+      &lt;li&gt;修改構建文件 &lt;code class=&quot;highlighter-rouge&quot;&gt;build.gradle&lt;/code&gt;
+        &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;repositories &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+       maven &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; url &lt;span class=&quot;s2&quot;&gt;&quot;https://repo.spring.io/libs-release&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+       maven&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; url &lt;span class=&quot;s1&quot;&gt;'http://maven.aliyun.com/nexus/content/groups/public/'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+       google&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;webflux&quot;&gt;WebFlux&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;相关前提
+    &lt;ul&gt;
+      &lt;li&gt;Reactor 同步非阻塞模式&lt;/li&gt;
+      &lt;li&gt;Proactor 异步非阻塞模式&lt;/li&gt;
+      &lt;li&gt;Observer 观察者模式&lt;/li&gt;
+      &lt;li&gt;Iterator 迭代器模式&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Reactive
+    &lt;ul&gt;
+      &lt;li&gt;定义
+        &lt;ul&gt;
+          &lt;li&gt;声明式的编程范式，关注于数据流（data streams）和传播变化（propagation of change）&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;实现
+        &lt;ul&gt;
+          &lt;li&gt;RxJava: Reactive Extensions&lt;/li&gt;
+          &lt;li&gt;Reactor: Spring WebFlux Reactive&lt;/li&gt;
+          &lt;li&gt;Flow API: JAVA 9 Flow API&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;特点
+        &lt;ul&gt;
+          &lt;li&gt;响应式（Responsive）&lt;/li&gt;
+          &lt;li&gt;适应性强（Resilient）&lt;/li&gt;
+          &lt;li&gt;弹性可伸缩（Elastic）&lt;/li&gt;
+          &lt;li&gt;消息驱动（Message Driven）&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;涉及技术
+        &lt;ul&gt;
+          &lt;li&gt;数据流：Java 8 &lt;code class=&quot;highlighter-rouge&quot;&gt;Stream&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;传播变化： Java &lt;code class=&quot;highlighter-rouge&quot;&gt;Observable/Observer&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;事件： Java &lt;code class=&quot;highlighter-rouge&quot;&gt;EventObject/EventListener&lt;/code&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;数据结构
+        &lt;ul&gt;
+          &lt;li&gt;流式 &lt;code class=&quot;highlighter-rouge&quot;&gt;stream&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;序列 &lt;code class=&quot;highlighter-rouge&quot;&gt;Sequences&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;事件 &lt;code class=&quot;highlighter-rouge&quot;&gt;Events&lt;/code&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;设计模式
+        &lt;ul&gt;
+          &lt;li&gt;扩展模式：观察者 &lt;code class=&quot;highlighter-rouge&quot;&gt;Observer&lt;/code&gt; -&amp;gt; 推模式：被动获取事件&lt;/li&gt;
+          &lt;li&gt;对立模式：迭代器 &lt;code class=&quot;highlighter-rouge&quot;&gt;Iterator&lt;/code&gt; -&amp;gt; 拉模式：主动获取事件&lt;/li&gt;
+          &lt;li&gt;混合模式：反应堆 &lt;code class=&quot;highlighter-rouge&quot;&gt;Reactor&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;Proactor&lt;/code&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Spring</summary></entry><entry><title type="html">Netty</title><link href="/netty/2020/02/11/netty.html" rel="alternate" type="text/html" title="Netty" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/netty/2020/02/11/netty</id><content type="html" xml:base="/netty/2020/02/11/netty.html">&lt;h1 id=&quot;netty&quot;&gt;Netty&lt;/h1&gt;
 &lt;hr /&gt;
 
 &lt;ul&gt;
@@ -494,65 +637,7 @@ curl &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://github.com/kuberne
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Netty</summary></entry><entry><title type="html">Spring</title><link href="/spring/2020/02/11/spring.html" rel="alternate" type="text/html" title="Spring" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/spring/2020/02/11/spring</id><content type="html" xml:base="/spring/2020/02/11/spring.html">&lt;h1 id=&quot;spring&quot;&gt;Spring&lt;/h1&gt;
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;webflux&quot;&gt;WebFlux&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;相关前提
-    &lt;ul&gt;
-      &lt;li&gt;Reactor 同步非阻塞模式&lt;/li&gt;
-      &lt;li&gt;Proactor 异步非阻塞模式&lt;/li&gt;
-      &lt;li&gt;Observer 观察者模式&lt;/li&gt;
-      &lt;li&gt;Iterator 迭代器模式&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Reactive
-    &lt;ul&gt;
-      &lt;li&gt;定义
-        &lt;ul&gt;
-          &lt;li&gt;声明式的编程范式，关注于数据流（data streams）和传播变化（propagation of change）&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;实现
-        &lt;ul&gt;
-          &lt;li&gt;RxJava: Reactive Extensions&lt;/li&gt;
-          &lt;li&gt;Reactor: Spring WebFlux Reactive&lt;/li&gt;
-          &lt;li&gt;Flow API: JAVA 9 Flow API&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;特点
-        &lt;ul&gt;
-          &lt;li&gt;响应式（Responsive）&lt;/li&gt;
-          &lt;li&gt;适应性强（Resilient）&lt;/li&gt;
-          &lt;li&gt;弹性可伸缩（Elastic）&lt;/li&gt;
-          &lt;li&gt;消息驱动（Message Driven）&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;涉及技术
-        &lt;ul&gt;
-          &lt;li&gt;数据流：Java 8 &lt;code class=&quot;highlighter-rouge&quot;&gt;Stream&lt;/code&gt;&lt;/li&gt;
-          &lt;li&gt;传播变化： Java &lt;code class=&quot;highlighter-rouge&quot;&gt;Observable/Observer&lt;/code&gt;&lt;/li&gt;
-          &lt;li&gt;事件： Java &lt;code class=&quot;highlighter-rouge&quot;&gt;EventObject/EventListener&lt;/code&gt;&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;数据结构
-        &lt;ul&gt;
-          &lt;li&gt;流式 &lt;code class=&quot;highlighter-rouge&quot;&gt;stream&lt;/code&gt;&lt;/li&gt;
-          &lt;li&gt;序列 &lt;code class=&quot;highlighter-rouge&quot;&gt;Sequences&lt;/code&gt;&lt;/li&gt;
-          &lt;li&gt;事件 &lt;code class=&quot;highlighter-rouge&quot;&gt;Events&lt;/code&gt;&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;设计模式
-        &lt;ul&gt;
-          &lt;li&gt;扩展模式：观察者 &lt;code class=&quot;highlighter-rouge&quot;&gt;Observer&lt;/code&gt; -&amp;gt; 推模式：被动获取事件&lt;/li&gt;
-          &lt;li&gt;对立模式：迭代器 &lt;code class=&quot;highlighter-rouge&quot;&gt;Iterator&lt;/code&gt; -&amp;gt; 拉模式：主动获取事件&lt;/li&gt;
-          &lt;li&gt;混合模式：反应堆 &lt;code class=&quot;highlighter-rouge&quot;&gt;Reactor&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;Proactor&lt;/code&gt;&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Spring</summary></entry><entry><title type="html">Elasticsearch</title><link href="/elasticsearch/2020/02/10/elasticsearch.html" rel="alternate" type="text/html" title="Elasticsearch" /><published>2020-02-10T13:57:36+08:00</published><updated>2020-02-10T13:57:36+08:00</updated><id>/elasticsearch/2020/02/10/elasticsearch</id><content type="html" xml:base="/elasticsearch/2020/02/10/elasticsearch.html">&lt;h1 id=&quot;elasticsearch&quot;&gt;Elasticsearch&lt;/h1&gt;
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Netty</summary></entry><entry><title type="html">Elasticsearch</title><link href="/elasticsearch/2020/02/10/elasticsearch.html" rel="alternate" type="text/html" title="Elasticsearch" /><published>2020-02-10T13:57:36+08:00</published><updated>2020-02-10T13:57:36+08:00</updated><id>/elasticsearch/2020/02/10/elasticsearch</id><content type="html" xml:base="/elasticsearch/2020/02/10/elasticsearch.html">&lt;h1 id=&quot;elasticsearch&quot;&gt;Elasticsearch&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
   &lt;li&gt;倒排索引
@@ -1453,7 +1538,7 @@ PUT _cluster/settings
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Elasticsearch 倒排索引 单词词典 Term Dictionary B+树或哈希拉链法实现，以满足查询需要 倒排列表 Posting List 文档ID 词频TF(Term frequencies)：用于相关性算分 位置Position：用于语句搜索 偏移量Offset：用于高亮显示 集群 节点node Master-eligible Nodes 预备选举节点 默认启动后都是预备节点，第一个启动起来的就是主节点 Master Node 只有Master节点才能修改集群的状态信息 Data Node 保存分片数据 Coordinating Node 接收RESTful用户请求，并将请求转发到合适的节点，最终把结果汇总 默认每个节点默认都起到Coordinating Node的职责 Hot &amp;amp; Warm Node 冷热节点，降低集群部署的成本 Machine Learning Node 负责跑机器学习Job 分片shard primary shard 数据水平扩展 一个分片是一个运行Lucene的实例 主分片数在索引创建时指定，后续不允许修改，除非Reindex replica shard 数据高可用 可以动态调整，提升服务的可用性（读取的吞吐量） 分片数的设定 分片数过小 水平扩展能力减少 单分片数据量过大 分片数过大 over-sharding问题 影响搜索结果的相关性打分，影响统计结果的准确性 单个节点上过多分片，会导致资源浪费，影响性能 集群健康 GET _cluster/health Green 主分片和副本都正常分配 Yellow 主分片正常分片，副本分片未能正常分配 Red 主分片未能正常分配 分片生命周期 单个shard分片即Lucene Index 单个倒排索引文件成为Segment，不可变更 多个Segments汇总成为Lucene Index，即ES Shard Lucene中记录所有Segments的信息的文件Commit Point 删除文档信息保存在.del文件中，检索时过滤，而非真正删除 文档写入流程 Refresh Index Document 从Index Buffer中写入Segment过程称为Refresh 默认频率1秒一次 如果Index Buffer已满，也会触发Refresh，默认是JVM的10% Transaction Log 为了保证数据不丢失，文档在进入Index Buffer的同时，写入Transaction Log落盘 每个分片有一个Transaction Log Refresh操作会清空Index Buffer，Transaction Log不会清空 Flush 调用Refresh，清空Index Buffer 调用fsync，将缓存中的Segment落盘 清空Transaction Log 默认30分钟调用一次 Transaction Log已满也会触发Flush，默认512MB Merge 合并Flush操作产生的多个Segments 删除.del中的文档 元素 Document _index:文档所在的索引名 _type:文档所在的类型名（7.0以后一个索引对应一个type） _id:文档唯一id _uid:组合id，6.x以后废弃 _source:文档原始Json数据 _all:整合所有字段内容，默认禁用 Index mapping type 7.0后一一对应 定义索引中的字段名称和数据类型 定义倒排索引配置 dynamic mapping 如果未定义mapping直接写入文档时，es自动创建mapping的机制 字段类型推断 reindex 修改字段类型 dynamic 参数可限制mapping范围，在修改文档字段时，可控制mapping是否动态调整 |dynamic参数|true|false|strict| |—|—|—|—| |文档可索引|YES|YES|NO| |字段可索引|YES|NO|NO| |Mapping可更新|YES|NO|NO| PUT {index}/_mapping { &quot;dynamic&quot;:false } Exact Values vs. Full Text （精确值和全文本） 精确值类型使用 keyword，不进行分词 全文本类型使用 text，进行分词 analysis PUT {index} { &quot;settings&quot;:{ &quot;analysis&quot;:{ &quot;analyzer&quot;:{ &quot;{analyzer_name}&quot;:{ &quot;type&quot;:&quot;english&quot;, &quot;stem_exclusion&quot;:[&quot;organization&quot;], &quot;stopwords&quot;:[&quot;a&quot;,&quot;an&quot;,&quot;and&quot;] } } } } } PUT {index} { &quot;settings&quot;:{ &quot;analysis&quot;:{ &quot;analyzer&quot;:{ &quot;{analyzer_name}&quot;:{ &quot;type&quot;:&quot;custom&quot;, &quot;char_filter&quot;:[&quot;{char_filter_name}&quot;], &quot;tokenizer&quot;:&quot;{tokenizer_name}&quot;, &quot;filter&quot;:[&quot;lowercase&quot;,&quot;{filter_name}&quot;] } }, &quot;tokenizer&quot;:{ &quot;{tokenizer_name}&quot;:{ &quot;type&quot;:&quot;pattern&quot;, &quot;pattern&quot;:&quot;[.,!?]&quot;, } }, &quot;char_filter&quot;:{ &quot;{char_filter_name}&quot;:{ &quot;type&quot;:&quot;mapping&quot;, &quot;mappings&quot;:[&quot;_ =&amp;gt; -&quot;] } }, &quot;filter&quot;:{ &quot;{filter_name}&quot;:{ &quot;type&quot;:&quot;stop&quot;, &quot;stopwords&quot;:&quot;_a&quot; } } } } } setting shard 基本操作 CURD API Example Explain Index PUT {index}/_doc/{id}{“test”:”abc”} 如果ID不存在，创建新的文档；如果存在，则删除后新建；版本增加 Create PUT {index}/_create/{id}{“test”:”abc”} 如果使用PUT不指定id，则自动生成；如果使用POST指定id已存在，则新增失败 Delete DELETE {index}/_doc/{id}   Update POST {index}/_update/{id}{ “doc”:{“test”:”abc”}} 指定的文档id必须存在；只对相应字段做增量修改，不能删除已存在字段；版本增加 Read GET {index}/_doc/{id}   批量 Bulk API一次提交执行Index/Create/Update/Delete，其中执行失败的操作不影响其他操作，返回结果包括每一条操作执行的结果 _mget _msearch 数据类型 字符串：text，keyword 数值型：long，integer，short，byte，double，float，half_float，scaled_float 布尔：boolean 日期：date 二进制：binary 范围累心：integer_range，float_range，long_range，double_range，date_range 索引 正排索引 文档id到文档内容单词的关联关系 倒排索引 单词到文档id的关联关系 组成 Term Dictionary：倒排索引的分词词典 Posting List：记录分词所在的偏移量 index_options 参数可规定倒排列表记录的内容 docs:doc id freqs:doc id,term frequencies positions:doc id,,term frequencies,term position offsets:doc id,,term frequencies,term position,character offset 搜索引擎查询流程 查询倒排索引单词所在的具体文档id 拿到文档id查询正排索引文档的具体内容 分词 分词器 analysis Character Filters：对原始文本进行处理，如去除特殊标记符 HTML Strip Mapping 字符替换 Pattern Replace 正则替换 Tokenizer：按一定规则分词 standard letter whitespace UAX URL Email NGram 和 Edge NGram连词分割 Path Hierarchy 文件路径分割 Token Filters：对分词结果进行再加工，如转小写，stop words lowercase stop NGram和Edge Ngram连词分割 Synonym添加近义词的term 自带分词器 Standard Simple 非字母切分 Whitespace 空格切分 Stop stop word切分 Keyword 不进行分词，保留原文作为关键字 Pattern 正则表达式切分 Language 常见语言分词器 中文分词器 ICU IK jieba Hanlp THULAC Analyze API 指定analyzer进行分析 POST _analyze { &quot;analyzer&quot;:&quot;standard&quot;, &quot;text&quot;:&quot;hello world&quot; } 指定索引中的字段进行分析 POST test_index/_analyze { &quot;field&quot;:&quot;username&quot;, &quot;text&quot;:&quot;hello world&quot; } 自定义分词器进行测试 POST _analyze { &quot;tokenizer&quot;:&quot;standard&quot;, &quot;filter&quot;:[&quot;lowercase&quot;], &quot;text&quot;:&quot;Hello World&quot; } 自定义分词 索引时分词 PUT test_index { &quot;setting&quot;:{ &quot;analysis&quot;:{ &quot;analyzer&quot;:{}, &quot;tokenizer&quot;:{}, &quot;char_filter&quot;:{}, &quot;filter&quot;:{} } } } 查询时分词 ``` ``` Index Templates 查看模板 GET /_template/{template_name} 创建索引模板 模板优先级从低到高 默认settings和mappings order参数低 order参数高 创建索引时指定 PUT _template/{template_name} { &quot;index_patterns&quot;:[&quot;*&quot;], &quot;order&quot;:0, &quot;version&quot;:1, &quot;settings&quot;:{ &quot;number_of_shards&quot;:1, &quot;number_of_replicas&quot;:1 } } PUT _template/{template_name} { &quot;index_patterns&quot;:[&quot;test*&quot;], &quot;order&quot;:1, &quot;version&quot;:1, &quot;settings&quot;:{ &quot;number_of_shards&quot;:1, &quot;number_of_replicas&quot;:2 }, &quot;mappings&quot;:{ &quot;date_detection&quot;:false, &quot;numeric_detection&quot;:true } } Dynamic Template 自定义动态类型推断 PUT {index_name} { &quot;mappings&quot;:{ &quot;dynamic_templates&quot;:[ &quot;{dynamic_tmpl_name}&quot;:{ &quot;path_match&quot;:&quot;name.*&quot;, &quot;path_unmatch&quot;:&quot;*.middle&quot;, &quot;mapping&quot;:{ &quot;type&quot;:&quot;text&quot;, &quot;copy_to&quot;:&quot;full_name&quot; } } ] } } 查询 URI Search GET {index}/_search?q={keyword}&amp;amp;df={field}&amp;amp;sort=year:desc&amp;amp;from=0&amp;amp;size=10&amp;amp;timeout=1s { &quot;profile&quot;:true } |参数|说明|实例| |—|—|—| |q|指定查询语句|?q={keyword}| |df|默认字段，不指定会对所有字段进行查询|&amp;amp;df={field}| |sort|排序|&amp;amp;sort=year:desc| |from/size|分页|&amp;amp;from=0&amp;amp;size=10| |profile|查询过程分析|”profile”:true| term 代表完全匹配，不进行分词器分析 match 查询词会被分词 POST {index}/_search { &quot;query&quot;:{ &quot;match&quot;:{ &quot;{field}&quot;:{ &quot;query&quot;:&quot;{keyword}&quot;, &quot;operator&quot;:&quot;and&quot; } } } } match_phrase 查询词顺序固定 slop 单词间最多分隔词数 POST {index}/_search { &quot;query&quot;:{ &quot;match_phrase&quot;:{ &quot;{field}&quot;:{ &quot;query&quot;:&quot;{keyword}&quot; &quot;slop&quot;:1 } } } } query_string query参数支持运算符 AND OR NOT 括号() POST {index}/_search { &quot;query&quot;:{ &quot;query_string&quot;:{ &quot;default_field&quot;:&quot;{field}&quot;, &quot;query&quot;:&quot;{keyword}&quot; } } } POST {index}/_search { &quot;query&quot;:{ &quot;query_string&quot;:{ &quot;fields&quot;:[&quot;{field1}&quot;,&quot;{field2}&quot;], &quot;query&quot;:&quot;{keyword}&quot; } } } simple_query_string query参数不支持运算符，使用default_operator参数代替 POST {index}/_search { &quot;query&quot;:{ &quot;simple_query_string&quot;:{ &quot;fields&quot;:[&quot;{field1}&quot;,&quot;{field2}&quot;], &quot;query&quot;:&quot;{keyword}&quot;, &quot;default_operator&quot;:&quot;AND&quot; } } } Query-then-Fetch 分布式搜索运行机制 Query 获取所有分片（非同一主备分片）上的结果，每个分片的From到From+Size的文档 Fetch 将Query中的结果进行合并，重新排序，然后再取From到From+Size的文档的ID 以multi get请求的方式到相应的分片获取详细的文档数据 引发的问题 每个分片需要查询文档个数=from+size 最终协调节点需要处理文档个数=number_of_shards*(from+size) 造成深度分页的难题，默认10k个文档 search after替换from操作 scroll api 不是及时更新的，可能脏读 导致相关性算分在多个不同分片上结果不准确 Aggregation 聚合 Bucket Aggregation(group by) GET {index}/_search { &quot;size&quot;:0, &quot;aggs&quot;:{ &quot;{agg_name}&quot;:{ &quot;terms&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } } } Metric Aggregation(count,avg,max,min,sum) GET {index}/_search { &quot;size&quot;:0, &quot;aggs&quot;:{ &quot;{agg_name}&quot;:{ &quot;terms&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; }, &quot;aggs&quot;:{ &quot;{agg_avg}&quot;:{ &quot;avg&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } }, &quot;aggs&quot;:{ &quot;{agg_max}&quot;:{ &quot;max&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } }, &quot;aggs&quot;:{ &quot;{agg_min}&quot;:{ &quot;min&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } } } } } Pipeline Aggregation 对聚合结果进行二次聚合 常见参数 min_bucket max_bucket avg_bucket derivative # 环比增长，增量Δx cumulative_sum # 累计求和 stats_bucket buckets_path # 配置多重聚合的层级 Matrix Aggregation 更改索引 _update_by_query：在现有索引上重建 POST blogs/_update_by_query reindex：新建并迁移目标索引 POST _reindex { &quot;source&quot;: { &quot;index&quot;: &quot;blogs&quot; }, &quot;dest&quot;: { &quot;index&quot;: &quot;blogs_new&quot; } } Index Alias 为索引定义别名，数据迭代零停机 POST _aliases { &quot;actions&quot;:[ &quot;add&quot;:{ &quot;index&quot;:&quot;{index_name}&quot;, &quot;alias&quot;:&quot;{alias_name}&quot; } ] } 关闭Dynamic Indexes 防止用户没有创建mapping的情况下写入数据，导致索引不合理 ``` PUT _cluster/settings { “persistent”:{ “action.auto_create_index”:false } } PUT _cluster/settings { “persistent”:{ “action.auto_create_index”:”logstash-,.kibana” } } ``` 索引优化 refresh_interval:”30s” # 控制refresh操作的频率，减少segment文件，减少merge IO，但查询会产生延迟 total_shards_per_node:”3” # 控制单节点分片数量，避免数据倾斜 sync_interval:”30s” # 控制translog写入频率，减少fsync IO开销，但可能导致数据丢失 dynamic:false # 避免不必要的字段索引 PUT myindex { &quot;settings&quot;:{ &quot;index&quot;:{ &quot;refresh_interval&quot;:&quot;30s&quot;, &quot;number_of_shards&quot;:&quot;2&quot; }, &quot;routing&quot;:{ &quot;allocation&quot;:{ &quot;total_shards_per_node&quot;:&quot;3&quot; } }, &quot;translog&quot;:{ &quot;sync_interval&quot;:&quot;30s&quot;, &quot;durability&quot;:&quot;async&quot; }, &quot;number_of_replicas&quot;:0 }, &quot;mappings&quot;:{ &quot;dynamic&quot;:false, &quot;properties&quot;:{} } } 相关性算分的指标 Information Retrieval Precision 查准率 Recall 查全率 Ranking 相关度排序 相关性算分计算 词频 TF(Term Frequency) TF=检索词出现的次数/分档的总字数 逆文档频率 IDF(Inverse Document Frequency) IDF=log(全部文档数/检索词出现过的文档数) TF-IDF 加权求和 TF-IDF=TF(keyword)*IDF(keyword) BM25 对TF-IDF进行了优化，算分不会趋于无穷增长 explain 参数可以查看算分的详情 profile 参数可以查看检索类型详情 GET /test_user/_search { &quot;profile&quot;: &quot;true&quot;, &quot;explain&quot;: true, &quot;query&quot;:{ &quot;match&quot;:{ &quot;name&quot;:&quot;ZurkBob&quot; } } }</summary></entry><entry><title type="html">Shell 語法</title><link href="/linux/2020/02/09/shell.html" rel="alternate" type="text/html" title="Shell 語法" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/linux/2020/02/09/shell</id><content type="html" xml:base="/linux/2020/02/09/shell.html">&lt;h3 id=&quot;shell-語法&quot;&gt;Shell 語法&lt;/h3&gt;</content><author><name>Bob</name></author><summary type="html">Shell 語法</summary></entry><entry><title type="html">JVM 結構解析</title><link href="/java/2020/02/09/jvm.html" rel="alternate" type="text/html" title="JVM 結構解析" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/java/2020/02/09/jvm</id><content type="html" xml:base="/java/2020/02/09/jvm.html">&lt;h1 id=&quot;jvm-結構解析&quot;&gt;JVM 結構解析&lt;/h1&gt;
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Elasticsearch 倒排索引 单词词典 Term Dictionary B+树或哈希拉链法实现，以满足查询需要 倒排列表 Posting List 文档ID 词频TF(Term frequencies)：用于相关性算分 位置Position：用于语句搜索 偏移量Offset：用于高亮显示 集群 节点node Master-eligible Nodes 预备选举节点 默认启动后都是预备节点，第一个启动起来的就是主节点 Master Node 只有Master节点才能修改集群的状态信息 Data Node 保存分片数据 Coordinating Node 接收RESTful用户请求，并将请求转发到合适的节点，最终把结果汇总 默认每个节点默认都起到Coordinating Node的职责 Hot &amp;amp; Warm Node 冷热节点，降低集群部署的成本 Machine Learning Node 负责跑机器学习Job 分片shard primary shard 数据水平扩展 一个分片是一个运行Lucene的实例 主分片数在索引创建时指定，后续不允许修改，除非Reindex replica shard 数据高可用 可以动态调整，提升服务的可用性（读取的吞吐量） 分片数的设定 分片数过小 水平扩展能力减少 单分片数据量过大 分片数过大 over-sharding问题 影响搜索结果的相关性打分，影响统计结果的准确性 单个节点上过多分片，会导致资源浪费，影响性能 集群健康 GET _cluster/health Green 主分片和副本都正常分配 Yellow 主分片正常分片，副本分片未能正常分配 Red 主分片未能正常分配 分片生命周期 单个shard分片即Lucene Index 单个倒排索引文件成为Segment，不可变更 多个Segments汇总成为Lucene Index，即ES Shard Lucene中记录所有Segments的信息的文件Commit Point 删除文档信息保存在.del文件中，检索时过滤，而非真正删除 文档写入流程 Refresh Index Document 从Index Buffer中写入Segment过程称为Refresh 默认频率1秒一次 如果Index Buffer已满，也会触发Refresh，默认是JVM的10% Transaction Log 为了保证数据不丢失，文档在进入Index Buffer的同时，写入Transaction Log落盘 每个分片有一个Transaction Log Refresh操作会清空Index Buffer，Transaction Log不会清空 Flush 调用Refresh，清空Index Buffer 调用fsync，将缓存中的Segment落盘 清空Transaction Log 默认30分钟调用一次 Transaction Log已满也会触发Flush，默认512MB Merge 合并Flush操作产生的多个Segments 删除.del中的文档 元素 Document _index:文档所在的索引名 _type:文档所在的类型名（7.0以后一个索引对应一个type） _id:文档唯一id _uid:组合id，6.x以后废弃 _source:文档原始Json数据 _all:整合所有字段内容，默认禁用 Index mapping type 7.0后一一对应 定义索引中的字段名称和数据类型 定义倒排索引配置 dynamic mapping 如果未定义mapping直接写入文档时，es自动创建mapping的机制 字段类型推断 reindex 修改字段类型 dynamic 参数可限制mapping范围，在修改文档字段时，可控制mapping是否动态调整 |dynamic参数|true|false|strict| |—|—|—|—| |文档可索引|YES|YES|NO| |字段可索引|YES|NO|NO| |Mapping可更新|YES|NO|NO| PUT {index}/_mapping { &quot;dynamic&quot;:false } Exact Values vs. Full Text （精确值和全文本） 精确值类型使用 keyword，不进行分词 全文本类型使用 text，进行分词 analysis PUT {index} { &quot;settings&quot;:{ &quot;analysis&quot;:{ &quot;analyzer&quot;:{ &quot;{analyzer_name}&quot;:{ &quot;type&quot;:&quot;english&quot;, &quot;stem_exclusion&quot;:[&quot;organization&quot;], &quot;stopwords&quot;:[&quot;a&quot;,&quot;an&quot;,&quot;and&quot;] } } } } } PUT {index} { &quot;settings&quot;:{ &quot;analysis&quot;:{ &quot;analyzer&quot;:{ &quot;{analyzer_name}&quot;:{ &quot;type&quot;:&quot;custom&quot;, &quot;char_filter&quot;:[&quot;{char_filter_name}&quot;], &quot;tokenizer&quot;:&quot;{tokenizer_name}&quot;, &quot;filter&quot;:[&quot;lowercase&quot;,&quot;{filter_name}&quot;] } }, &quot;tokenizer&quot;:{ &quot;{tokenizer_name}&quot;:{ &quot;type&quot;:&quot;pattern&quot;, &quot;pattern&quot;:&quot;[.,!?]&quot;, } }, &quot;char_filter&quot;:{ &quot;{char_filter_name}&quot;:{ &quot;type&quot;:&quot;mapping&quot;, &quot;mappings&quot;:[&quot;_ =&amp;gt; -&quot;] } }, &quot;filter&quot;:{ &quot;{filter_name}&quot;:{ &quot;type&quot;:&quot;stop&quot;, &quot;stopwords&quot;:&quot;_a&quot; } } } } } setting shard 基本操作 CURD API Example Explain Index PUT {index}/_doc/{id}{“test”:”abc”} 如果ID不存在，创建新的文档；如果存在，则删除后新建；版本增加 Create PUT {index}/_create/{id}{“test”:”abc”} 如果使用PUT不指定id，则自动生成；如果使用POST指定id已存在，则新增失败 Delete DELETE {index}/_doc/{id}   Update POST {index}/_update/{id}{ “doc”:{“test”:”abc”}} 指定的文档id必须存在；只对相应字段做增量修改，不能删除已存在字段；版本增加 Read GET {index}/_doc/{id}   批量 Bulk API一次提交执行Index/Create/Update/Delete，其中执行失败的操作不影响其他操作，返回结果包括每一条操作执行的结果 _mget _msearch 数据类型 字符串：text，keyword 数值型：long，integer，short，byte，double，float，half_float，scaled_float 布尔：boolean 日期：date 二进制：binary 范围累心：integer_range，float_range，long_range，double_range，date_range 索引 正排索引 文档id到文档内容单词的关联关系 倒排索引 单词到文档id的关联关系 组成 Term Dictionary：倒排索引的分词词典 Posting List：记录分词所在的偏移量 index_options 参数可规定倒排列表记录的内容 docs:doc id freqs:doc id,term frequencies positions:doc id,,term frequencies,term position offsets:doc id,,term frequencies,term position,character offset 搜索引擎查询流程 查询倒排索引单词所在的具体文档id 拿到文档id查询正排索引文档的具体内容 分词 分词器 analysis Character Filters：对原始文本进行处理，如去除特殊标记符 HTML Strip Mapping 字符替换 Pattern Replace 正则替换 Tokenizer：按一定规则分词 standard letter whitespace UAX URL Email NGram 和 Edge NGram连词分割 Path Hierarchy 文件路径分割 Token Filters：对分词结果进行再加工，如转小写，stop words lowercase stop NGram和Edge Ngram连词分割 Synonym添加近义词的term 自带分词器 Standard Simple 非字母切分 Whitespace 空格切分 Stop stop word切分 Keyword 不进行分词，保留原文作为关键字 Pattern 正则表达式切分 Language 常见语言分词器 中文分词器 ICU IK jieba Hanlp THULAC Analyze API 指定analyzer进行分析 POST _analyze { &quot;analyzer&quot;:&quot;standard&quot;, &quot;text&quot;:&quot;hello world&quot; } 指定索引中的字段进行分析 POST test_index/_analyze { &quot;field&quot;:&quot;username&quot;, &quot;text&quot;:&quot;hello world&quot; } 自定义分词器进行测试 POST _analyze { &quot;tokenizer&quot;:&quot;standard&quot;, &quot;filter&quot;:[&quot;lowercase&quot;], &quot;text&quot;:&quot;Hello World&quot; } 自定义分词 索引时分词 PUT test_index { &quot;setting&quot;:{ &quot;analysis&quot;:{ &quot;analyzer&quot;:{}, &quot;tokenizer&quot;:{}, &quot;char_filter&quot;:{}, &quot;filter&quot;:{} } } } 查询时分词 ``` ``` Index Templates 查看模板 GET /_template/{template_name} 创建索引模板 模板优先级从低到高 默认settings和mappings order参数低 order参数高 创建索引时指定 PUT _template/{template_name} { &quot;index_patterns&quot;:[&quot;*&quot;], &quot;order&quot;:0, &quot;version&quot;:1, &quot;settings&quot;:{ &quot;number_of_shards&quot;:1, &quot;number_of_replicas&quot;:1 } } PUT _template/{template_name} { &quot;index_patterns&quot;:[&quot;test*&quot;], &quot;order&quot;:1, &quot;version&quot;:1, &quot;settings&quot;:{ &quot;number_of_shards&quot;:1, &quot;number_of_replicas&quot;:2 }, &quot;mappings&quot;:{ &quot;date_detection&quot;:false, &quot;numeric_detection&quot;:true } } Dynamic Template 自定义动态类型推断 PUT {index_name} { &quot;mappings&quot;:{ &quot;dynamic_templates&quot;:[ &quot;{dynamic_tmpl_name}&quot;:{ &quot;path_match&quot;:&quot;name.*&quot;, &quot;path_unmatch&quot;:&quot;*.middle&quot;, &quot;mapping&quot;:{ &quot;type&quot;:&quot;text&quot;, &quot;copy_to&quot;:&quot;full_name&quot; } } ] } } 查询 URI Search GET {index}/_search?q={keyword}&amp;amp;df={field}&amp;amp;sort=year:desc&amp;amp;from=0&amp;amp;size=10&amp;amp;timeout=1s { &quot;profile&quot;:true } |参数|说明|实例| |—|—|—| |q|指定查询语句|?q={keyword}| |df|默认字段，不指定会对所有字段进行查询|&amp;amp;df={field}| |sort|排序|&amp;amp;sort=year:desc| |from/size|分页|&amp;amp;from=0&amp;amp;size=10| |profile|查询过程分析|”profile”:true| term 代表完全匹配，不进行分词器分析 match 查询词会被分词 POST {index}/_search { &quot;query&quot;:{ &quot;match&quot;:{ &quot;{field}&quot;:{ &quot;query&quot;:&quot;{keyword}&quot;, &quot;operator&quot;:&quot;and&quot; } } } } match_phrase 查询词顺序固定 slop 单词间最多分隔词数 POST {index}/_search { &quot;query&quot;:{ &quot;match_phrase&quot;:{ &quot;{field}&quot;:{ &quot;query&quot;:&quot;{keyword}&quot; &quot;slop&quot;:1 } } } } query_string query参数支持运算符 AND OR NOT 括号() POST {index}/_search { &quot;query&quot;:{ &quot;query_string&quot;:{ &quot;default_field&quot;:&quot;{field}&quot;, &quot;query&quot;:&quot;{keyword}&quot; } } } POST {index}/_search { &quot;query&quot;:{ &quot;query_string&quot;:{ &quot;fields&quot;:[&quot;{field1}&quot;,&quot;{field2}&quot;], &quot;query&quot;:&quot;{keyword}&quot; } } } simple_query_string query参数不支持运算符，使用default_operator参数代替 POST {index}/_search { &quot;query&quot;:{ &quot;simple_query_string&quot;:{ &quot;fields&quot;:[&quot;{field1}&quot;,&quot;{field2}&quot;], &quot;query&quot;:&quot;{keyword}&quot;, &quot;default_operator&quot;:&quot;AND&quot; } } } Query-then-Fetch 分布式搜索运行机制 Query 获取所有分片（非同一主备分片）上的结果，每个分片的From到From+Size的文档 Fetch 将Query中的结果进行合并，重新排序，然后再取From到From+Size的文档的ID 以multi get请求的方式到相应的分片获取详细的文档数据 引发的问题 每个分片需要查询文档个数=from+size 最终协调节点需要处理文档个数=number_of_shards*(from+size) 造成深度分页的难题，默认10k个文档 search after替换from操作 scroll api 不是及时更新的，可能脏读 导致相关性算分在多个不同分片上结果不准确 Aggregation 聚合 Bucket Aggregation(group by) GET {index}/_search { &quot;size&quot;:0, &quot;aggs&quot;:{ &quot;{agg_name}&quot;:{ &quot;terms&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } } } Metric Aggregation(count,avg,max,min,sum) GET {index}/_search { &quot;size&quot;:0, &quot;aggs&quot;:{ &quot;{agg_name}&quot;:{ &quot;terms&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; }, &quot;aggs&quot;:{ &quot;{agg_avg}&quot;:{ &quot;avg&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } }, &quot;aggs&quot;:{ &quot;{agg_max}&quot;:{ &quot;max&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } }, &quot;aggs&quot;:{ &quot;{agg_min}&quot;:{ &quot;min&quot;:{ &quot;field&quot;:&quot;{field_name}&quot; } } } } } } Pipeline Aggregation 对聚合结果进行二次聚合 常见参数 min_bucket max_bucket avg_bucket derivative # 环比增长，增量Δx cumulative_sum # 累计求和 stats_bucket buckets_path # 配置多重聚合的层级 Matrix Aggregation 更改索引 _update_by_query：在现有索引上重建 POST blogs/_update_by_query reindex：新建并迁移目标索引 POST _reindex { &quot;source&quot;: { &quot;index&quot;: &quot;blogs&quot; }, &quot;dest&quot;: { &quot;index&quot;: &quot;blogs_new&quot; } } Index Alias 为索引定义别名，数据迭代零停机 POST _aliases { &quot;actions&quot;:[ &quot;add&quot;:{ &quot;index&quot;:&quot;{index_name}&quot;, &quot;alias&quot;:&quot;{alias_name}&quot; } ] } 关闭Dynamic Indexes 防止用户没有创建mapping的情况下写入数据，导致索引不合理 ``` PUT _cluster/settings { “persistent”:{ “action.auto_create_index”:false } } PUT _cluster/settings { “persistent”:{ “action.auto_create_index”:”logstash-,.kibana” } } ``` 索引优化 refresh_interval:”30s” # 控制refresh操作的频率，减少segment文件，减少merge IO，但查询会产生延迟 total_shards_per_node:”3” # 控制单节点分片数量，避免数据倾斜 sync_interval:”30s” # 控制translog写入频率，减少fsync IO开销，但可能导致数据丢失 dynamic:false # 避免不必要的字段索引 PUT myindex { &quot;settings&quot;:{ &quot;index&quot;:{ &quot;refresh_interval&quot;:&quot;30s&quot;, &quot;number_of_shards&quot;:&quot;2&quot; }, &quot;routing&quot;:{ &quot;allocation&quot;:{ &quot;total_shards_per_node&quot;:&quot;3&quot; } }, &quot;translog&quot;:{ &quot;sync_interval&quot;:&quot;30s&quot;, &quot;durability&quot;:&quot;async&quot; }, &quot;number_of_replicas&quot;:0 }, &quot;mappings&quot;:{ &quot;dynamic&quot;:false, &quot;properties&quot;:{} } } 相关性算分的指标 Information Retrieval Precision 查准率 Recall 查全率 Ranking 相关度排序 相关性算分计算 词频 TF(Term Frequency) TF=检索词出现的次数/分档的总字数 逆文档频率 IDF(Inverse Document Frequency) IDF=log(全部文档数/检索词出现过的文档数) TF-IDF 加权求和 TF-IDF=TF(keyword)*IDF(keyword) BM25 对TF-IDF进行了优化，算分不会趋于无穷增长 explain 参数可以查看算分的详情 profile 参数可以查看检索类型详情 GET /test_user/_search { &quot;profile&quot;: &quot;true&quot;, &quot;explain&quot;: true, &quot;query&quot;:{ &quot;match&quot;:{ &quot;name&quot;:&quot;ZurkBob&quot; } } }</summary></entry><entry><title type="html">JVM 結構解析</title><link href="/java/2020/02/09/jvm.html" rel="alternate" type="text/html" title="JVM 結構解析" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/java/2020/02/09/jvm</id><content type="html" xml:base="/java/2020/02/09/jvm.html">&lt;h1 id=&quot;jvm-結構解析&quot;&gt;JVM 結構解析&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;img src=&quot;/images/content/JVM.png&quot; class=&quot;image featured&quot; alt=&quot;JVM&quot; align=&quot;center&quot; /&gt;&lt;/p&gt;
 &lt;h3 id=&quot;基本結構&quot;&gt;基本結構&lt;/h3&gt;
@@ -2166,7 +2251,7 @@ PUT _cluster/settings
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">JVM 結構解析 基本結構 类加载器 抽象类 loadClass defineClass findClass findLoadedClass 分类 BootStrap ClassLoader -&amp;gt; rt.jar /-Xbootclasspath -Xbootclasspath/a:/var/lib Extension ClassLoader -&amp;gt; %JAVA_HOME%/lib/ext/*.jar App ClassLoader -&amp;gt; classpath Custom ClassLoader 过程 加载(双亲模式) 自底向上检查类是否已经加载 自顶向下尝试加载类 类的二进制流，转为方法区数据结构，生成对应的java.lang.Class对象 链接 验证 文件格式 元数据 字节码 准备 分配内存，并为类设置初始化方法区 解析 符号引用替换直接引用 初始化 执行类构造器 &amp;lt;clinit&amp;gt; static变量 赋值语句 static{}静态代码块 子类的&amp;lt;clinit&amp;gt;调用前一定保证父类的&amp;lt;clinit&amp;gt;已被调用</summary></entry><entry><title type="html">Jekyll 遷移</title><link href="/jekyll/ruby/2020/02/08/jekyll.html" rel="alternate" type="text/html" title="Jekyll 遷移" /><published>2020-02-08T13:57:36+08:00</published><updated>2020-02-08T13:57:36+08:00</updated><id>/jekyll/ruby/2020/02/08/jekyll</id><content type="html" xml:base="/jekyll/ruby/2020/02/08/jekyll.html">&lt;h1 id=&quot;jekyll-遷移&quot;&gt;Jekyll 遷移&lt;/h1&gt;
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">JVM 結構解析 基本結構 类加载器 抽象类 loadClass defineClass findClass findLoadedClass 分类 BootStrap ClassLoader -&amp;gt; rt.jar /-Xbootclasspath -Xbootclasspath/a:/var/lib Extension ClassLoader -&amp;gt; %JAVA_HOME%/lib/ext/*.jar App ClassLoader -&amp;gt; classpath Custom ClassLoader 过程 加载(双亲模式) 自底向上检查类是否已经加载 自顶向下尝试加载类 类的二进制流，转为方法区数据结构，生成对应的java.lang.Class对象 链接 验证 文件格式 元数据 字节码 准备 分配内存，并为类设置初始化方法区 解析 符号引用替换直接引用 初始化 执行类构造器 &amp;lt;clinit&amp;gt; static变量 赋值语句 static{}静态代码块 子类的&amp;lt;clinit&amp;gt;调用前一定保证父类的&amp;lt;clinit&amp;gt;已被调用</summary></entry><entry><title type="html">Shell 語法</title><link href="/linux/2020/02/09/shell.html" rel="alternate" type="text/html" title="Shell 語法" /><published>2020-02-09T13:57:36+08:00</published><updated>2020-02-09T13:57:36+08:00</updated><id>/linux/2020/02/09/shell</id><content type="html" xml:base="/linux/2020/02/09/shell.html">&lt;h3 id=&quot;shell-語法&quot;&gt;Shell 語法&lt;/h3&gt;</content><author><name>Bob</name></author><summary type="html">Shell 語法</summary></entry><entry><title type="html">Jekyll 遷移</title><link href="/jekyll/ruby/2020/02/08/jekyll.html" rel="alternate" type="text/html" title="Jekyll 遷移" /><published>2020-02-08T13:57:36+08:00</published><updated>2020-02-08T13:57:36+08:00</updated><id>/jekyll/ruby/2020/02/08/jekyll</id><content type="html" xml:base="/jekyll/ruby/2020/02/08/jekyll.html">&lt;h1 id=&quot;jekyll-遷移&quot;&gt;Jekyll 遷移&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;img src=&quot;/images/content/ruby-logo.png&quot; alt=&quot;Jekyll-Logo&quot; /&gt;&lt;/p&gt;
 &lt;h3 id=&quot;ruby&quot;&gt;Ruby&lt;/h3&gt;
@@ -2195,6 +2280,11 @@ gem source -u
 &lt;p&gt;  安裝&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install jekyll
 gem install bundler
+
+gem install jekyll-compress-images
+gem uninstall jekyll-compress-images
+
+bundle install
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;  創建網站模板&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll new myblog
@@ -2207,6 +2297,16 @@ jekyll serve
 &lt;p&gt;  模板樣式下載&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://jekyllthemes.org/
 https://jekyll-themes.com/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;  訪問加速&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;圖片壓縮 https://github.com/valerijaspasojevic/jekyll-compress-images # Error: invalid byte sequence in UTF-8
+頁面壓縮 https://github.com/penibelst/jekyll-compress-html
+css壓縮 自身支持 https://www.dazhuanlan.com/2019/10/01/5d930d7408b6a/
+
+sass:
+  sass_dir:       /public/css
+  style:          compressed
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;GitHub Page第三方插件無法運行&lt;/p&gt;
@@ -2465,108 +2565,4 @@ FROM openjdk:jre-alpine&lt;/li&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;docker volume ls
 docker volume rm &lt;VOLUME_NAME&gt;
-```&lt;/VOLUME_NAME&gt;&lt;/p&gt;</content><author><name>Bob</name></author><summary type="html">指令 卸载docker yum remove docker \ docker-client \ docker-client-latest \ docker-common \ docker-latest \ docker-latest-logrotate \ docker-logrotate \ docker-selinux \ docker-engine-selinux \ docker-engine 安装相关依赖 yum install -y yum-utils device-mapper-persistent-data lvm2 添加下载镜像 yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo 安装docker yum -y install docker-ce 开启docker systemctl enable docker &amp;amp;&amp;amp; systemctl start docker systemctl disable firewalld &amp;amp;&amp;amp; systemctl stop firewalld 搜索镜像 docker search mysql 拉取镜像 docker pull mysql:5.6.43 创建容器 docker run -t -i mysql:5.6.43 /bin/bash 查看所有容器 docker ps -a #查看所有容器，不带 -a 则只显示启动的容器 端口映射与磁盘映射 docker run -p 8808:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.6.43 查看容器启动日志 docker logs 7e166dfd27eb docker logs --tail 100 -f 0491e185ae4e 容器开始停止和删除 docker start 7e166dfd27eb docker stop 7e166dfd27eb docker rm 7e166dfd27eb 进入docker控制台 docker exec -it 7e166dfd27eb /bin/bash 镜像的删除 #要将对应的所有容器删除，才能删除镜像 docker rmi &amp;lt;image id&amp;gt; 打包一个java应用到docker docker pull java:8 vi Dockerfile FROM java:8 MAINTAINER larry RUN [&quot;mkdir&quot;, &quot;app&quot;] ADD mysql-travel-1.0-SNAPSHOT.jar /app EXPOSE 8080 ENTRYPOINT [&quot;java&quot;, &quot;-jar&quot;, &quot;/app/mysql-travel-1.0-SNAPSHOT.jar&quot;] ```shell docker build -t java:springboot . #手动打标签 docker tag name:tag</summary></entry><entry><title type="html">Linux 常用指令</title><link href="/linux/2020/02/06/linux.html" rel="alternate" type="text/html" title="Linux 常用指令" /><published>2020-02-06T13:57:36+08:00</published><updated>2020-02-06T13:57:36+08:00</updated><id>/linux/2020/02/06/linux</id><content type="html" xml:base="/linux/2020/02/06/linux.html">&lt;h1 id=&quot;linux-常用命令&quot;&gt;Linux 常用命令&lt;/h1&gt;
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;硬盤擴容&quot;&gt;硬盤擴容&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 创建新分区，挂载
-fdisk /dev/sda
-
-Command (m for help): m
-Command action
-   a   toggle a bootable flag
-   b   edit bsd disklabel
-   c   toggle the dos compatibility flag
-   d   delete a partition
-   g   create a new empty GPT partition table
-   G   create an IRIX (SGI) partition table
-   l   list known partition types
-   m   print this menu
-   n   add a new partition
-   o   create a new empty DOS partition table
-   p   print the partition table
-   q   quit without saving changes
-   s   create a new empty Sun disklabel
-   t   change a partition's system id
-   u   change display/entry units
-   v   verify the partition table
-   w   write table to disk and exit
-   x   extra functionality (experts only)
-
-Command (m for help): n
-Partition type:
-   p   primary (2 primary, 0 extended, 2 free)
-   e   extended
-Select (default p): p
-Partition number (3,4, default 3): 3
-First sector (41943040-62914559, default 41943040): 
-Using default value 41943040
-Last sector, +sectors or +size{K,M,G} (41943040-62914559, default 62914559): 
-Using default value 62914559
-Partition 3 of type Linux and of size 10 GiB is set
-
-Command (m for help): w
-The partition table has been altered!
-
-Calling ioctl() to re-read partition table.
-
-WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
-The kernel still uses the old table. The new table will be used at
-the next reboot or after you run partprobe(8) or kpartx(8)
-Syncing disks.
-
-# 重启系统
-reboot
-
-# 创建物理卷
-pvcreate /dev/sda3
-
-# 查看物理卷信息
-pvdisplay
-
-# 新增加的分区/dev/sda3加入到根目录分区
-vgextend centos /dev/sda3
-
-# 查看卷组信息
-vgdisplay
-
-# 增加centos大小
-lvresize -L +10G /dev/mapper/centos-root
-
-# 报错提示：一个PE的大小为4M，所以总大小为 2559 × 4M
-[root@docker ~]# lvresize -L +10G /dev/mapper/centos-root
-  Insufficient free space: 2560 extents needed, but only 2559 available
-[root@docker ~]# lvresize -L +10236M /dev/mapper/centos-root
-  Size of logical volume centos/root changed from &amp;lt;17.00 GiB (4351 extents) to 26.99 GiB (6910 extents).
-  Logical volume centos/root successfully resized.
-
-# 重新识别centos大小
-xfs_growfs /dev/mapper/centos-root
-
-# 查看扩容后的大小
-df -h
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;hr /&gt;
-&lt;h3 id=&quot;ssh&quot;&gt;SSH&lt;/h3&gt;
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; 修改hostname
-hostnamectl &lt;span class=&quot;nt&quot;&gt;--static&lt;/span&gt; set-hostname  kuber-master
-
-ssh &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;StrictHostKeyChecking no&quot;&lt;/span&gt; root@123456
-ssh-keygen
-ssh-copy-id &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; ~/.ssh/id_rsa.pub root@kube1
-ssh-copy-id &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; ~/.ssh/id_rsa.pub root@kube2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;network&quot;&gt;NETWORK&lt;/h3&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;性能監控&quot;&gt;性能監控&lt;/h3&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;文本操作&quot;&gt;文本操作&lt;/h3&gt;
-
-&lt;hr /&gt;</content><author><name>Bob</name></author><summary type="html">Linux 常用命令</summary></entry></feed>
+```&lt;/VOLUME_NAME&gt;&lt;/p&gt;</content><author><name>Bob</name></author><summary type="html">指令 卸载docker yum remove docker \ docker-client \ docker-client-latest \ docker-common \ docker-latest \ docker-latest-logrotate \ docker-logrotate \ docker-selinux \ docker-engine-selinux \ docker-engine 安装相关依赖 yum install -y yum-utils device-mapper-persistent-data lvm2 添加下载镜像 yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo 安装docker yum -y install docker-ce 开启docker systemctl enable docker &amp;amp;&amp;amp; systemctl start docker systemctl disable firewalld &amp;amp;&amp;amp; systemctl stop firewalld 搜索镜像 docker search mysql 拉取镜像 docker pull mysql:5.6.43 创建容器 docker run -t -i mysql:5.6.43 /bin/bash 查看所有容器 docker ps -a #查看所有容器，不带 -a 则只显示启动的容器 端口映射与磁盘映射 docker run -p 8808:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.6.43 查看容器启动日志 docker logs 7e166dfd27eb docker logs --tail 100 -f 0491e185ae4e 容器开始停止和删除 docker start 7e166dfd27eb docker stop 7e166dfd27eb docker rm 7e166dfd27eb 进入docker控制台 docker exec -it 7e166dfd27eb /bin/bash 镜像的删除 #要将对应的所有容器删除，才能删除镜像 docker rmi &amp;lt;image id&amp;gt; 打包一个java应用到docker docker pull java:8 vi Dockerfile FROM java:8 MAINTAINER larry RUN [&quot;mkdir&quot;, &quot;app&quot;] ADD mysql-travel-1.0-SNAPSHOT.jar /app EXPOSE 8080 ENTRYPOINT [&quot;java&quot;, &quot;-jar&quot;, &quot;/app/mysql-travel-1.0-SNAPSHOT.jar&quot;] ```shell docker build -t java:springboot . #手动打标签 docker tag name:tag</summary></entry></feed>

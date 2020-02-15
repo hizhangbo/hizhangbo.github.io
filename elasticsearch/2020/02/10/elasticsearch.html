@@ -1,289 +1,9 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-        <title>Bob’s Blog</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="https://cdn.bootcss.com/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="/assets/css/main.css" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
-		<script>
-			var _hmt = _hmt || [];
-			(function() {
-			  var hm = document.createElement("script");
-			  hm.src = "https://hm.baidu.com/hm.js?62888767648ab0a78f7107ed1f6dc242";
-			  var s = document.getElementsByTagName("script")[0]; 
-			  s.parentNode.insertBefore(hm, s);
-			})();
-		</script>
-		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
-	</head>
-	<body oncontextmenu="return false;" onselectstart="return false">
-
-		<!-- Wrapper -->
-			<div id="wrapper">
-
-				<!-- Header -->
-                <header id="header">
-    <h1><a href="/index.html">記憶 備份</a></h1>
-    <nav class="links">
-        <ul>
-            <li><a href="/#about">關於我</a></li>
-        </ul>
-    </nav>
-    <nav class="main">
-        <ul>
-            <!-- <li class="search">
-                <a class="fa-search" href="#search">Search</a>
-                <input type="text" name="query" placeholder="Search" />
-                <div></div>
-            </li> -->
-            <li class="light">
-                <input type="checkbox" class="checke">
-            </li>
-            <li class="menu">
-                <a class="fa-bars" href="#menu">Menu</a>
-            </li>
-        </ul>
-
-
-    </nav>
-</header>
-
-                <!-- Menu -->
-                <section id="menu">
-
-    <!-- Search -->
-        <section>
-            <form class="search" method="get" action="#">
-                <input type="text" name="query" placeholder="Search" id="search-input" />
-            </form>
-        </section>
-
-        <section>
-            <div id="results-container"></div>
-        </section>
-</section>
-
-
-                <!-- Main -->
-                <div id="main">
-    <!-- Post -->
-    <article class="post">
-        <h1 id="elasticsearch">Elasticsearch</h1>
-<hr />
-<ul>
-  <li>倒排索引
-    <ul>
-      <li>单词词典 Term Dictionary
-        <ul>
-          <li>B+树或哈希拉链法实现，以满足查询需要</li>
-        </ul>
-      </li>
-      <li>倒排列表 Posting List
-        <ul>
-          <li>文档ID</li>
-          <li>词频TF(Term frequencies)：用于相关性算分</li>
-          <li>位置Position：用于语句搜索</li>
-          <li>偏移量Offset：用于高亮显示</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>集群
-    <ul>
-      <li>节点node
-        <ul>
-          <li>Master-eligible Nodes
-            <ul>
-              <li>预备选举节点</li>
-              <li>默认启动后都是预备节点，第一个启动起来的就是主节点</li>
-            </ul>
-          </li>
-          <li>Master Node
-            <ul>
-              <li>只有Master节点才能修改集群的状态信息</li>
-            </ul>
-          </li>
-          <li>Data Node
-            <ul>
-              <li>保存分片数据</li>
-            </ul>
-          </li>
-          <li>Coordinating Node
-            <ul>
-              <li>接收RESTful用户请求，并将请求转发到合适的节点，最终把结果汇总</li>
-              <li>默认每个节点默认都起到Coordinating Node的职责</li>
-            </ul>
-          </li>
-          <li>Hot &amp; Warm Node
-            <ul>
-              <li>冷热节点，降低集群部署的成本</li>
-            </ul>
-          </li>
-          <li>Machine Learning Node
-            <ul>
-              <li>负责跑机器学习Job</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>分片shard
-        <ul>
-          <li>primary shard
-            <ul>
-              <li>数据水平扩展</li>
-              <li>一个分片是一个运行Lucene的实例</li>
-              <li>主分片数在索引创建时指定，后续不允许修改，除非Reindex</li>
-            </ul>
-          </li>
-          <li>replica shard
-            <ul>
-              <li>数据高可用</li>
-              <li>可以动态调整，提升服务的可用性（读取的吞吐量）</li>
-            </ul>
-          </li>
-          <li>分片数的设定
-            <ul>
-              <li>分片数过小
-                <ul>
-                  <li>水平扩展能力减少</li>
-                  <li>单分片数据量过大</li>
-                </ul>
-              </li>
-              <li>分片数过大
-                <ul>
-                  <li>over-sharding问题</li>
-                  <li>影响搜索结果的相关性打分，影响统计结果的准确性</li>
-                  <li>单个节点上过多分片，会导致资源浪费，影响性能</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>集群健康
-        <ul>
-          <li>
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET _cluster/health
-</code></pre></div>            </div>
-          </li>
-          <li>Green
-            <ul>
-              <li>主分片和副本都正常分配</li>
-            </ul>
-          </li>
-          <li>Yellow
-            <ul>
-              <li>主分片正常分片，副本分片未能正常分配</li>
-            </ul>
-          </li>
-          <li>Red
-            <ul>
-              <li>主分片未能正常分配</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>分片生命周期
-    <ul>
-      <li>单个shard分片即Lucene Index</li>
-      <li>单个倒排索引文件成为Segment，不可变更</li>
-      <li>多个Segments汇总成为Lucene Index，即ES Shard</li>
-      <li>Lucene中记录所有Segments的信息的文件Commit Point</li>
-      <li>删除文档信息保存在.del文件中，检索时过滤，而非真正删除</li>
-      <li>文档写入流程
-        <ul>
-          <li>Refresh
-            <ul>
-              <li>Index Document 从Index Buffer中写入Segment过程称为Refresh</li>
-              <li>默认频率1秒一次</li>
-              <li>如果Index Buffer已满，也会触发Refresh，默认是JVM的10%</li>
-            </ul>
-          </li>
-          <li>Transaction Log
-            <ul>
-              <li>为了保证数据不丢失，文档在进入Index Buffer的同时，写入Transaction Log落盘</li>
-              <li>每个分片有一个Transaction Log</li>
-              <li>Refresh操作会清空Index Buffer，Transaction Log不会清空</li>
-            </ul>
-          </li>
-          <li>Flush
-            <ul>
-              <li>调用Refresh，清空Index Buffer</li>
-              <li>调用fsync，将缓存中的Segment落盘</li>
-              <li>清空Transaction Log</li>
-              <li>默认30分钟调用一次</li>
-              <li>Transaction Log已满也会触发Flush，默认512MB</li>
-            </ul>
-          </li>
-          <li>Merge
-            <ul>
-              <li>合并Flush操作产生的多个Segments</li>
-              <li>删除.del中的文档</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>元素
-    <ul>
-      <li>Document
-        <ul>
-          <li>_index:文档所在的索引名</li>
-          <li>_type:文档所在的类型名（7.0以后一个索引对应一个type）</li>
-          <li>_id:文档唯一id</li>
-          <li>_uid:组合id，6.x以后废弃</li>
-          <li>_source:文档原始Json数据</li>
-          <li>_all:整合所有字段内容，默认禁用</li>
-        </ul>
-      </li>
-      <li>Index
-        <ul>
-          <li>mapping
-            <ul>
-              <li>type 7.0后一一对应</li>
-              <li>定义索引中的字段名称和数据类型</li>
-              <li>定义倒排索引配置</li>
-              <li>dynamic mapping
-                <ul>
-                  <li>如果未定义mapping直接写入文档时，es自动创建mapping的机制</li>
-                  <li>字段类型推断
-                    <ul>
-                      <li>reindex 修改字段类型</li>
-                    </ul>
-                  </li>
-                  <li>dynamic 参数可限制mapping范围，在修改文档字段时，可控制mapping是否动态调整
-                    <ul>
-                      <li>|dynamic参数|true|false|strict|
-|—|—|—|—|
-|文档可索引|YES|YES|NO|
-|字段可索引|YES|NO|NO|
-|Mapping可更新|YES|NO|NO|
-                        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT {index}/_mapping
+<!DOCTYPE HTML><title>Bob’s Blog</title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /> <!--[if lte IE 8]><script src="https://cdn.bootcss.com/html5shiv/3.6.2/html5shiv.js"></script><![endif]--><link rel="stylesheet" href="/assets/css/main.css" /> <!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]--> <!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]--> <script> var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?62888767648ab0a78f7107ed1f6dc242"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })(); </script> <script src='//unpkg.com/valine/dist/Valine.min.js'></script><body oncontextmenu="return false;" onselectstart="return false"><div id="wrapper"><header id="header"><h1><a href="/index.html">記憶 備份</a></h1><nav class="links"><ul><li><a href="/#about">關於我</a></ul></nav><nav class="main"><ul><li class="light"> <input type="checkbox" class="checke"><li class="menu"> <a class="fa-bars" href="#menu">Menu</a></ul></nav></header><section id="menu"><section> <form class="search" method="get" action="#"> <input type="text" name="query" placeholder="Search" id="search-input" /> </form></section><section><div id="results-container"></div></section></section><div id="main"><article class="post"><h1 id="elasticsearch">Elasticsearch</h1><hr /><ul><li>倒排索引<ul><li>单词词典 Term Dictionary<ul><li>B+树或哈希拉链法实现，以满足查询需要</ul><li>倒排列表 Posting List<ul><li>文档ID<li>词频TF(Term frequencies)：用于相关性算分<li>位置Position：用于语句搜索<li>偏移量Offset：用于高亮显示</ul></ul><li>集群<ul><li>节点node<ul><li>Master-eligible Nodes<ul><li>预备选举节点<li>默认启动后都是预备节点，第一个启动起来的就是主节点</ul><li>Master Node<ul><li>只有Master节点才能修改集群的状态信息</ul><li>Data Node<ul><li>保存分片数据</ul><li>Coordinating Node<ul><li>接收RESTful用户请求，并将请求转发到合适的节点，最终把结果汇总<li>默认每个节点默认都起到Coordinating Node的职责</ul><li>Hot &amp; Warm Node<ul><li>冷热节点，降低集群部署的成本</ul><li>Machine Learning Node<ul><li>负责跑机器学习Job</ul></ul><li>分片shard<ul><li>primary shard<ul><li>数据水平扩展<li>一个分片是一个运行Lucene的实例<li>主分片数在索引创建时指定，后续不允许修改，除非Reindex</ul><li>replica shard<ul><li>数据高可用<li>可以动态调整，提升服务的可用性（读取的吞吐量）</ul><li>分片数的设定<ul><li>分片数过小<ul><li>水平扩展能力减少<li>单分片数据量过大</ul><li>分片数过大<ul><li>over-sharding问题<li>影响搜索结果的相关性打分，影响统计结果的准确性<li>单个节点上过多分片，会导致资源浪费，影响性能</ul></ul></ul><li>集群健康<ul><li><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET _cluster/health
+</code></pre></div></div><li>Green<ul><li>主分片和副本都正常分配</ul><li>Yellow<ul><li>主分片正常分片，副本分片未能正常分配</ul><li>Red<ul><li>主分片未能正常分配</ul></ul></ul><li>分片生命周期<ul><li>单个shard分片即Lucene Index<li>单个倒排索引文件成为Segment，不可变更<li>多个Segments汇总成为Lucene Index，即ES Shard<li>Lucene中记录所有Segments的信息的文件Commit Point<li>删除文档信息保存在.del文件中，检索时过滤，而非真正删除<li>文档写入流程<ul><li>Refresh<ul><li>Index Document 从Index Buffer中写入Segment过程称为Refresh<li>默认频率1秒一次<li>如果Index Buffer已满，也会触发Refresh，默认是JVM的10%</ul><li>Transaction Log<ul><li>为了保证数据不丢失，文档在进入Index Buffer的同时，写入Transaction Log落盘<li>每个分片有一个Transaction Log<li>Refresh操作会清空Index Buffer，Transaction Log不会清空</ul><li>Flush<ul><li>调用Refresh，清空Index Buffer<li>调用fsync，将缓存中的Segment落盘<li>清空Transaction Log<li>默认30分钟调用一次<li>Transaction Log已满也会触发Flush，默认512MB</ul><li>Merge<ul><li>合并Flush操作产生的多个Segments<li>删除.del中的文档</ul></ul></ul><li>元素<ul><li>Document<ul><li>_index:文档所在的索引名<li>_type:文档所在的类型名（7.0以后一个索引对应一个type）<li>_id:文档唯一id<li>_uid:组合id，6.x以后废弃<li>_source:文档原始Json数据<li>_all:整合所有字段内容，默认禁用</ul><li>Index<ul><li>mapping<ul><li>type 7.0后一一对应<li>定义索引中的字段名称和数据类型<li>定义倒排索引配置<li>dynamic mapping<ul><li>如果未定义mapping直接写入文档时，es自动创建mapping的机制<li>字段类型推断<ul><li>reindex 修改字段类型</ul><li>dynamic 参数可限制mapping范围，在修改文档字段时，可控制mapping是否动态调整<ul><li>|dynamic参数|true|false|strict| |—|—|—|—| |文档可索引|YES|YES|NO| |字段可索引|YES|NO|NO| |Mapping可更新|YES|NO|NO|<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT {index}/_mapping
 {
   "dynamic":false
 }
-</code></pre></div>                        </div>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>Exact Values vs. Full Text （精确值和全文本）
-                    <ul>
-                      <li>精确值类型使用 keyword，不进行分词</li>
-                      <li>全文本类型使用 text，进行分词</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>analysis
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT {index}
+</code></pre></div></div></ul><li>Exact Values vs. Full Text （精确值和全文本）<ul><li>精确值类型使用 keyword，不进行分词<li>全文本类型使用 text，进行分词</ul></ul></ul><li>analysis<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT {index}
 {
   "settings":{
       "analysis":{
@@ -330,227 +50,23 @@ PUT {index}
       }
   }
 }
-</code></pre></div>            </div>
-          </li>
-          <li>setting
-            <ul>
-              <li>shard</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>基本操作
-    <ul>
-      <li>CURD
-        <ul>
-          <li>
-            <table>
-              <thead>
-                <tr>
-                  <th>API</th>
-                  <th>Example</th>
-                  <th>Explain</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Index</td>
-                  <td>PUT {index}/_doc/{id}<br />{“test”:”abc”}</td>
-                  <td>如果ID不存在，创建新的文档；<br />如果存在，则删除后新建；<br />版本增加</td>
-                </tr>
-                <tr>
-                  <td>Create</td>
-                  <td>PUT {index}/_create/{id}<br />{“test”:”abc”}</td>
-                  <td>如果使用PUT不指定id，则自动生成；<br />如果使用POST指定id已存在，则新增失败</td>
-                </tr>
-                <tr>
-                  <td>Delete</td>
-                  <td>DELETE {index}/_doc/{id}</td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td>Update</td>
-                  <td>POST {index}/_update/{id}<br />{ “doc”:{“test”:”abc”}}</td>
-                  <td>指定的文档id必须存在；<br />只对相应字段做增量修改，不能删除已存在字段；<br />版本增加</td>
-                </tr>
-                <tr>
-                  <td>Read</td>
-                  <td>GET {index}/_doc/{id}</td>
-                  <td> </td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
-        </ul>
-      </li>
-      <li>批量
-        <ul>
-          <li>Bulk API一次提交执行Index/Create/Update/Delete，其中执行失败的操作不影响其他操作，返回结果包括每一条操作执行的结果</li>
-          <li>_mget</li>
-          <li>_msearch</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>数据类型
-    <ul>
-      <li>字符串：text，keyword</li>
-      <li>数值型：long，integer，short，byte，double，float，half_float，scaled_float</li>
-      <li>布尔：boolean</li>
-      <li>日期：date</li>
-      <li>二进制：binary</li>
-      <li>范围累心：integer_range，float_range，long_range，double_range，date_range</li>
-    </ul>
-  </li>
-  <li>索引
-    <ul>
-      <li>正排索引
-        <ul>
-          <li>文档id到文档内容单词的关联关系</li>
-        </ul>
-      </li>
-      <li>倒排索引
-        <ul>
-          <li>单词到文档id的关联关系</li>
-          <li>组成
-            <ul>
-              <li>Term Dictionary：倒排索引的分词词典</li>
-              <li>Posting List：记录分词所在的偏移量
-                <ul>
-                  <li>index_options 参数可规定倒排列表记录的内容
-                    <ul>
-                      <li>docs:doc id</li>
-                      <li>freqs:doc id,term frequencies</li>
-                      <li>positions:doc id,,term frequencies,term position</li>
-                      <li>offsets:doc id,,term frequencies,term position,character offset</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>搜索引擎查询流程
-        <ul>
-          <li>查询倒排索引单词所在的具体文档id</li>
-          <li>拿到文档id查询正排索引文档的具体内容</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>分词
-    <ul>
-      <li>分词器 analysis
-        <ul>
-          <li>Character Filters：对原始文本进行处理，如去除特殊标记符
-            <ul>
-              <li>HTML Strip</li>
-              <li>Mapping 字符替换</li>
-              <li>Pattern Replace 正则替换</li>
-            </ul>
-          </li>
-          <li>Tokenizer：按一定规则分词
-            <ul>
-              <li>standard</li>
-              <li>letter</li>
-              <li>whitespace</li>
-              <li>UAX URL Email</li>
-              <li>NGram 和 Edge NGram连词分割</li>
-              <li>Path Hierarchy 文件路径分割</li>
-            </ul>
-          </li>
-          <li>Token Filters：对分词结果进行再加工，如转小写，stop words
-            <ul>
-              <li>lowercase</li>
-              <li>stop</li>
-              <li>NGram和Edge Ngram连词分割</li>
-              <li>Synonym添加近义词的term</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>自带分词器
-        <ul>
-          <li>Standard</li>
-          <li>Simple
-            <ul>
-              <li>非字母切分</li>
-            </ul>
-          </li>
-          <li>Whitespace
-            <ul>
-              <li>空格切分</li>
-            </ul>
-          </li>
-          <li>Stop
-            <ul>
-              <li>stop word切分</li>
-            </ul>
-          </li>
-          <li>Keyword
-            <ul>
-              <li>不进行分词，保留原文作为关键字</li>
-            </ul>
-          </li>
-          <li>Pattern
-            <ul>
-              <li>正则表达式切分</li>
-            </ul>
-          </li>
-          <li>Language
-            <ul>
-              <li>常见语言分词器</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>中文分词器
-        <ul>
-          <li>ICU</li>
-          <li>IK</li>
-          <li>jieba</li>
-          <li>Hanlp</li>
-          <li>THULAC</li>
-        </ul>
-      </li>
-      <li>Analyze API
-        <ul>
-          <li>指定analyzer进行分析
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST _analyze
+</code></pre></div></div><li>setting<ul><li>shard</ul></ul></ul><li>基本操作<ul><li>CURD<ul><li><table><thead><tr><th>API<th>Example<th>Explain<tbody><tr><td>Index<td>PUT {index}/_doc/{id}<br />{“test”:”abc”}<td>如果ID不存在，创建新的文档；<br />如果存在，则删除后新建；<br />版本增加<tr><td>Create<td>PUT {index}/_create/{id}<br />{“test”:”abc”}<td>如果使用PUT不指定id，则自动生成；<br />如果使用POST指定id已存在，则新增失败<tr><td>Delete<td>DELETE {index}/_doc/{id}<td> <tr><td>Update<td>POST {index}/_update/{id}<br />{ “doc”:{“test”:”abc”}}<td>指定的文档id必须存在；<br />只对相应字段做增量修改，不能删除已存在字段；<br />版本增加<tr><td>Read<td>GET {index}/_doc/{id}<td> </table></ul><li>批量<ul><li>Bulk API一次提交执行Index/Create/Update/Delete，其中执行失败的操作不影响其他操作，返回结果包括每一条操作执行的结果<li>_mget<li>_msearch</ul></ul><li>数据类型<ul><li>字符串：text，keyword<li>数值型：long，integer，short，byte，double，float，half_float，scaled_float<li>布尔：boolean<li>日期：date<li>二进制：binary<li>范围累心：integer_range，float_range，long_range，double_range，date_range</ul><li>索引<ul><li>正排索引<ul><li>文档id到文档内容单词的关联关系</ul><li>倒排索引<ul><li>单词到文档id的关联关系<li>组成<ul><li>Term Dictionary：倒排索引的分词词典<li>Posting List：记录分词所在的偏移量<ul><li>index_options 参数可规定倒排列表记录的内容<ul><li>docs:doc id<li>freqs:doc id,term frequencies<li>positions:doc id,,term frequencies,term position<li>offsets:doc id,,term frequencies,term position,character offset</ul></ul></ul></ul><li>搜索引擎查询流程<ul><li>查询倒排索引单词所在的具体文档id<li>拿到文档id查询正排索引文档的具体内容</ul></ul><li>分词<ul><li>分词器 analysis<ul><li>Character Filters：对原始文本进行处理，如去除特殊标记符<ul><li>HTML Strip<li>Mapping 字符替换<li>Pattern Replace 正则替换</ul><li>Tokenizer：按一定规则分词<ul><li>standard<li>letter<li>whitespace<li>UAX URL Email<li>NGram 和 Edge NGram连词分割<li>Path Hierarchy 文件路径分割</ul><li>Token Filters：对分词结果进行再加工，如转小写，stop words<ul><li>lowercase<li>stop<li>NGram和Edge Ngram连词分割<li>Synonym添加近义词的term</ul></ul><li>自带分词器<ul><li>Standard<li>Simple<ul><li>非字母切分</ul><li>Whitespace<ul><li>空格切分</ul><li>Stop<ul><li>stop word切分</ul><li>Keyword<ul><li>不进行分词，保留原文作为关键字</ul><li>Pattern<ul><li>正则表达式切分</ul><li>Language<ul><li>常见语言分词器</ul></ul><li>中文分词器<ul><li>ICU<li>IK<li>jieba<li>Hanlp<li>THULAC</ul><li>Analyze API<ul><li>指定analyzer进行分析<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST _analyze
 {
   "analyzer":"standard",
   "text":"hello world"
 }
-</code></pre></div>            </div>
-          </li>
-          <li>指定索引中的字段进行分析
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST test_index/_analyze
+</code></pre></div></div><li>指定索引中的字段进行分析<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST test_index/_analyze
 {
   "field":"username",
   "text":"hello world"
 }
-</code></pre></div>            </div>
-          </li>
-          <li>自定义分词器进行测试
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST _analyze
+</code></pre></div></div><li>自定义分词器进行测试<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST _analyze
 {
   "tokenizer":"standard",
   "filter":["lowercase"],
   "text":"Hello World"
 }
-</code></pre></div>            </div>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>自定义分词
-    <ul>
-      <li>索引时分词
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT test_index
+</code></pre></div></div></ul></ul><li>自定义分词<ul><li>索引时分词<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT test_index
 {
   "setting":{
       "analysis":{
@@ -561,29 +77,8 @@ PUT {index}
       }
   }
 }
-</code></pre></div>        </div>
-      </li>
-      <li>查询时分词
-```</li>
-    </ul>
-
-    <p>```</p>
-  </li>
-  <li>Index Templates
-    <ul>
-      <li>查看模板
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /_template/{template_name}
-</code></pre></div>        </div>
-      </li>
-      <li>创建索引模板
-        <ul>
-          <li>模板优先级从低到高
-            <ul>
-              <li>默认settings和mappings</li>
-              <li>order参数低</li>
-              <li>order参数高</li>
-              <li>创建索引时指定
-                <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT _template/{template_name}
+</code></pre></div></div><li>查询时分词 ```</ul><p>```</p><li>Index Templates<ul><li>查看模板<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /_template/{template_name}
+</code></pre></div></div><li>创建索引模板<ul><li>模板优先级从低到高<ul><li>默认settings和mappings<li>order参数低<li>order参数高<li>创建索引时指定<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT _template/{template_name}
 {
 "index_patterns":["*"],
 "order":0,
@@ -607,18 +102,7 @@ PUT _template/{template_name}
   "numeric_detection":true
 }
 }
-</code></pre></div>                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Dynamic Template
-    <ul>
-      <li>自定义动态类型推断
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT {index_name}
+</code></pre></div></div></ul></ul></ul><li>Dynamic Template<ul><li>自定义动态类型推断<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT {index_name}
 {
   "mappings":{
       "dynamic_templates":[
@@ -633,35 +117,11 @@ PUT _template/{template_name}
       ]
   }
 }
-</code></pre></div>        </div>
-      </li>
-    </ul>
-  </li>
-  <li>查询
-    <ul>
-      <li>URI Search
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET {index}/_search?q={keyword}&amp;df={field}&amp;sort=year:desc&amp;from=0&amp;size=10&amp;timeout=1s
+</code></pre></div></div></ul><li>查询<ul><li>URI Search<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET {index}/_search?q={keyword}&amp;df={field}&amp;sort=year:desc&amp;from=0&amp;size=10&amp;timeout=1s
 {
     "profile":true
 }
-</code></pre></div>        </div>
-        <p>|参数|说明|实例|
-|—|—|—|
-|q|指定查询语句|?q={keyword}|
-|df|默认字段，不指定会对所有字段进行查询|&amp;df={field}|
-|sort|排序|&amp;sort=year:desc|
-|from/size|分页|&amp;from=0&amp;size=10|
-|profile|查询过程分析|”profile”:true|</p>
-      </li>
-      <li>term
-        <ul>
-          <li>代表完全匹配，不进行分词器分析</li>
-        </ul>
-      </li>
-      <li>match
-        <ul>
-          <li>查询词会被分词
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST {index}/_search
+</code></pre></div></div><p>|参数|说明|实例| |—|—|—| |q|指定查询语句|?q={keyword}| |df|默认字段，不指定会对所有字段进行查询|&amp;df={field}| |sort|排序|&amp;sort=year:desc| |from/size|分页|&amp;from=0&amp;size=10| |profile|查询过程分析|”profile”:true|</p><li>term<ul><li>代表完全匹配，不进行分词器分析</ul><li>match<ul><li>查询词会被分词<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST {index}/_search
 {
   "query":{
       "match":{
@@ -672,15 +132,7 @@ PUT _template/{template_name}
       }
   }
 }
-</code></pre></div>            </div>
-          </li>
-        </ul>
-      </li>
-      <li>match_phrase
-        <ul>
-          <li>查询词顺序固定</li>
-          <li>slop 单词间最多分隔词数
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST {index}/_search
+</code></pre></div></div></ul><li>match_phrase<ul><li>查询词顺序固定<li>slop 单词间最多分隔词数<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST {index}/_search
 {
   "query":{
       "match_phrase":{
@@ -691,12 +143,7 @@ PUT _template/{template_name}
       }
   }
 }
-</code></pre></div>            </div>
-          </li>
-          <li>query_string
-            <ul>
-              <li>query参数支持运算符 AND OR NOT 括号()
-                <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST {index}/_search
+</code></pre></div></div><li>query_string<ul><li>query参数支持运算符 AND OR NOT 括号()<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST {index}/_search
 {
 "query":{
     "query_string":{
@@ -714,14 +161,7 @@ POST {index}/_search
     }
 }
 }
-</code></pre></div>                </div>
-              </li>
-            </ul>
-          </li>
-          <li>simple_query_string
-            <ul>
-              <li>query参数不支持运算符，使用default_operator参数代替
-                <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST {index}/_search
+</code></pre></div></div></ul><li>simple_query_string<ul><li>query参数不支持运算符，使用default_operator参数代替<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST {index}/_search
 {
 "query":{
     "simple_query_string":{
@@ -731,47 +171,7 @@ POST {index}/_search
     }
 }
 }
-</code></pre></div>                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Query-then-Fetch
-    <ul>
-      <li>分布式搜索运行机制</li>
-      <li>Query
-        <ul>
-          <li>获取所有分片（非同一主备分片）上的结果，每个分片的From到From+Size的文档</li>
-        </ul>
-      </li>
-      <li>Fetch
-        <ul>
-          <li>将Query中的结果进行合并，重新排序，然后再取From到From+Size的文档的ID</li>
-          <li>以multi get请求的方式到相应的分片获取详细的文档数据</li>
-        </ul>
-      </li>
-      <li>引发的问题
-        <ul>
-          <li>每个分片需要查询文档个数=from+size</li>
-          <li>最终协调节点需要处理文档个数=number_of_shards*(from+size)</li>
-          <li>造成深度分页的难题，默认10k个文档
-            <ul>
-              <li>search after替换from操作</li>
-              <li>scroll api 不是及时更新的，可能脏读</li>
-            </ul>
-          </li>
-          <li>导致相关性算分在多个不同分片上结果不准确</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Aggregation 聚合
-    <ul>
-      <li>Bucket Aggregation(group by)
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET {index}/_search
+</code></pre></div></div></ul></ul></ul><li>Query-then-Fetch<ul><li>分布式搜索运行机制<li>Query<ul><li>获取所有分片（非同一主备分片）上的结果，每个分片的From到From+Size的文档</ul><li>Fetch<ul><li>将Query中的结果进行合并，重新排序，然后再取From到From+Size的文档的ID<li>以multi get请求的方式到相应的分片获取详细的文档数据</ul><li>引发的问题<ul><li>每个分片需要查询文档个数=from+size<li>最终协调节点需要处理文档个数=number_of_shards*(from+size)<li>造成深度分页的难题，默认10k个文档<ul><li>search after替换from操作<li>scroll api 不是及时更新的，可能脏读</ul><li>导致相关性算分在多个不同分片上结果不准确</ul></ul><li>Aggregation 聚合<ul><li>Bucket Aggregation(group by)<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET {index}/_search
 {
   "size":0,
   "aggs":{
@@ -782,10 +182,7 @@ POST {index}/_search
       }
   }
 }
-</code></pre></div>        </div>
-      </li>
-      <li>Metric Aggregation(count,avg,max,min,sum)
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET {index}/_search
+</code></pre></div></div><li>Metric Aggregation(count,avg,max,min,sum)<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET {index}/_search
 {
   "size":0,
   "aggs":{
@@ -817,35 +214,8 @@ POST {index}/_search
       }
   }
 }
-</code></pre></div>        </div>
-      </li>
-      <li>Pipeline Aggregation
-        <ul>
-          <li>对聚合结果进行二次聚合</li>
-          <li>常见参数
-            <ul>
-              <li>min_bucket</li>
-              <li>max_bucket</li>
-              <li>avg_bucket</li>
-              <li>derivative # 环比增长，增量Δx</li>
-              <li>cumulative_sum # 累计求和</li>
-              <li>stats_bucket</li>
-              <li><strong>buckets_path</strong> # 配置多重聚合的层级</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>Matrix Aggregation</li>
-    </ul>
-  </li>
-  <li>更改索引
-    <ul>
-      <li>_update_by_query：在现有索引上重建
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST blogs/_update_by_query
-</code></pre></div>        </div>
-      </li>
-      <li>reindex：新建并迁移目标索引
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST _reindex
+</code></pre></div></div><li>Pipeline Aggregation<ul><li>对聚合结果进行二次聚合<li>常见参数<ul><li>min_bucket<li>max_bucket<li>avg_bucket<li>derivative # 环比增长，增量Δx<li>cumulative_sum # 累计求和<li>stats_bucket<li><strong>buckets_path</strong> # 配置多重聚合的层级</ul></ul><li>Matrix Aggregation</ul><li>更改索引<ul><li>_update_by_query：在现有索引上重建<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST blogs/_update_by_query
+</code></pre></div></div><li>reindex：新建并迁移目标索引<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST _reindex
 {
 "source": {
   "index": "blogs"
@@ -854,14 +224,7 @@ POST {index}/_search
   "index": "blogs_new"
 }
 }
-</code></pre></div>        </div>
-      </li>
-    </ul>
-  </li>
-  <li>Index Alias
-    <ul>
-      <li>为索引定义别名，数据迭代零停机
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST _aliases
+</code></pre></div></div></ul><li>Index Alias<ul><li>为索引定义别名，数据迭代零停机<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST _aliases
 {
   "actions":[
       "add":{
@@ -870,37 +233,7 @@ POST {index}/_search
       }
   ]
 }
-</code></pre></div>        </div>
-      </li>
-    </ul>
-  </li>
-  <li>关闭Dynamic Indexes
-    <ul>
-      <li>防止用户没有创建mapping的情况下写入数据，导致索引不合理
-```
-PUT _cluster/settings
-{
-  “persistent”:{
-      “action.auto_create_index”:false
-  }
-}</li>
-    </ul>
-
-    <p>PUT _cluster/settings
-{
-    “persistent”:{
-        “action.auto_create_index”:”logstash-<em>,.kibana</em>”
-    }
-}
-```</p>
-  </li>
-  <li>索引优化
-    <ul>
-      <li>refresh_interval:”30s”  # 控制refresh操作的频率，减少segment文件，减少merge IO，但查询会产生延迟</li>
-      <li>total_shards_per_node:”3”  # 控制单节点分片数量，避免数据倾斜</li>
-      <li>sync_interval:”30s”  # 控制translog写入频率，减少fsync IO开销，但可能导致数据丢失</li>
-      <li>dynamic:false  # 避免不必要的字段索引
-        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT myindex
+</code></pre></div></div></ul><li>关闭Dynamic Indexes<ul><li>防止用户没有创建mapping的情况下写入数据，导致索引不合理 ``` PUT _cluster/settings { “persistent”:{ “action.auto_create_index”:false } }</ul><p>PUT _cluster/settings { “persistent”:{ “action.auto_create_index”:”logstash-<em>,.kibana</em>” } } ```</p><li>索引优化<ul><li>refresh_interval:”30s” # 控制refresh操作的频率，减少segment文件，减少merge IO，但查询会产生延迟<li>total_shards_per_node:”3” # 控制单节点分片数量，避免数据倾斜<li>sync_interval:”30s” # 控制translog写入频率，减少fsync IO开销，但可能导致数据丢失<li>dynamic:false # 避免不必要的字段索引<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT myindex
 {
   "settings":{
       "index":{
@@ -923,40 +256,7 @@ PUT _cluster/settings
       "properties":{}
   }
 }
-</code></pre></div>        </div>
-      </li>
-    </ul>
-  </li>
-  <li>相关性算分的指标 Information Retrieval
-    <ul>
-      <li>Precision 查准率</li>
-      <li>Recall 查全率</li>
-      <li>Ranking 相关度排序</li>
-      <li>相关性算分计算
-        <ul>
-          <li>词频 TF(Term Frequency)
-            <ul>
-              <li>TF=检索词出现的次数/分档的总字数</li>
-            </ul>
-          </li>
-          <li>逆文档频率 IDF(Inverse Document Frequency)
-            <ul>
-              <li>IDF=log(全部文档数/检索词出现过的文档数)</li>
-            </ul>
-          </li>
-          <li>TF-IDF 加权求和
-            <ul>
-              <li>TF-IDF=TF(keyword)*IDF(keyword)</li>
-            </ul>
-          </li>
-          <li>BM25
-            <ul>
-              <li>对TF-IDF进行了优化，算分不会趋于无穷增长</li>
-            </ul>
-          </li>
-          <li>explain 参数可以查看算分的详情</li>
-          <li>profile 参数可以查看检索类型详情
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /test_user/_search
+</code></pre></div></div></ul><li>相关性算分的指标 Information Retrieval<ul><li>Precision 查准率<li>Recall 查全率<li>Ranking 相关度排序<li>相关性算分计算<ul><li>词频 TF(Term Frequency)<ul><li>TF=检索词出现的次数/分档的总字数</ul><li>逆文档频率 IDF(Inverse Document Frequency)<ul><li>IDF=log(全部文档数/检索词出现过的文档数)</ul><li>TF-IDF 加权求和<ul><li>TF-IDF=TF(keyword)*IDF(keyword)</ul><li>BM25<ul><li>对TF-IDF进行了优化，算分不会趋于无穷增长</ul><li>explain 参数可以查看算分的详情<li>profile 参数可以查看检索类型详情<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /test_user/_search
 {
 "profile": "true",
 "explain": true, 
@@ -966,70 +266,4 @@ PUT _cluster/settings
   }
 }
 }
-</code></pre></div>            </div>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-    </article>
-    <div id="vcomments"></div>
-    <!-- Pagination -->
-    <ul class="actions pagination">
-        
-        <li><a title="Shell 語法" href="/linux/2020/02/09/shell.html" class="button big previous">Previous</a></li>
-        
-
-        
-        <li><a title="Netty" href="/netty/2020/02/11/netty.html" class="button big next">Next</a></li>
-        
-        <li id="/elasticsearch/2020/02/10/elasticsearch.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></li>
-    </ul>
-</div>
-
-<script>
-    new Valine({
-        el: '#vcomments' ,
-        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
-        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc',
-        notify:false, 
-        verify:false, 
-        avatar:'mp', 
-        placeholder: '若有疏失，還望指正',
-        visitor: true,
-        recordIP: true
-    });
-</script>
-
-			</div>
-		<div id="leftsead">
-    <ul>
-        <li class="top">
-            ↑
-        </li>
-        <li class="bottom">
-            ↑
-        </li>
-    </ul>
-</div>
-
-		<!-- Scripts -->
-        <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="https://cdn.bootcss.com/skel/3.0.0/skel.min.js"></script>
-<script src="/assets/js/util.js"></script>
-<!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]-->
-<script src="/assets/js/main.js"></script>
-<script src="/assets/js/search.js"></script>
-<script>
-    new Valine({
-        el: '#vcomments',
-        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
-        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc'
-    })
-</script>
-
-	</body>
-</html>
+</code></pre></div></div></ul></ul></ul></article><div id="vcomments"></div><ul class="actions pagination"><li><a title="Shell 語法" href="/linux/2020/02/09/shell.html" class="button big previous">Previous</a><li><a title="Mysql" href="/mysql/2020/02/11/mysql.html" class="button big next">Next</a><li id="/elasticsearch/2020/02/10/elasticsearch.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></ul></div><script> new Valine({ el: '#vcomments' , appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz', appKey: '1CSpcPFQ88n8LBW7SjpAbMIc', notify:false, verify:false, avatar:'mp', placeholder: '若有疏失，還望指正', visitor: true, recordIP: true }); </script></div><div id="leftsead"><ul><li class="top"> ↑<li class="bottom"> ↑</ul></div><script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script> <script src="https://cdn.bootcss.com/skel/3.0.0/skel.min.js"></script> <script src="/assets/js/util.js"></script> <!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]--> <script src="/assets/js/main.js"></script> <script src="/assets/js/search.js"></script> <script> new Valine({ el: '#vcomments', appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz', appKey: '1CSpcPFQ88n8LBW7SjpAbMIc' }) </script>

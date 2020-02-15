@@ -1,81 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-        <title>Bob’s Blog</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="https://cdn.bootcss.com/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="/assets/css/main.css" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
-		<script>
-			var _hmt = _hmt || [];
-			(function() {
-			  var hm = document.createElement("script");
-			  hm.src = "https://hm.baidu.com/hm.js?62888767648ab0a78f7107ed1f6dc242";
-			  var s = document.getElementsByTagName("script")[0]; 
-			  s.parentNode.insertBefore(hm, s);
-			})();
-		</script>
-		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
-	</head>
-	<body oncontextmenu="return false;" onselectstart="return false">
-
-		<!-- Wrapper -->
-			<div id="wrapper">
-
-				<!-- Header -->
-                <header id="header">
-    <h1><a href="/index.html">記憶 備份</a></h1>
-    <nav class="links">
-        <ul>
-            <li><a href="/#about">關於我</a></li>
-        </ul>
-    </nav>
-    <nav class="main">
-        <ul>
-            <!-- <li class="search">
-                <a class="fa-search" href="#search">Search</a>
-                <input type="text" name="query" placeholder="Search" />
-                <div></div>
-            </li> -->
-            <li class="light">
-                <input type="checkbox" class="checke">
-            </li>
-            <li class="menu">
-                <a class="fa-bars" href="#menu">Menu</a>
-            </li>
-        </ul>
-
-
-    </nav>
-</header>
-
-                <!-- Menu -->
-                <section id="menu">
-
-    <!-- Search -->
-        <section>
-            <form class="search" method="get" action="#">
-                <input type="text" name="query" placeholder="Search" id="search-input" />
-            </form>
-        </section>
-
-        <section>
-            <div id="results-container"></div>
-        </section>
-</section>
-
-
-                <!-- Main -->
-                <div id="main">
-    <!-- Post -->
-    <article class="post">
-        <h1 id="指令">指令</h1>
-<hr />
-<ol>
-  <li>卸载docker
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove docker <span class="se">\</span>
+<!DOCTYPE HTML><title>Bob’s Blog</title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /> <!--[if lte IE 8]><script src="https://cdn.bootcss.com/html5shiv/3.6.2/html5shiv.js"></script><![endif]--><link rel="stylesheet" href="/assets/css/main.css" /> <!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]--> <!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]--> <script> var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?62888767648ab0a78f7107ed1f6dc242"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })(); </script> <script src='//unpkg.com/valine/dist/Valine.min.js'></script><body oncontextmenu="return false;" onselectstart="return false"><div id="wrapper"><header id="header"><h1><a href="/index.html">記憶 備份</a></h1><nav class="links"><ul><li><a href="/#about">關於我</a></ul></nav><nav class="main"><ul><li class="light"> <input type="checkbox" class="checke"><li class="menu"> <a class="fa-bars" href="#menu">Menu</a></ul></nav></header><section id="menu"><section> <form class="search" method="get" action="#"> <input type="text" name="query" placeholder="Search" id="search-input" /> </form></section><section><div id="results-container"></div></section></section><div id="main"><article class="post"><h1 id="指令">指令</h1><hr /><ol><li>卸载docker<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove docker <span class="se">\</span>
                docker-client <span class="se">\</span>
                docker-client-latest <span class="se">\</span>
                docker-common <span class="se">\</span>
@@ -85,85 +8,33 @@
                docker-selinux <span class="se">\</span>
                docker-engine-selinux <span class="se">\</span>
                docker-engine
-</code></pre></div>    </div>
-  </li>
-  <li>安装相关依赖
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> yum-utils device-mapper-persistent-data lvm2
-</code></pre></div>    </div>
-  </li>
-  <li>添加下载镜像
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum-config-manager <span class="nt">--add-repo</span> http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-</code></pre></div>    </div>
-  </li>
-  <li>安装docker
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install </span>docker-ce
-</code></pre></div>    </div>
-  </li>
-  <li>开启docker
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nb">enable </span>docker <span class="o">&amp;&amp;</span> systemctl start docker
+</code></pre></div></div><li>安装相关依赖<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> yum-utils device-mapper-persistent-data lvm2
+</code></pre></div></div><li>添加下载镜像<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum-config-manager <span class="nt">--add-repo</span> http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</code></pre></div></div><li>安装docker<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install </span>docker-ce
+</code></pre></div></div><li>开启docker<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nb">enable </span>docker <span class="o">&amp;&amp;</span> systemctl start docker
 systemctl disable firewalld <span class="o">&amp;&amp;</span> systemctl stop firewalld
-</code></pre></div>    </div>
-  </li>
-  <li>搜索镜像
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker search mysql
-</code></pre></div>    </div>
-  </li>
-  <li>拉取镜像
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mysql:5.6.43
-</code></pre></div>    </div>
-  </li>
-  <li>创建容器
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-t</span> <span class="nt">-i</span> mysql:5.6.43 /bin/bash
-</code></pre></div>    </div>
-  </li>
-  <li>查看所有容器
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps <span class="nt">-a</span> <span class="c">#查看所有容器，不带 -a 则只显示启动的容器</span>
-</code></pre></div>    </div>
-  </li>
-  <li>端口映射与磁盘映射
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-p</span> 8808:3306 <span class="nt">--name</span> mysql <span class="nt">-v</span> <span class="nv">$PWD</span>/conf:/etc/mysql/conf.d <span class="nt">-v</span> <span class="nv">$PWD</span>/logs:/logs <span class="nt">-v</span> <span class="nv">$PWD</span>/data:/var/lib/mysql <span class="nt">-e</span> <span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">=</span>123456 <span class="nt">-d</span> mysql:5.6.43
-</code></pre></div>    </div>
-  </li>
-  <li>查看容器启动日志
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker logs 7e166dfd27eb
+</code></pre></div></div><li>搜索镜像<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker search mysql
+</code></pre></div></div><li>拉取镜像<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mysql:5.6.43
+</code></pre></div></div><li>创建容器<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-t</span> <span class="nt">-i</span> mysql:5.6.43 /bin/bash
+</code></pre></div></div><li>查看所有容器<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps <span class="nt">-a</span> <span class="c">#查看所有容器，不带 -a 则只显示启动的容器</span>
+</code></pre></div></div><li>端口映射与磁盘映射<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-p</span> 8808:3306 <span class="nt">--name</span> mysql <span class="nt">-v</span> <span class="nv">$PWD</span>/conf:/etc/mysql/conf.d <span class="nt">-v</span> <span class="nv">$PWD</span>/logs:/logs <span class="nt">-v</span> <span class="nv">$PWD</span>/data:/var/lib/mysql <span class="nt">-e</span> <span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">=</span>123456 <span class="nt">-d</span> mysql:5.6.43
+</code></pre></div></div><li>查看容器启动日志<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker logs 7e166dfd27eb
 docker logs <span class="nt">--tail</span> 100 <span class="nt">-f</span> 0491e185ae4e
-</code></pre></div>    </div>
-  </li>
-  <li>容器开始停止和删除
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker start 7e166dfd27eb
+</code></pre></div></div><li>容器开始停止和删除<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker start 7e166dfd27eb
 docker stop 7e166dfd27eb
 docker <span class="nb">rm </span>7e166dfd27eb
-</code></pre></div>    </div>
-  </li>
-  <li>进入docker控制台
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">exec</span> <span class="nt">-it</span> 7e166dfd27eb /bin/bash
-</code></pre></div>    </div>
-  </li>
-  <li>镜像的删除
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#要将对应的所有容器删除，才能删除镜像</span>
+</code></pre></div></div><li>进入docker控制台<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">exec</span> <span class="nt">-it</span> 7e166dfd27eb /bin/bash
+</code></pre></div></div><li>镜像的删除<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#要将对应的所有容器删除，才能删除镜像</span>
 docker rmi &lt;image <span class="nb">id</span><span class="o">&gt;</span>
-</code></pre></div>    </div>
-  </li>
-  <li>打包一个java应用到docker
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull java:8
+</code></pre></div></div><li>打包一个java应用到docker<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull java:8
 vi Dockerfile
-</code></pre></div>    </div>
-    <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM java:8
+</code></pre></div></div><div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM java:8
 MAINTAINER larry
 RUN ["mkdir", "app"]
 ADD mysql-travel-1.0-SNAPSHOT.jar /app
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app/mysql-travel-1.0-SNAPSHOT.jar"]
-</code></pre></div>    </div>
-    <p>```shell
-docker build -t java:springboot .
-#手动打标签
-docker tag <image> name:tag</image></p>
-  </li>
-</ol>
-
-<p>docker run -p 8080:8080 –name springboot -d java:springboot</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>16. Dockfile 参数
+</code></pre></div></div><p>```shell docker build -t java:springboot . #手动打标签 docker tag <image> name:tag</image></p></ol><p>docker run -p 8080:8080 –name springboot -d java:springboot</p><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>16. Dockfile 参数
 
 | 指令         |  描述                   |  常用    |  
 | --- |:---:| :---: |  
@@ -185,63 +56,14 @@ docker tag <image> name:tag</image></p>
 17. 打包镜像  
 ```shell
 docker save springbootdemo:latest &gt; springbootdemo.tar
-</code></pre></div></div>
-<ol>
-  <li>构建本地镜像库<br />
-```shell
-docker pull registry
-docker run -d -p 5000:5000 –restart=always –name registry registry
-docker push localhost:5000/app:spring-boot
-curl http://192.168.127.100:5000/v2/app/tags/list
-http://192.168.1.100:5000/v2/_catalog</li>
-</ol>
-
-<h1 id="docker-push-errorhttp-server-gave-http-response-to-https-client">docker push error:http: server gave HTTP response to HTTPS client</h1>
-<p>1.vim  /etc/docker/daemon.json    增加一个daemon.json文件
-{ “insecure-registries”:[“192.168.1.100:5000”] }
-保存退出</p>
-
-<p>2.重启docker服务
-systemctl daemon-reload
-systemctl restart docker</p>
-
-<p>3.重启容器
-4.上传镜像</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>19. 安装docker-compose  
+</code></pre></div></div><ol><li>构建本地镜像库<br /> ```shell docker pull registry docker run -d -p 5000:5000 –restart=always –name registry registry docker push localhost:5000/app:spring-boot curl http://192.168.127.100:5000/v2/app/tags/list http://192.168.1.100:5000/v2/_catalog</ol><h1 id="docker-push-errorhttp-server-gave-http-response-to-https-client">docker push error:http: server gave HTTP response to HTTPS client</h1><p>1.vim /etc/docker/daemon.json 增加一个daemon.json文件 { “insecure-registries”:[“192.168.1.100:5000”] } 保存退出</p><p>2.重启docker服务 systemctl daemon-reload systemctl restart docker</p><p>3.重启容器 4.上传镜像</p><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>19. 安装docker-compose  
 ```shell
 curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 # 自动补充命令
 curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose &gt; /etc/bash_completion.d/docker-compose
-</code></pre></div></div>
-<ol>
-  <li>配置服务数量
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up <span class="nt">--scale</span> spring-cloud-server<span class="o">=</span>2
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>相关链接<br />
-<a href="http://book.itmuch.com/3%20%E4%BD%BF%E7%94%A8Docker%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/3.8.2%20Docker%20Compose%E5%85%A5%E9%97%A8%E7%A4%BA%E4%BE%8B.html" title="Docker Compose">Docker Compose 入门</a><br />
-<a href="https://www.cnblogs.com/sweetchildomine/p/7440262.html">Docker Compose 部署 Spring Cloud</a><br />
-<a href="https://medium.com/@madhupathy/simplified-microservices-building-with-spring-cloud-netflix-oss-eureka-zuul-hystrix-ribbon-2faa9046d054">同上</a><br />
-<a href="https://docs.docker.com/network/">docker网络通信</a></p>
-  </li>
-  <li>镜像加速<br />
-```shell
-    <h1 id="httpswwwdocker-cncomregistry-mirror">https://www.docker-cn.com/registry-mirror</h1>
-    <p>docker pull registry.docker-cn.com/library/</p>
-  </li>
-</ol>
-
-<p>sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json «-‘EOF’
-{
-  “registry-mirrors”: [“https://pc8jr851.mirror.aliyuncs.com”]
-}
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div><ol><li>配置服务数量<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up <span class="nt">--scale</span> spring-cloud-server<span class="o">=</span>2
+</code></pre></div></div><li><p>相关链接<br /> <a href="http://book.itmuch.com/3%20%E4%BD%BF%E7%94%A8Docker%E6%9E%84%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/3.8.2%20Docker%20Compose%E5%85%A5%E9%97%A8%E7%A4%BA%E4%BE%8B.html" title="Docker Compose">Docker Compose 入门</a><br /> <a href="https://www.cnblogs.com/sweetchildomine/p/7440262.html">Docker Compose 部署 Spring Cloud</a><br /> <a href="https://medium.com/@madhupathy/simplified-microservices-building-with-spring-cloud-netflix-oss-eureka-zuul-hystrix-ribbon-2faa9046d054">同上</a><br /> <a href="https://docs.docker.com/network/">docker网络通信</a></p><li>镜像加速<br /> ```shell<h1 id="httpswwwdocker-cncomregistry-mirror">https://www.docker-cn.com/registry-mirror</h1><p>docker pull registry.docker-cn.com/library/</p></ol><p>sudo mkdir -p /etc/docker sudo tee /etc/docker/daemon.json «-‘EOF’ { “registry-mirrors”: [“https://pc8jr851.mirror.aliyuncs.com”] } EOF sudo systemctl daemon-reload sudo systemctl restart docker</p><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 23. 常用容器  
 ```shell
 docker run -p 6379:6379 --name redis -d redis
@@ -249,28 +71,14 @@ docker run -p 3306:3306 --name mymysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/lo
 -- centos7 下上面的mysql安装会提示访问/var/lib/mysql目录没有权限，需要使用--privileged=true
 docker run -p 3306:3306 --name mysql --privileged=true -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql/ -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.6
 docker run -p 8529:8529 -e ARANGO_ROOT_PASSWORD=openSesame --name arango arangodb/arangodb:3.4.5
-</code></pre></div></div>
-<ol>
-  <li>常用镜像
-```shell
-docker pull docker.elastic.co/elasticsearch/elasticsearch:7.0.0
-docker run -p 9200:9200 -p 9300:9300 -e “discovery.type=single-node” –name es docker.elastic.co/elasticsearch/elasticsearch:7.0.0</li>
-</ol>
-
-<p>docker pull docker.elastic.co/kibana/kibana:7.0.0
-– docker run -d -p 5601:5601 -e “elasticsearch.hosts=http://127.0.0.1:9200” –name kibana docker.elastic.co/kibana/kibana:7.0.0
-docker run -d -p 5601:5601 -e ELASTICSEARCH_HOSTS=http://192.168.127.9:9200 –name kibana docker.elastic.co/kibana/kibana:7.0.0
-– 用其它容器开放的端口可用该参数 network 指定容器共享elasticsearch容器的网络栈 (使用了–network 就不能使用-p 来暴露端口)
-kibana.yml</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>25. Dockerfile
+</code></pre></div></div><ol><li>常用镜像 ```shell docker pull docker.elastic.co/elasticsearch/elasticsearch:7.0.0 docker run -p 9200:9200 -p 9300:9300 -e “discovery.type=single-node” –name es docker.elastic.co/elasticsearch/elasticsearch:7.0.0</ol><p>docker pull docker.elastic.co/kibana/kibana:7.0.0 – docker run -d -p 5601:5601 -e “elasticsearch.hosts=http://127.0.0.1:9200” –name kibana docker.elastic.co/kibana/kibana:7.0.0 docker run -d -p 5601:5601 -e ELASTICSEARCH_HOSTS=http://192.168.127.9:9200 –name kibana docker.elastic.co/kibana/kibana:7.0.0 – 用其它容器开放的端口可用该参数 network 指定容器共享elasticsearch容器的网络栈 (使用了–network 就不能使用-p 来暴露端口) kibana.yml</p><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>25. Dockerfile
 ```dockerfile
 FROM docker.elastic.co/elasticsearch/elasticsearch:7.1.0
 ADD ./config/elasticsearch.yml /usr/share/elasticsearch/config/
 USER root
 RUN chown elasticsearch:elasticsearch config/elasticsearch.yml
 USER elasticsearch
-</code></pre></div></div>
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">http.host</span><span class="pi">:</span> <span class="s">0.0.0.0</span>
+</code></pre></div></div><div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">http.host</span><span class="pi">:</span> <span class="s">0.0.0.0</span>
 <span class="s">http.cors.enabled</span><span class="pi">:</span> <span class="no">true</span>
 <span class="s">http.cors.allow-origin</span><span class="pi">:</span> <span class="s2">"</span><span class="s">*"</span>
 <span class="s">http.cors.allow-methods</span><span class="pi">:</span> <span class="s">OPTIONS, HEAD, GET, POST, PUT, DELETE</span>
@@ -279,107 +87,7 @@ USER elasticsearch
 <span class="c1"># Uncomment the following lines for a production cluster deployment</span>
 <span class="c1"># #transport.host: 0.0.0.0</span>
 <span class="c1"># #discovery.zen.minimum_master_nodes: 1</span>
-</code></pre></div></div>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-p</span> 9200:9200 <span class="nt">-p</span> 9300:9300 <span class="nt">-e</span> <span class="s2">"discovery.type=single-node"</span> <span class="nt">--name</span> es <span class="nt">-d</span> es:7.1.0
-</code></pre></div></div>
-
-<ol>
-  <li>elasticsearch kibana dockerfile
-```
-FROM openjdk:jre-alpine</li>
-</ol>
-
-<p>LABEL maintainer “nshou <a href="mailto:nshou@coronocoya.net">nshou@coronocoya.net</a>”</p>
-
-<p>ARG ek_version=6.5.4</p>
-
-<p>RUN apk add –quiet –no-progress –no-cache nodejs wget <br />
- &amp;&amp; adduser -D elasticsearch</p>
-
-<p>USER elasticsearch</p>
-
-<p>WORKDIR /home/elasticsearch</p>
-
-<p>ENV ES_TMPDIR=/home/elasticsearch/elasticsearch.tmp</p>
-
-<p>RUN wget -q -O - https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-${ek_version}.tar.gz <br />
- |  tar -zx <br />
- &amp;&amp; mv elasticsearch-${ek_version} elasticsearch <br />
- &amp;&amp; mkdir -p ${ES_TMPDIR} <br />
- &amp;&amp; wget -q -O - https://artifacts.elastic.co/downloads/kibana/kibana-oss-${ek_version}-linux-x86_64.tar.gz <br />
- |  tar -zx <br />
- &amp;&amp; mv kibana-${ek_version}-linux-x86_64 kibana <br />
- &amp;&amp; rm -f kibana/node/bin/node kibana/node/bin/npm <br />
- &amp;&amp; ln -s $(which node) kibana/node/bin/node <br />
- &amp;&amp; ln -s $(which npm) kibana/node/bin/npm</p>
-
-<p>CMD sh elasticsearch/bin/elasticsearch -E http.host=0.0.0.0 –quiet &amp; kibana/bin/kibana –host 0.0.0.0 -Q</p>
-
-<p>EXPOSE 9200 5601</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div><div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-p</span> 9200:9200 <span class="nt">-p</span> 9300:9300 <span class="nt">-e</span> <span class="s2">"discovery.type=single-node"</span> <span class="nt">--name</span> es <span class="nt">-d</span> es:7.1.0
+</code></pre></div></div><ol><li>elasticsearch kibana dockerfile ``` FROM openjdk:jre-alpine</ol><p>LABEL maintainer “nshou <a href="mailto:nshou@coronocoya.net">nshou@coronocoya.net</a>”</p><p>ARG ek_version=6.5.4</p><p>RUN apk add –quiet –no-progress –no-cache nodejs wget <br /> &amp;&amp; adduser -D elasticsearch</p><p>USER elasticsearch</p><p>WORKDIR /home/elasticsearch</p><p>ENV ES_TMPDIR=/home/elasticsearch/elasticsearch.tmp</p><p>RUN wget -q -O - https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-${ek_version}.tar.gz <br /> | tar -zx <br /> &amp;&amp; mv elasticsearch-${ek_version} elasticsearch <br /> &amp;&amp; mkdir -p ${ES_TMPDIR} <br /> &amp;&amp; wget -q -O - https://artifacts.elastic.co/downloads/kibana/kibana-oss-${ek_version}-linux-x86_64.tar.gz <br /> | tar -zx <br /> &amp;&amp; mv kibana-${ek_version}-linux-x86_64 kibana <br /> &amp;&amp; rm -f kibana/node/bin/node kibana/node/bin/npm <br /> &amp;&amp; ln -s $(which node) kibana/node/bin/node <br /> &amp;&amp; ln -s $(which npm) kibana/node/bin/npm</p><p>CMD sh elasticsearch/bin/elasticsearch -E http.host=0.0.0.0 –quiet &amp; kibana/bin/kibana –host 0.0.0.0 -Q</p><p>EXPOSE 9200 5601</p><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 27. volume
-</code></pre></div></div>
-<p>docker volume ls
-docker volume rm <VOLUME_NAME>
-```</VOLUME_NAME></p>
-
-    </article>
-    <div id="vcomments"></div>
-    <!-- Pagination -->
-    <ul class="actions pagination">
-        
-        <li><a title="Linux 常用指令" href="/linux/2020/02/06/linux.html" class="button big previous">Previous</a></li>
-        
-
-        
-        <li><a title="Jekyll 遷移" href="/jekyll/ruby/2020/02/08/jekyll.html" class="button big next">Next</a></li>
-        
-        <li id="/docker/2020/02/07/docker.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></li>
-    </ul>
-</div>
-
-<script>
-    new Valine({
-        el: '#vcomments' ,
-        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
-        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc',
-        notify:false, 
-        verify:false, 
-        avatar:'mp', 
-        placeholder: '若有疏失，還望指正',
-        visitor: true,
-        recordIP: true
-    });
-</script>
-
-			</div>
-		<div id="leftsead">
-    <ul>
-        <li class="top">
-            ↑
-        </li>
-        <li class="bottom">
-            ↑
-        </li>
-    </ul>
-</div>
-
-		<!-- Scripts -->
-        <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="https://cdn.bootcss.com/skel/3.0.0/skel.min.js"></script>
-<script src="/assets/js/util.js"></script>
-<!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]-->
-<script src="/assets/js/main.js"></script>
-<script src="/assets/js/search.js"></script>
-<script>
-    new Valine({
-        el: '#vcomments',
-        appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz',
-        appKey: '1CSpcPFQ88n8LBW7SjpAbMIc'
-    })
-</script>
-
-	</body>
-</html>
+</code></pre></div></div><p>docker volume ls docker volume rm <VOLUME_NAME> ```</VOLUME_NAME></p></article><div id="vcomments"></div><ul class="actions pagination"><li><a title="Linux 常用指令" href="/linux/2020/02/06/linux.html" class="button big previous">Previous</a><li><a title="Jekyll 遷移" href="/jekyll/ruby/2020/02/08/jekyll.html" class="button big next">Next</a><li id="/docker/2020/02/07/docker.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></ul></div><script> new Valine({ el: '#vcomments' , appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz', appKey: '1CSpcPFQ88n8LBW7SjpAbMIc', notify:false, verify:false, avatar:'mp', placeholder: '若有疏失，還望指正', visitor: true, recordIP: true }); </script></div><div id="leftsead"><ul><li class="top"> ↑<li class="bottom"> ↑</ul></div><script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script> <script src="https://cdn.bootcss.com/skel/3.0.0/skel.min.js"></script> <script src="/assets/js/util.js"></script> <!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]--> <script src="/assets/js/main.js"></script> <script src="/assets/js/search.js"></script> <script> new Valine({ el: '#vcomments', appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz', appKey: '1CSpcPFQ88n8LBW7SjpAbMIc' }) </script>
