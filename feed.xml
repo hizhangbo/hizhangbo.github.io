@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-02-15T22:41:30+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)
-</subtitle><entry><title type="html">Kubernetes</title><link href="/docker/2020/02/12/kubernetes.html" rel="alternate" type="text/html" title="Kubernetes" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/docker/2020/02/12/kubernetes</id><content type="html" xml:base="/docker/2020/02/12/kubernetes.html">&lt;h1 id=&quot;kubernetes&quot;&gt;Kubernetes&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-02-17T23:59:46+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)</subtitle><entry><title type="html">Kubernetes</title><link href="/docker/2020/02/12/kubernetes.html" rel="alternate" type="text/html" title="Kubernetes" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/docker/2020/02/12/kubernetes</id><content type="html" xml:base="/docker/2020/02/12/kubernetes.html">&lt;h1 id=&quot;kubernetes&quot;&gt;Kubernetes&lt;/h1&gt;
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;安裝部署&quot;&gt;安裝部署&lt;/h3&gt;
@@ -361,7 +360,15 @@ curl &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://github.com/kuberne
        google&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+        &lt;h3 id=&quot;bean的生命周期&quot;&gt;Bean的生命周期&lt;/h3&gt;
       &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;缓存
+    &lt;ul&gt;
+      &lt;li&gt;singletonObjects 单例缓存池&lt;/li&gt;
+      &lt;li&gt;singletonFactories 工厂-对象增强 AOP实现&lt;/li&gt;
+      &lt;li&gt;earlySingletonObjects 三级缓存-防止重复创建&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
@@ -2307,6 +2314,8 @@ css壓縮 自身支持 https://www.dazhuanlan.com/2019/10/01/5d930d7408b6a/
 sass:
   sass_dir:       /public/css
   style:          compressed
+
+加載速度測試 https://web.dev/measure/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;GitHub Page第三方插件無法運行&lt;/p&gt;
