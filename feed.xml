@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-02-18T16:10:06+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)</subtitle><entry><title type="html">Kubernetes</title><link href="/docker/2020/02/12/kubernetes.html" rel="alternate" type="text/html" title="Kubernetes" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/docker/2020/02/12/kubernetes</id><content type="html" xml:base="/docker/2020/02/12/kubernetes.html">&lt;h1 id=&quot;kubernetes&quot;&gt;Kubernetes&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-02-27T02:22:24+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)</subtitle><entry><title type="html">Kubernetes</title><link href="/docker/2020/02/12/kubernetes.html" rel="alternate" type="text/html" title="Kubernetes" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/docker/2020/02/12/kubernetes</id><content type="html" xml:base="/docker/2020/02/12/kubernetes.html">&lt;h1 id=&quot;kubernetes&quot;&gt;Kubernetes&lt;/h1&gt;
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;安裝部署&quot;&gt;安裝部署&lt;/h3&gt;
@@ -354,13 +354,183 @@ curl &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://github.com/kuberne
   &lt;li&gt;gradle
     &lt;ul&gt;
       &lt;li&gt;修改構建文件 &lt;code class=&quot;highlighter-rouge&quot;&gt;build.gradle&lt;/code&gt;
-        &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;repositories &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-       maven &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; url &lt;span class=&quot;s2&quot;&gt;&quot;https://repo.spring.io/libs-release&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-       maven&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; url &lt;span class=&quot;s1&quot;&gt;'http://maven.aliyun.com/nexus/content/groups/public/'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-       google&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
- &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;repositories {
+       maven { url &quot;https://repo.spring.io/libs-release&quot; }
+       maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+       google()
+ } 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-        &lt;h3 id=&quot;bean的生命周期&quot;&gt;Bean的生命周期&lt;/h3&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;ioc容器&quot;&gt;IoC容器&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;定义
+    &lt;ul&gt;
+      &lt;li&gt;inversion of control (控制反转)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;实现
+    &lt;ul&gt;
+      &lt;li&gt;service locator pattern 服务定位JNDI&lt;/li&gt;
+      &lt;li&gt;template method design pattern 模板方法&lt;/li&gt;
+      &lt;li&gt;strategy design pattern 策略模式&lt;/li&gt;
+      &lt;li&gt;contextualized lookup 依赖查找&lt;/li&gt;
+      &lt;li&gt;dependency injection 依赖注入&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;职责
+    &lt;ul&gt;
+      &lt;li&gt;依赖处理&lt;/li&gt;
+      &lt;li&gt;生命周期管理
+        &lt;ul&gt;
+          &lt;li&gt;容器&lt;/li&gt;
+          &lt;li&gt;托管资源&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;配置
+        &lt;ul&gt;
+          &lt;li&gt;容器&lt;/li&gt;
+          &lt;li&gt;外部化配置&lt;/li&gt;
+          &lt;li&gt;托管资源&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;依赖来源
+    &lt;ul&gt;
+      &lt;li&gt;自定义 Bean&lt;/li&gt;
+      &lt;li&gt;容器内建Bean对象&lt;/li&gt;
+      &lt;li&gt;容器内建依赖&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;配置元信息
+    &lt;ul&gt;
+      &lt;li&gt;Bean 定义配置
+        &lt;ul&gt;
+          &lt;li&gt;XML 文件&lt;/li&gt;
+          &lt;li&gt;Properties 文件&lt;/li&gt;
+          &lt;li&gt;Java 注解&lt;/li&gt;
+          &lt;li&gt;Java API&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;IoC 容器配置
+        &lt;ul&gt;
+          &lt;li&gt;XML&lt;/li&gt;
+          &lt;li&gt;Java 注解&lt;/li&gt;
+          &lt;li&gt;Java API&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;外部化属性配置
+        &lt;ul&gt;
+          &lt;li&gt;Java 注解&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;对比&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;|类型|依赖处理|实现便利性|代码侵入性|API依赖性|可读性|
+ |—|—|—|—|—|—|
+ |依赖查找|主动获取|相对繁琐|侵入业务逻辑|依赖容器API|良好|
+ |依赖注入|被动提供|相对便利|低侵入性|不依赖容器API|一般|&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;依赖查找
+    &lt;ul&gt;
+      &lt;li&gt;名称&lt;/li&gt;
+      &lt;li&gt;类型&lt;/li&gt;
+      &lt;li&gt;注解&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;依赖注入&lt;/li&gt;
+  &lt;li&gt;方式
+    &lt;ul&gt;
+      &lt;li&gt;Setter&lt;/li&gt;
+      &lt;li&gt;Constructor&lt;/li&gt;
+      &lt;li&gt;Field&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;手动模式
+    &lt;ul&gt;
+      &lt;li&gt;XML&lt;/li&gt;
+      &lt;li&gt;注解&lt;/li&gt;
+      &lt;li&gt;API配置元信息&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;自动模式
+    &lt;ul&gt;
+      &lt;li&gt;Autowiring 自动绑定&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;BeanFactory ApplicationContext
+    &lt;ul&gt;
+      &lt;li&gt;BeanFactory 是 Spring底层 Ioc容器&lt;/li&gt;
+      &lt;li&gt;ApplicationContext 是具备应用特性的 BeanFactory 超集
+        &lt;ul&gt;
+          &lt;li&gt;AOP&lt;/li&gt;
+          &lt;li&gt;Event publication&lt;/li&gt;
+          &lt;li&gt;Message resource handling 国际化&lt;/li&gt;
+          &lt;li&gt;WebApplicationContext&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;bean&quot;&gt;Bean&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;BeanDefinition
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;table&gt;
+          &lt;thead&gt;
+            &lt;tr&gt;
+              &lt;th&gt;属性&lt;/th&gt;
+              &lt;th&gt;说明&lt;/th&gt;
+            &lt;/tr&gt;
+          &lt;/thead&gt;
+          &lt;tbody&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Class&lt;/td&gt;
+              &lt;td&gt;全类名，必须是具体类，不能用抽象类或接口&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Name&lt;/td&gt;
+              &lt;td&gt;名称或ID&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Scope&lt;/td&gt;
+              &lt;td&gt;作用域&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Constructor arguments&lt;/td&gt;
+              &lt;td&gt;构造器参数&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Properties&lt;/td&gt;
+              &lt;td&gt;属性设置&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Autowiring mode&lt;/td&gt;
+              &lt;td&gt;自动绑定&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Lazy initialization mode&lt;/td&gt;
+              &lt;td&gt;延迟初始化模式&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Initialization method&lt;/td&gt;
+              &lt;td&gt;初始化回调方法名称&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Destruction method&lt;/td&gt;
+              &lt;td&gt;销毁回调方法名称&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/tbody&gt;
+        &lt;/table&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
@@ -371,9 +541,96 @@ curl &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://github.com/kuberne
       &lt;li&gt;earlySingletonObjects 三级缓存-防止重复创建&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;BeanFactory
+  &lt;li&gt;生命周期（单例）
     &lt;ul&gt;
-      &lt;li&gt;DefaultListableBeanFactory&lt;/li&gt;
+      &lt;li&gt;xml/annotation 解析成 BeanDefinition&lt;/li&gt;
+      &lt;li&gt;如果存在循环依赖 提前将对象暴露 addSingletonFactory&lt;/li&gt;
+      &lt;li&gt;执行后置处理器(Aware接口/注解等) applyBeanPostProcessorsBeforeInitialization
+        &lt;ul&gt;
+          &lt;li&gt;策略模式 调用BeanPostProcessor的postProcessBeforeInitialization&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;反射创建对象&lt;/li&gt;
+      &lt;li&gt;初始化对象
+        &lt;ul&gt;
+          &lt;li&gt;存在循环依赖 为循环依赖提供代理对象 getSingletonFactory&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;添加到单例对象缓存池 addSingletonObjects&lt;/li&gt;
+      &lt;li&gt;关闭ApplicationContext destroyBeans&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;注解&quot;&gt;注解&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;注册组件
+    &lt;ul&gt;
+      &lt;li&gt;包扫描
+        &lt;ul&gt;
+          &lt;li&gt;@ComponentScan&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;组件注解
+        &lt;ul&gt;
+          &lt;li&gt;@Controller/@Service/@Repository/@Component&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;导入方式
+        &lt;ul&gt;
+          &lt;li&gt;@Bean&lt;/li&gt;
+          &lt;li&gt;@Import
+            &lt;ul&gt;
+              &lt;li&gt;ImportSelector&lt;/li&gt;
+              &lt;li&gt;ImportBeanDefinitionRegistrar&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;@Primary&lt;/li&gt;
+          &lt;li&gt;@Conditional&lt;/li&gt;
+          &lt;li&gt;@Lazy&lt;/li&gt;
+          &lt;li&gt;@Scope&lt;/li&gt;
+          &lt;li&gt;FactoryBean
+            &lt;ul&gt;
+              &lt;li&gt;默认取得方法getObject创建的目标对象&lt;/li&gt;
+              &lt;li&gt;&amp;amp;beanName取得FactoryBean本身&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;组件赋值
+        &lt;ul&gt;
+          &lt;li&gt;@Value&lt;/li&gt;
+          &lt;li&gt;@Autowired
+            &lt;ul&gt;
+              &lt;li&gt;@Qualifier&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;@Resources (JSR250)&lt;/li&gt;
+          &lt;li&gt;@Inject(JSR330,导入包javax.inject)&lt;/li&gt;
+          &lt;li&gt;@PropertySource&lt;/li&gt;
+          &lt;li&gt;@PropertySources&lt;/li&gt;
+          &lt;li&gt;@Profile&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;事件监听
+        &lt;ul&gt;
+          &lt;li&gt;@EventListener&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Aop
+        &lt;ul&gt;
+          &lt;li&gt;@EnableAspectJAutoProxy&lt;/li&gt;
+          &lt;li&gt;@Aspect&lt;/li&gt;
+          &lt;li&gt;@Pointcut&lt;/li&gt;
+          &lt;li&gt;@Before/@After/@AfterReturning/@AfterThrowing/@Around&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Transaction
+        &lt;ul&gt;
+          &lt;li&gt;@EnableTransactionManagement&lt;/li&gt;
+          &lt;li&gt;@Transactional&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
