@@ -29,4 +29,35 @@ readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据�
 userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限
 dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。
 root：只在admin数据库中可用。超级账号，超级权限
+</code></pre></div></div><h3 id="可视化-mongodb-charts">可视化 MongoDB Charts</h3><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 镜像加速
+docker pull quay.mirrors.ustc.edu.cn/mongodb/charts:19.12.1
+
+# 启动 MongoDB Charts
+docker run --rm quay.mirrors.ustc.edu.cn/mongodb/charts:19.12.1 charts-cli test-connection 'mongodb://&lt;username&gt;:&lt;password&gt;@host.docker.internal'
+
+# 创建secret
+echo "mongodb://&lt;username&gt;:&lt;password&gt;@myhost.com/" | docker secret create charts-mongodb-uri -
+
+# 上面无法启动，需要使用swarm
+docker stack deploy -c charts-docker-swarm-19.12.1.yml mongodb-charts
+
+# 创建用户
+docker exec -it \
+  $(docker container ls --filter name=_charts -q) \
+  charts-cli add-user --first-name "bob" --last-name "zurk" \
+  --email "zurkbob@gmail.com" --password "123456" \
+  --role "UserAdmin"
+
+# 删除容器
+docker stack rm mongodb-charts
+docker volume rm mongodb-charts_keys
+docker volume rm mongodb-charts_web-certs
+docker volume rm mongodb-charts_db-certs
+docker volume rm mongodb-charts_logs
+docker secret rm charts-mongodb-uri
+docker service ls
+
+# 删除库
+MongoDB Collections: metadata, app, auth, log, hosting
+</code></pre></div></div><h3 id="windows-服务启动">Windows 服务启动</h3><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"D:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" --logpath "D:\Program Files\MongoDB\data\log\mongodb.log" --dbpath "D:\Program Files\MongoDB\data\db" --service
 </code></pre></div></div></article><div id="vcomments"></div><ul class="actions pagination"><li><a title="Kafka" href="/2020/02/12/kafka.html" class="button big previous">Previous</a><li><a title="Zookeeper" href="/2020/02/12/zookeeper.html" class="button big next">Next</a><li id="/2020/02/12/mongodb.html" class="leancloud_visitors" style="float: right;"><a class="icon fa-eye leancloud-visitors-count" aria-hidden="true"></a></ul></div><script> new Valine({ el: '#vcomments' , appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz', appKey: '1CSpcPFQ88n8LBW7SjpAbMIc', notify:false, verify:false, avatar:'mp', placeholder: '若有疏失，還望指正', visitor: true, recordIP: true }); </script></div><div id="leftsead"><ul><li class="top"> ↑<li class="bottom"> ↑</ul></div><script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script> <script src="https://cdn.bootcss.com/skel/3.0.0/skel.min.js"></script> <!--[if lte IE 8]><script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script><![endif]--> <script src="https://cdn.jsdelivr.net/gh/hizhangbo/hizhangbo.github.io@v0.1/assets/js/main.js"></script> <script src="https://cdn.jsdelivr.net/gh/hizhangbo/hizhangbo.github.io@v0.1/assets/js/util.js"></script> <script src="https://cdn.jsdelivr.net/gh/hizhangbo/hizhangbo.github.io@v0.1/assets/js/search.js"></script> <script> new Valine({ el: '#vcomments', appId: 'VDYHbJKU0wCisABJmYCE1jaY-gzGzoHsz', appKey: '1CSpcPFQ88n8LBW7SjpAbMIc' }) </script>

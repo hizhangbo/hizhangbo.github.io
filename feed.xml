@@ -1,4 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-03-13T01:21:58+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)</subtitle><entry><title type="html">Kafka</title><link href="/2020/02/12/kafka.html" rel="alternate" type="text/html" title="Kafka" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/2020/02/12/kafka</id><content type="html" xml:base="/2020/02/12/kafka.html">&lt;h1 id=&quot;kafka&quot;&gt;Kafka&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-04-07T00:37:39+08:00</updated><id>/feed.xml</id><title type="html">Bob’s Blog</title><subtitle>Bob’s Blog.Welcome!(●'◡'●)</subtitle><entry><title type="html">InfluxDB 时序数据库</title><link href="/2020/03/27/influxdb.html" rel="alternate" type="text/html" title="InfluxDB 时序数据库" /><published>2020-03-27T21:23:36+08:00</published><updated>2020-03-27T21:23:36+08:00</updated><id>/2020/03/27/influxdb</id><content type="html" xml:base="/2020/03/27/influxdb.html">&lt;h1 id=&quot;influxdb&quot;&gt;InfluxDB&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;docker&quot;&gt;docker&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;pull
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker pull influxdb
+docker pull grafana/grafana
+docker pull chronograf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;run
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -d -p 8083:8083 -p8086:8086 --expose 8090 --expose 8099 --name influxdb influxdb
+docker run -d -p 3000:3000 --name grafana grafana/grafana
+docker run -d -p 8888:8888 -v chronograf:/var/lib/chronograf --name=chronograf chronograf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;h3 id=&quot;influxdb-基本操作&quot;&gt;influxDB 基本操作&lt;/h3&gt;
+    &lt;p&gt;```sql
+#创建数据库
+create database “db_name”&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;#显示所有的数据库
+show databases&lt;/p&gt;
+
+&lt;p&gt;#删除数据库
+drop database “db_name”&lt;/p&gt;
+
+&lt;p&gt;#使用数据库
+use db_name&lt;/p&gt;
+
+&lt;p&gt;#显示该数据库中所有的表
+show measurements&lt;/p&gt;
+
+&lt;p&gt;#删除表
+drop measurement “measurement_name”&lt;/p&gt;
+
+&lt;p&gt;#创建表，直接在插入数据的时候指定表名
+insert test,host=127.0.0.1,monitor_name=test count=1&lt;/p&gt;
+
+&lt;p&gt;#删除记录 未成功删除？
+delete from test where time=1585329531596000000&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;### 用户管理
+```sql
+#可以通过Chronograf页面做操作，也可以命令行。
+#显示用户  
+show users
+
+#创建用户
+create user &quot;username&quot; with password 'password'
+
+#创建管理员权限用户
+create user &quot;username&quot; with password 'password' with all privileges
+
+#删除用户
+drop user &quot;username&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;建表&quot;&gt;建表&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;如果某些字段经常作为查询的条件，建议设置为Tag&lt;/li&gt;
+  &lt;li&gt;如果查询有Group By 建议设置为Tag&lt;/li&gt;
+  &lt;li&gt;如果数据要与InfluxDB的函数一起使用，建议设置为Field&lt;/li&gt;
+  &lt;li&gt;如果需要存储为非字符串类型，建议设置为Field&lt;/li&gt;
+  &lt;li&gt;如果数据具有动态值，建议设置为Field
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;尽量避免太多的序列，Tag包含大字符串，例如UUID，这会导致数据库负载和内存使用的升高。影响性能的关键角色之一是高系列基数，根据最新的influxdb硬件指南，对于少于100K的唯一系列，它推荐大约2-4 GB的RAM。当一个measurement 有一些高度动态值的Tag,很容易消耗32G内存。它将导致高系列基数。另一方面，当Tag Key 和 值只需要存储一次，它只需要更多的存储空间，不会影响内存的占用。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;hr /&gt;
+    &lt;h3 id=&quot;过期策略&quot;&gt;过期策略&lt;/h3&gt;
+  &lt;/li&gt;
+  &lt;li&gt;显示过期策略
+```sql
+    &lt;h1 id=&quot;duration代表多少时间后过期&quot;&gt;duration代表多少时间后过期&lt;/h1&gt;
+    &lt;h1 id=&quot;shardgroupduration-代表的是多长时间的数据放在同一个数据文件中&quot;&gt;shardGroupDuration 代表的是多长时间的数据放在同一个数据文件中&lt;/h1&gt;
+    &lt;p&gt;SHOW RETENTION POLICIES ON db&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;所有shared数据文件和过期时间&quot;&gt;所有shared数据文件和过期时间&lt;/h1&gt;
+&lt;p&gt;SHOW shards&lt;/p&gt;
+
+&lt;h1 id=&quot;修改过期策略&quot;&gt;修改过期策略&lt;/h1&gt;
+&lt;p&gt;ALTER RETENTION POLICY “autogen” ON db DURATION 15d REPLICATION 1 SHARD DURATION 1d DEFAULT&lt;/p&gt;
+
+&lt;h1 id=&quot;创建过期策略&quot;&gt;创建过期策略&lt;/h1&gt;
+&lt;p&gt;CREATE RETENTION POLICY “one_day_only” ON “NOAA_water_database” DURATION 23h60m REPLICATION 1 DEFAULT
+```&lt;/p&gt;</content><author><name>Bob</name></author><summary type="html">InfluxDB docker pull docker pull influxdb docker pull grafana/grafana docker pull chronograf run docker run -d -p 8083:8083 -p8086:8086 --expose 8090 --expose 8099 --name influxdb influxdb docker run -d -p 3000:3000 --name grafana grafana/grafana docker run -d -p 8888:8888 -v chronograf:/var/lib/chronograf --name=chronograf chronograf influxDB 基本操作 ```sql #创建数据库 create database “db_name”</summary></entry><entry><title type="html">Douyu 弹幕解析</title><link href="/2020/03/26/douyu.html" rel="alternate" type="text/html" title="Douyu 弹幕解析" /><published>2020-03-26T12:09:36+08:00</published><updated>2020-03-26T12:09:36+08:00</updated><id>/2020/03/26/douyu</id><content type="html" xml:base="/2020/03/26/douyu.html">&lt;h1 id=&quot;type&quot;&gt;type&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;loginres&lt;/li&gt;
+  &lt;li&gt;uenter&lt;/li&gt;
+  &lt;li&gt;noble_num_info&lt;/li&gt;
+  &lt;li&gt;chatmsg&lt;/li&gt;
+  &lt;li&gt;hrkd&lt;/li&gt;
+  &lt;li&gt;upgrade&lt;/li&gt;
+  &lt;li&gt;mrkl&lt;/li&gt;
+  &lt;li&gt;synexp&lt;/li&gt;
+  &lt;li&gt;tsboxb&lt;/li&gt;
+  &lt;li&gt;frank
+```&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;心跳检测周期
+2020-03-26T12:26:35.622
+2020-03-26T12:27:32.600&lt;/p&gt;
+
+&lt;p&gt;2020-03-26 16:21:24.597
+2020-03-26 16:21:53.585&lt;/p&gt;
+
+&lt;p&gt;2020-03-27 00:25:45.220
+2020-03-27 00:26:45.273&lt;/p&gt;
+
+&lt;p&gt;type@=chatmsg/rid@=71415/uid@=26955927/nn@=LarryPage/txt@=1/cid@=b47b088092f94b908f874e1100000000/ic@=avanew@Sface@S201610@S29@S23@S1ab4a89dbd8eacb069b9f98a6df6a89b/level@=32/sahf@=0/col@=4/cst@=1585194423077/bnn@=/bl@=0/brid@=0/hc@=/hl@=1/ifs@=1/el@=/lk@=/fl@=17/urlev@=17/dms@=4/
+```&lt;/p&gt;</content><author><name>Bob</name></author><summary type="html">type loginres uenter noble_num_info chatmsg hrkd upgrade mrkl synexp tsboxb frank ```</summary></entry><entry><title type="html">Redis</title><link href="/2020/02/13/redis.html" rel="alternate" type="text/html" title="Redis" /><published>2020-02-13T13:57:36+08:00</published><updated>2020-02-13T13:57:36+08:00</updated><id>/2020/02/13/redis</id><content type="html" xml:base="/2020/02/13/redis.html"></content><author><name>Bob</name></author><summary type="html"></summary></entry><entry><title type="html">Kafka</title><link href="/2020/02/12/kafka.html" rel="alternate" type="text/html" title="Kafka" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/2020/02/12/kafka</id><content type="html" xml:base="/2020/02/12/kafka.html">&lt;h1 id=&quot;kafka&quot;&gt;Kafka&lt;/h1&gt;
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;磁盘存储结构&quot;&gt;磁盘存储结构&lt;/h3&gt;
@@ -58,8 +169,10 @@
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;幂等性（重复）
+  &lt;li&gt;幂等性（去重复）
     &lt;ul&gt;
+      &lt;li&gt;enable.idompotence=true&lt;/li&gt;
+      &lt;li&gt;只保证相同会话的一次写入，如果producer重新连接，PID会被重新分配&lt;/li&gt;
       &lt;li&gt;ack=-1&lt;/li&gt;
       &lt;li&gt;Broker对&amp;lt;PID,Partition,SeqNumber&amp;gt;做缓存，过滤重复
 ***
@@ -123,7 +236,7 @@
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;配合幂等性，ack=-1，事务可是达到跨分区跨会话
+  &lt;li&gt;配合幂等性，ack=-1，事务可达到跨分区跨会话
 ***
     &lt;h3 id=&quot;发送消息流程&quot;&gt;发送消息流程&lt;/h3&gt;
   &lt;/li&gt;
@@ -441,9 +554,158 @@ curl &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://github.com/kuberne
 &lt;em&gt;&lt;a href=&quot;https://kubernetes.io/zh/docs/setup/independent/install-kubeadm/&quot; title=&quot;kubeadm安装文档&quot;&gt;kubeadm安装文档&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
 &lt;/ol&gt;</content><author><name>Bob</name></author><summary type="html">Kubernetes</summary></entry><entry><title type="html">Zookeeper</title><link href="/2020/02/12/zookeeper.html" rel="alternate" type="text/html" title="Zookeeper" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/2020/02/12/zookeeper</id><content type="html" xml:base="/2020/02/12/zookeeper.html">&lt;h1 id=&quot;zookeeper&quot;&gt;Zookeeper&lt;/h1&gt;
 &lt;hr /&gt;
+&lt;h3 id=&quot;docker-composeyml&quot;&gt;docker-compose.yml&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: '3.1'
+services:
+    zoo1:
+        container_name: zookeeper1
+        image: zookeeper:3.6.0
+        hostname: zoo1
+        ports:
+            - 2181:2181
+        environment:
+            ZOO_MY_ID: 1
+            ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+
+    zoo2:
+        container_name: zookeeper2
+        image: zookeeper:3.6.0
+        hostname: zoo2
+        ports:
+            - 2182:2181
+        environment:
+            ZOO_MY_ID: 2
+            ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+
+    zoo3:
+        container_name: zookeeper3
+        image: zookeeper:3.6.0
+        hostname: zoo3
+        ports:
+            - 2183:2181
+        environment:
+            ZOO_MY_ID: 3
+            ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 &lt;h3 id=&quot;状态查看&quot;&gt;状态查看&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;zkServer.sh status
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Bob</name></author><summary type="html">Zookeeper 状态查看 zkServer.sh status</summary></entry><entry><title type="html">MongoDB</title><link href="/2020/02/12/mongodb.html" rel="alternate" type="text/html" title="MongoDB" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/2020/02/12/mongodb</id><content type="html" xml:base="/2020/02/12/mongodb.html">&lt;h1 id=&quot;mongodb&quot;&gt;MongoDB&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker exec zookeeper1 zkServer.sh status
+docker exec zookeeper2 zkServer.sh status
+docker exec zookeeper3 zkServer.sh status
+
+# shell
+#!/bin/bash
+
+for i in $(seq 1 3)
+do
+  echo -e &quot;\033[32mZoo&quot;$i&quot; `docker exec zookeeper&quot;$i&quot; zkServer.sh status`\033[0m&quot;
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;zkcli&quot;&gt;zkCli&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -it --rm \
+  --link zookeeper1:zk1 \
+  --link zookeeper2:zk2 \
+  --link zookeeper3:zk3 \
+  --net zookeeper_default \
+  zookeeper:3.6.0 zkCli.sh -server zk1:2181,zk2:2181,zk3:2181
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;常用命令&quot;&gt;常用命令&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 递归展示节点
+ls -R /
+
+# 创建节点
+create /app1
+
+# 实现一个分布式锁
+# 1.创建一个临时节点
+create -e /lock
+# 2.监控锁的状态
+stat -w /lock
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;version&quot;&gt;version&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;set -s -v 0 /node 1&lt;/li&gt;
+  &lt;li&gt;无条件更新：-1&lt;/li&gt;
+  &lt;li&gt;有条件更新：需要比较version，如果当前znode的version和修改的一样，才可更新
+    &lt;h3 id=&quot;watch&quot;&gt;watch&lt;/h3&gt;
+    &lt;ol&gt;
+      &lt;li&gt;
+        &lt;h3 id=&quot;存储架构&quot;&gt;存储架构&lt;/h3&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;内存(memory)
+    &lt;ul&gt;
+      &lt;li&gt;data tree&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;硬盘(non-volatile storage)
+    &lt;ul&gt;
+      &lt;li&gt;事务日志
+        &lt;ul&gt;
+          &lt;li&gt;快照文件&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Epoch
+        &lt;ul&gt;
+          &lt;li&gt;acceptedEpoch&lt;/li&gt;
+          &lt;li&gt;currentEpoch
+            &lt;h3 id=&quot;查看文件&quot;&gt;查看文件&lt;/h3&gt;
+            &lt;p&gt;```&lt;/p&gt;
+            &lt;h1 id=&quot;配置文件&quot;&gt;配置文件&lt;/h1&gt;
+            &lt;p&gt;cat /conf/zoo.cfg&lt;/p&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;dataDir=/data
+dataLogDir=/datalog&lt;/p&gt;
+
+&lt;h1 id=&quot;查看日志文件&quot;&gt;查看日志文件&lt;/h1&gt;
+&lt;p&gt;zkTxnLogToolkit.sh /datalog/version-2/log.100000001
+```&lt;/p&gt;
+&lt;h3 id=&quot;myid&quot;&gt;myid&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;server id
+    &lt;h3 id=&quot;zxid&quot;&gt;zxid&lt;/h3&gt;
+  &lt;/li&gt;
+  &lt;li&gt;每次对data tree的更新都会作为一个事务执行，并为每个事务编号zxid。&lt;/li&gt;
+  &lt;li&gt;zxid是64位整数(long)，高4个字节保存epoch，低4个字节保存counter
+    &lt;h3 id=&quot;epoch&quot;&gt;epoch&lt;/h3&gt;
+  &lt;/li&gt;
+  &lt;li&gt;代表当前的Leader周期
+    &lt;h3 id=&quot;finalizewait&quot;&gt;finalizeWait&lt;/h3&gt;
+  &lt;/li&gt;
+  &lt;li&gt;QuorumPeer
+    &lt;ul&gt;
+      &lt;li&gt;startLeaderElection&lt;/li&gt;
+      &lt;li&gt;createElectionAlgorithm
+        &lt;ul&gt;
+          &lt;li&gt;默认3：fastLeaderElection
+            &lt;h3 id=&quot;分布式锁&quot;&gt;分布式锁&lt;/h3&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;使用临时节点
+    &lt;ul&gt;
+      &lt;li&gt;避免死锁&lt;/li&gt;
+      &lt;li&gt;避免羊群效应&lt;/li&gt;
+      &lt;li&gt;公平锁
+        &lt;h3 id=&quot;zabzookeeper-atomic-broadcast协议&quot;&gt;ZAB(Zookeeper Atomic Broadcast)协议&lt;/h3&gt;
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    1. Leader发送PROPOSAL给集群中的所有节点
+    2. 节点收到PROPOSAL后，把PROPOSAL落盘，发送一个ACK给Leader
+    3. Leader收到大多数节点的ACK之后，发送COMMIT给集群中所有的节点
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Zookeeper docker-compose.yml ``` version: ‘3.1’ services: zoo1: container_name: zookeeper1 image: zookeeper:3.6.0 hostname: zoo1 ports: - 2181:2181 environment: ZOO_MY_ID: 1 ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181</summary></entry><entry><title type="html">MongoDB</title><link href="/2020/02/12/mongodb.html" rel="alternate" type="text/html" title="MongoDB" /><published>2020-02-12T13:57:36+08:00</published><updated>2020-02-12T13:57:36+08:00</updated><id>/2020/02/12/mongodb</id><content type="html" xml:base="/2020/02/12/mongodb.html">&lt;h1 id=&quot;mongodb&quot;&gt;MongoDB&lt;/h1&gt;
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;創建用戶&quot;&gt;創建用戶&lt;/h3&gt;
@@ -481,68 +743,42 @@ readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据�
 userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限
 dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。
 root：只在admin数据库中可用。超级账号，超级权限
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Bob</name></author><summary type="html">MongoDB</summary></entry><entry><title type="html">Mysql</title><link href="/mysql/2020/02/11/mysql.html" rel="alternate" type="text/html" title="Mysql" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/mysql/2020/02/11/mysql</id><content type="html" xml:base="/mysql/2020/02/11/mysql.html">&lt;h1 id=&quot;mysql&quot;&gt;Mysql&lt;/h1&gt;
-&lt;hr /&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;可视化-mongodb-charts&quot;&gt;可视化 MongoDB Charts&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 镜像加速
+docker pull quay.mirrors.ustc.edu.cn/mongodb/charts:19.12.1
 
-&lt;h3 id=&quot;性能監控指标&quot;&gt;性能監控指标&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;QPS
-    &lt;ul&gt;
-      &lt;li&gt;queries per second 每秒查询数量&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Question%';&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;QPS = queries/seconds&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;TPS
-    &lt;ul&gt;
-      &lt;li&gt;Transaction per second&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Com_commit';&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Com_rollback';&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;TPS = (Com_commit + Com_rollback)/seconds&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;连接数
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Max_used_connections';&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like 'Threads%';&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show variables like 'max_connections';&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Query Cache
-    &lt;ul&gt;
-      &lt;li&gt;數據改動較少場景&lt;/li&gt;
-      &lt;li&gt;my.cnf參數修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;query_cache_size&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show status like 'Qcache%';&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;Query_cache_hits = (Qcache_hits/(Qcache_hits+Qcache_inserts)) * 100%&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Lock
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show global status like '%lock%';&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;Table_locks_waited/Table_locks_immediate 值越大表示鎖造成的阻塞越嚴重&lt;/li&gt;
-      &lt;li&gt;Innodb 中間隙鎖造成 Innodb_row_lock_waits 太大&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;主從延時
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;show slave status;&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;慢查詢
-    &lt;ul&gt;
-      &lt;li&gt;my.cnf參數修改 [mysqld] &lt;code class=&quot;highlighter-rouge&quot;&gt;slow_query_log=1&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;慢查詢日志地址&lt;code class=&quot;highlighter-rouge&quot;&gt;slow_query_log_file=/data/mysql/slow.log&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;慢查詢時長&lt;code class=&quot;highlighter-rouge&quot;&gt;long_query_time=1&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;未使用索引的查詢 &lt;code class=&quot;highlighter-rouge&quot;&gt;log_queries_not_using_indexes=1&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mysqldumpslow -s c -t 10 slow.log&lt;/code&gt; # 返回使用最多的10條&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mysqldumpslow -s r -t 10 slow.log&lt;/code&gt; # 返回結果最多的10條&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+# 启动 MongoDB Charts
+docker run --rm quay.mirrors.ustc.edu.cn/mongodb/charts:19.12.1 charts-cli test-connection 'mongodb://&amp;lt;username&amp;gt;:&amp;lt;password&amp;gt;@host.docker.internal'
 
-&lt;hr /&gt;
+# 创建secret
+echo &quot;mongodb://&amp;lt;username&amp;gt;:&amp;lt;password&amp;gt;@myhost.com/&quot; | docker secret create charts-mongodb-uri -
 
-&lt;h3 id=&quot;jmeter配置&quot;&gt;Jmeter配置&lt;/h3&gt;</content><author><name>Bob</name></author><summary type="html">Mysql</summary></entry><entry><title type="html">Spring</title><link href="/spring/2020/02/11/spring.html" rel="alternate" type="text/html" title="Spring" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/spring/2020/02/11/spring</id><content type="html" xml:base="/spring/2020/02/11/spring.html">&lt;h1 id=&quot;spring&quot;&gt;Spring&lt;/h1&gt;
+# 上面无法启动，需要使用swarm
+docker stack deploy -c charts-docker-swarm-19.12.1.yml mongodb-charts
+
+# 创建用户
+docker exec -it \
+  $(docker container ls --filter name=_charts -q) \
+  charts-cli add-user --first-name &quot;bob&quot; --last-name &quot;zurk&quot; \
+  --email &quot;zurkbob@gmail.com&quot; --password &quot;123456&quot; \
+  --role &quot;UserAdmin&quot;
+
+# 删除容器
+docker stack rm mongodb-charts
+docker volume rm mongodb-charts_keys
+docker volume rm mongodb-charts_web-certs
+docker volume rm mongodb-charts_db-certs
+docker volume rm mongodb-charts_logs
+docker secret rm charts-mongodb-uri
+docker service ls
+
+# 删除库
+MongoDB Collections: metadata, app, auth, log, hosting
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;windows-服务启动&quot;&gt;Windows 服务启动&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;D:\Program Files\MongoDB\Server\3.4\bin\mongod.exe&quot; --logpath &quot;D:\Program Files\MongoDB\data\log\mongodb.log&quot; --dbpath &quot;D:\Program Files\MongoDB\data\db&quot; --service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Bob</name></author><summary type="html">MongoDB</summary></entry><entry><title type="html">Spring</title><link href="/spring/2020/02/11/spring.html" rel="alternate" type="text/html" title="Spring" /><published>2020-02-11T13:57:36+08:00</published><updated>2020-02-11T13:57:36+08:00</updated><id>/spring/2020/02/11/spring</id><content type="html" xml:base="/spring/2020/02/11/spring.html">&lt;h1 id=&quot;spring&quot;&gt;Spring&lt;/h1&gt;
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;源碼編譯&quot;&gt;源碼編譯&lt;/h3&gt;
@@ -1131,247 +1367,4 @@ root：只在admin数据库中可用。超级账号，超级权限
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Netty</summary></entry><entry><title type="html">Metricbeat</title><link href="/elasticsearch/2020/02/10/metricbeat.html" rel="alternate" type="text/html" title="Metricbeat" /><published>2020-02-10T13:57:36+08:00</published><updated>2020-02-10T13:57:36+08:00</updated><id>/elasticsearch/2020/02/10/metricbeat</id><content type="html" xml:base="/elasticsearch/2020/02/10/metricbeat.html">&lt;h1 id=&quot;metricbeat&quot;&gt;Metricbeat&lt;/h1&gt;
-&lt;hr /&gt;
-&lt;h3 id=&quot;启动&quot;&gt;启动&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;shell
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /usr/share/metricbeat
-sudo metricbeat -c /etc/metricbeat/metricbeat.yml test config
-
-metricbeat version
-metricbeat modules list
-metricbeat modules enable mysql kafka mongodb redis zookeeper
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;docker
-    &lt;ul&gt;
-      &lt;li&gt;Setup metricbeat
-        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run \
---name=metricbeat \
-docker.elastic.co/beats/metricbeat:7.0.0 \
-setup -E setup.kibana.host=192.168.127.9:5601 \
--E output.elasticsearch.hosts=[&quot;192.168.127.9:9200&quot;,&quot;192.168.127.9:9201&quot;,&quot;192.168.127.9:9202&quot;]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-        &lt;h3 id=&quot;system&quot;&gt;system&lt;/h3&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Monitor the host machine
-        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run \
---name=metric-host \
---mount type=bind,source=/proc,target=/hostfs/proc,readonly \
---mount type=bind,source=/sys/fs/cgroup,target=/hostfs/sys/fs/cgroup,readonly \
---mount type=bind,source=/,target=/hostfs,readonly \
---net=host \
-docker.elastic.co/beats/metricbeat:7.0.0 -e -system.hostfs=/hostfs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-        &lt;h3 id=&quot;mysql&quot;&gt;mysql&lt;/h3&gt;
-      &lt;/li&gt;
-      &lt;li&gt;docker下监控mysql
-        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run \
---name metric-mysql \
---network=&quot;bridge&quot; \
---volume=&quot;/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro&quot; \
---volume=&quot;/proc:/hostfs/proc:ro&quot; \
---volume=&quot;/:/hostfs:ro&quot; \
---volume=&quot;/root/metricbeat/metricbeat.mysql.yml:/usr/share/metricbeat/metricbeat.yml:ro&quot; \
-docker.elastic.co/beats/metricbeat:7.0.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-        &lt;h3 id=&quot;docker&quot;&gt;docker&lt;/h3&gt;
-      &lt;/li&gt;
-      &lt;li&gt;监控docker运行状态 [docker stats]
-        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -d \
---name=metric-docker \
---user=root \
---volume=&quot;$(pwd)/metricbeat.docker.yml:/usr/share/metricbeat/metricbeat.yml:ro&quot; \
---volume=&quot;/var/run/docker.sock:/var/run/docker.sock:ro&quot; \
---volume=&quot;/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro&quot; \
---volume=&quot;/proc:/hostfs/proc:ro&quot; \
---volume=&quot;/:/hostfs:ro&quot; \
-docker.elastic.co/beats/metricbeat:7.0.0 metricbeat -e \
--E output.elasticsearch.hosts=[&quot;http://192.168.127.9:9200&quot;,&quot;http://192.168.127.9:9201&quot;,&quot;http://192.168.127.9:9202&quot;]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-        &lt;h3 id=&quot;kafka&quot;&gt;kafka&lt;/h3&gt;
-      &lt;/li&gt;
-      &lt;li&gt;docker下监控kafka
-        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run \
---name metric-kafka \
---network=&quot;bridge&quot; \
---volume=&quot;/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro&quot; \
---volume=&quot;/proc:/hostfs/proc:ro&quot; \
---volume=&quot;/:/hostfs:ro&quot; \
---volume=&quot;/root/metricbeat/metricbeat.kafka.yml:/usr/share/metricbeat/metricbeat.yml:ro&quot; \
-docker.elastic.co/beats/metricbeat:7.0.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Metricbeat 启动 shell ``` cd /usr/share/metricbeat sudo metricbeat -c /etc/metricbeat/metricbeat.yml test config</summary></entry><entry><title type="html">Elasticsearch</title><link href="/elasticsearch/2020/02/10/logstash.html" rel="alternate" type="text/html" title="Elasticsearch" /><published>2020-02-10T13:57:36+08:00</published><updated>2020-02-10T13:57:36+08:00</updated><id>/elasticsearch/2020/02/10/logstash</id><content type="html" xml:base="/elasticsearch/2020/02/10/logstash.html">&lt;h1 id=&quot;logstash&quot;&gt;Logstash&lt;/h1&gt;
-&lt;hr /&gt;
-&lt;h3 id=&quot;插件安装&quot;&gt;插件安装&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;mongodb
-    &lt;ul&gt;
-      &lt;li&gt;bin/logstash-plugin install –no-verify logstash-output-mongodb&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;kafka
-    &lt;ul&gt;
-      &lt;li&gt;bin/logstash-plugin install –no-verify logstash-output-kafka&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;jdbc
-    &lt;ul&gt;
-      &lt;li&gt;bin/logstash-plugin install –no-verify logstash-input-jdbc&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;更改下载源&quot;&gt;更改下载源&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 安装ruby
-yum install -y ruby
-gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
-
-# 升级ruby
-yum install centos-release-scl-rh
-yum install rh-ruby23 -y
-scl  enable  rh-ruby23 bash
-ruby -v
-
-gem update --system
-gem -v
-# 切换gem源
-gem install bundler
-bundle config mirror.https://rubygems.org https://gems.ruby-china.com
-
-# 修改logstash插件下载源
-vi logstash/Gemfile
-&amp;gt; source &quot;https://gems.ruby-china.com&quot;
-
-# 下载
-bin/logstash-plugin install --no-verify logstash-output-mongodb
-
-# 打包
-bin/logstash-plugin prepare-offline-pack --overwrite --output logstash-output-mongodb.zip logstash-output-mongodb
-
-bin/logstash-plugin list
-
-# 离线安装
-# 1.下载gem文件
-http://gems.ruby-china.com/gems/logstash-input-mongodb
-# 2.安装
-bin/logstash-plugin install plugins/logstash-input-mongodb-0.4.1.gem
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;更新插件&quot;&gt;更新插件&lt;/h1&gt;
-&lt;p&gt;bin/logstash-plugin update logstash-input-mongodb&lt;/p&gt;
-
-&lt;h1 id=&quot;刪除插件&quot;&gt;刪除插件&lt;/h1&gt;
-&lt;p&gt;bin/logstash-plugin remove logstash-input-mongodb&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;h3 id=&quot;logstashconf&quot;&gt;logstash.conf&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;mongodb
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Sample Logstash configuration for creating a simple
-# MongoDB -&amp;gt; Logstash -&amp;gt; Elasticsearch pipeline.
-
-input {
-  mongodb {
-    uri =&amp;gt; 'mongodb://192.168.127.1:27017/jd_data'
-    placeholder_db_dir =&amp;gt; '/usr/local/mongodb/db'
-    placeholder_db_name =&amp;gt; 'mongodb_logstash_sqlite.db'
-    collection =&amp;gt; 'jd_book_tmp'
-  }
-# 测试数据
-#    generator {
-#        count =&amp;gt; 200
-#        message =&amp;gt; '{
-#         &quot;key1&quot;:&quot;value1&quot;,
-#         &quot;key2&quot;:[1,2],
-#         &quot;key3&quot;:{&quot;subkey1&quot;:&quot;subvalue1&quot;}
-#       }'
-#        codec =&amp;gt; json
-#    }
-}
-filter {
-    mutate {
-        remove_field =&amp;gt; [&quot;_id&quot;]
-    }
-}
-output {
-  stdout {
-    codec =&amp;gt; dots
-  }
-  elasticsearch {
-    hosts =&amp;gt; [
-      &quot;http://192.168.127.9:9200&quot;,
-      &quot;http://192.168.127.9:9201&quot;,
-      &quot;http://192.168.127.9:9202&quot;]
-    index =&amp;gt; &quot;mongodb&quot;
-  }
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;kafka
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run \
---name=logstash-kafka-es \
---volume=/root/logstash/kafka-es-logstash.conf:/usr/share/logstash/config/logstash.conf \
---volume=/root/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml \
---volume=/root/logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml \
-acb15b2d9d8f
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;jdbc
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;test
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Sample Logstash configuration for creating a simple
-# MongoDB -&amp;gt; Logstash -&amp;gt; Elasticsearch pipeline.
-
-input {
-  generator {
-      count =&amp;gt; 200
-      message =&amp;gt; '{
-        &quot;key1&quot;:&quot;value1&quot;,
-        &quot;key2&quot;:[1,2],
-        &quot;key3&quot;:{&quot;subkey1&quot;:&quot;subvalue1&quot;}
-      }'
-      codec =&amp;gt; json
-  }
-}
-filter {
-    mutate {
-        remove_field =&amp;gt; [&quot;_id&quot;]
-    }
-}
-output {
-  stdout {
-    codec =&amp;gt; dots
-  }
-  elasticsearch {
-    hosts =&amp;gt; [
-      &quot;http://192.168.127.9:9200&quot;,
-      &quot;http://192.168.127.9:9201&quot;,
-      &quot;http://192.168.127.9:9202&quot;]
-    index =&amp;gt; &quot;mongodb&quot;
-  }
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;test docker
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -it --rm \
---name=logstash-stdin-stdout \
---volume=/root/logstash/stdin-stdout-logstash.conf:/usr/share/logstash/config/logstash.conf \
---volume=/root/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml \
---volume=/root/logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml \
-acb15b2d9d8f
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;啓動&quot;&gt;啓動&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bin/logstash -f config/logstash-mongodb-es.conf
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Bob</name></author><summary type="html">Logstash 插件安装 mongodb bin/logstash-plugin install –no-verify logstash-output-mongodb kafka bin/logstash-plugin install –no-verify logstash-output-kafka jdbc bin/logstash-plugin install –no-verify logstash-input-jdbc</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Bob</name></author><summary type="html">Netty</summary></entry></feed>
